@@ -1,7 +1,7 @@
 import { emailPattern, passwordPattern, userNamePattern } from "../core.mjs"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
-import { hash } from "bcrypt"
+import { compare, hash } from "bcrypt"
 
 export const signupController = async (req, res, next) => {
 
@@ -69,6 +69,74 @@ export const signupController = async (req, res, next) => {
             createdOn: signupResp?.createdOn,
             isAdmin: signupResp?.isAdmin,
             profilePhoto: signupResp?.profilePhoto
+        }
+
+        req.loginTokenPayload = tokenPayload
+
+        next()
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
+
+export const loginController = async (req, res, next) => {
+
+    const { email, password } = req?.body
+
+    if (!email || email?.trim() === "") {
+        return res.status(400).send({
+            message: errorMessages?.emailRequired
+        })
+    }
+
+    if (!password || password?.trim() === "") {
+        return res.status(400).send({
+            message: errorMessages?.passwordRequired
+        })
+    }
+
+    if (!emailPattern?.test(email?.toLowerCase())) {
+        return res.status(400).send({
+            message: errorMessages?.emailPasswordIncorrect
+        })
+    }
+
+    if (!passwordPattern?.test(password)) {
+        return res.status(400).send({
+            message: errorMessages?.emailPasswordIncorrect
+        })
+    }
+
+    try {
+
+        const user = await userModel?.findOne({ email: email }).exec()
+
+        if (!user) {
+            return res.status(400).send({
+                message: errorMessages.emailPasswordIncorrect
+            })
+        }
+
+        const isPasswordCorrect = await compare(password, user?.password)
+
+        if (!isPasswordCorrect) {
+            return res.status(400).send({
+                message: errorMessages?.emailPasswordIncorrect
+            })
+        }
+
+        const tokenPayload = {
+            userName: user?.userName,
+            email: user?.email,
+            createdOn: user?.createdOn,
+            isAdmin: user?.isAdmin,
+            profilePhoto: user?.profilePhoto
         }
 
         req.loginTokenPayload = tokenPayload
