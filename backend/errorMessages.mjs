@@ -9,5 +9,6 @@ export const errorMessages = {
     emailInvalid: "email is invalid",
     passwordInvalid: "password must be alphanumeric and 8 to 24 characters long",
     emailTaken: "email already taken",
-    emailPasswordIncorrect: "email or password incorrect"
+    emailPasswordIncorrect: "email or password incorrect",
+    noAccessToken: "access token is required"
 }

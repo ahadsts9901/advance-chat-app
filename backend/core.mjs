@@ -9,3 +9,5 @@ export const profilePictureSizeLimit = 10000000 // 1_mb
 
 export const welcomeEmailSubject = "Welcome to STS Chat"
 export const emailVerificationSubject = "Email verification OTP"
+
+export const googleUserApi = "https://www.googleapis.com/oauth2/v3/userinfo"
