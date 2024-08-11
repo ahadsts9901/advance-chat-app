@@ -5,9 +5,11 @@ export const otpPattern = /^[a-zA-Z0-9]{6}$/
 export const defaultProfilePicture = "https://res.cloudinary.com/do6sd9nyx/image/upload/v1706343891/we-app-nextjs/Assets/profile-picture_ufgahm.png"
 
 export const sessionInDays = 15;
-export const profilePictureSizeLimit = 10000000 // 1_mb
+export const _1mbSize = 10000000 // 1_mb
 
 export const welcomeEmailSubject = "Welcome to STS Chat"
 export const emailVerificationSubject = "Email verification OTP"
 
 export const googleUserApi = "https://www.googleapis.com/oauth2/v3/userinfo"
+
+export const profilePictureUploadFolder = "advance-chat-app/profile-pictures"

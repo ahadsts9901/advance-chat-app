@@ -10,5 +10,8 @@ export const errorMessages = {
     passwordInvalid: "password must be alphanumeric and 8 to 24 characters long",
     emailTaken: "email already taken",
     emailPasswordIncorrect: "email or password incorrect",
-    noAccessToken: "access token is required"
+    noAccessToken: "access token is required",
+    noFileProvided: "file not provided",
+    largeImage: "image too large please select under 2mb",
+    onlyImagesAllowed: "only images are allowed"
 }
