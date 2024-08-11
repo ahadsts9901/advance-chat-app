@@ -121,7 +121,7 @@ export const updateUserNameController = async (req, res, next) => {
         })
     }
 
-    if (!userNamePattern?.test(userName)) {
+    if (!userNamePattern?.test(userName?.trim())) {
         return res.status(400).send({
             message: errorMessages?.userNameInvalid
         })
@@ -129,7 +129,21 @@ export const updateUserNameController = async (req, res, next) => {
 
     try {
 
+        const user = await userModel.findById(_id).exec()
 
+        if (!user) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        user?.userName = userName?.trim()
+
+        await user?.save()
+
+        res.send({
+            message: "username updated successfully"
+        })
 
     } catch (error) {
         console.error(error)
