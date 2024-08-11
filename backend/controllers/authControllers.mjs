@@ -26,7 +26,7 @@ export const signupController = async (req, res, next) => {
         })
     }
 
-    if (!userNamePattern?.test(userName)) {
+    if (!userNamePattern?.test(userName?.trim())) {
         return res.status(400).send({
             message: errorMessages?.userNameInvalid
         })
@@ -38,7 +38,7 @@ export const signupController = async (req, res, next) => {
         })
     }
 
-    if (!passwordPattern?.test(password)) {
+    if (!passwordPattern?.test(password?.trim())) {
         return res.status(400).send({
             message: errorMessages?.passwordInvalid
         })
@@ -46,7 +46,7 @@ export const signupController = async (req, res, next) => {
 
     try {
 
-        const isEmailTaken = await userModel?.findOne({ email: email }).exec()
+        const isEmailTaken = await userModel?.findOne({ email: email?.trim()?.toLowerCase() }).exec()
 
         if (isEmailTaken) {
             return res.status(400).send({
@@ -58,7 +58,7 @@ export const signupController = async (req, res, next) => {
 
         const userPayload = {
             userName: userName,
-            email: email?.toLowerCase(),
+            email: email?.trim()?.toLowerCase(),
             password: passwordHash,
         }
 
@@ -103,13 +103,13 @@ export const loginController = async (req, res, next) => {
         })
     }
 
-    if (!emailPattern?.test(email?.toLowerCase())) {
+    if (!emailPattern?.test(email?.trim()?.toLowerCase())) {
         return res.status(400).send({
             message: errorMessages?.emailPasswordIncorrect
         })
     }
 
-    if (!passwordPattern?.test(password)) {
+    if (!passwordPattern?.test(password?.trim())) {
         return res.status(400).send({
             message: errorMessages?.emailPasswordIncorrect
         })
@@ -117,7 +117,7 @@ export const loginController = async (req, res, next) => {
 
     try {
 
-        const user = await userModel?.findOne({ email: email }).exec()
+        const user = await userModel?.findOne({ email: email?.trim()?.toLowerCase() }).exec()
 
         if (!user) {
             return res.status(400).send({
