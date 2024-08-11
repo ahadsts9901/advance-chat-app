@@ -65,6 +65,7 @@ export const signupController = async (req, res, next) => {
         const signupResp = await userModel?.create(userPayload)
 
         const tokenPayload = {
+            _id: signupResp?._id,
             userName: signupResp?.userName,
             email: signupResp?.email?.toLowerCase(),
             createdOn: signupResp?.createdOn,
@@ -133,6 +134,7 @@ export const loginController = async (req, res, next) => {
         }
 
         const tokenPayload = {
+            _id: user?._id,
             userName: user?.userName,
             email: user?.email,
             createdOn: user?.createdOn,
@@ -182,6 +184,7 @@ export const googleLoginController = async (req, res, next) => {
             const signupResp = await userModel?.create(userPayload)
 
             const tokenPayload = {
+                _id: signupResp?._id,
                 userName: signupResp?.userName,
                 email: signupResp?.email,
                 createdOn: signupResp?.createdOn,
@@ -194,6 +197,7 @@ export const googleLoginController = async (req, res, next) => {
         } else if (user) {
 
             const tokenPayload = {
+                _id: user?._id,
                 userName: user?.userName,
                 email: user?.email,
                 createdOn: user?.createdOn,
