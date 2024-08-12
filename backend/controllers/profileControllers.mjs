@@ -8,7 +8,7 @@ export const getCurrentUserProfileController = async (req, res, next) => {
 
     try {
 
-        const {currentUser} = req
+        const { currentUser } = req
 
         if (!currentUser) {
             return res.status(401).send({
@@ -210,6 +210,26 @@ export const updateProfilePictureController = async (req, res, next) => {
 
         res.send({
             message: "profile picture updated successfully"
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
+
+export const logoutController = async (req, res, next) => {
+
+    try {
+
+        res.clearCookie("hart")
+
+        res.send({
+            message: "logout successfull"
         })
 
     } catch (error) {
