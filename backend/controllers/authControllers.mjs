@@ -55,7 +55,7 @@ export const signupController = async (req, res, next) => {
         }
 
         const passwordHash = await bcrypt.hash(password, 12)
-        
+
 
         const userPayload = {
             userName: userName,
@@ -171,14 +171,14 @@ export const googleLoginController = async (req, res, next) => {
 
         const googleUser = await axios.get(googleUserApi, { headers: { Authorization: accessToken }, });
 
-        const user = await userModel?.findOne({ email: googleUser?.email }).exec()
+        const user = await userModel?.findOne({ email: googleUser?.data?.email }).exec()
 
         if (!user) {
 
             const userPayload = {
-                userName: googleUser?.name,
-                email: googleUser?.email?.toLowerCase(),
-                profilePhoto: googleUser?.picture,
+                userName: googleUser?.data?.name,
+                email: googleUser?.data?.email?.toLowerCase(),
+                profilePhoto: googleUser?.data?.picture,
                 isEmailVerified: true,
             }
 

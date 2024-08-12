@@ -1,4 +1,5 @@
 import "dotenv/config"
+import "./db.mjs"
 import express, { json } from "express"
 import cookieParser from "cookie-parser"
 import morgan from "morgan"

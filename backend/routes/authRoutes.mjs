@@ -8,6 +8,6 @@ router.post("/signup", signupController, issueLoginToken, (req, res) => res.send
 
 router.post("/login", loginController, issueLoginToken, (req, res) => res.send({ message: "login successfull" }))
 
-router.post("/google-login", googleLoginController, issueLoginToken, (req, res) => res.send({ message: "google login successfull" }))
+router.post("/google-login", googleLoginController, issueLoginToken, (req, res) => res.send({ message: "google login successfull", data: req?.loginTokenPayload }))
 
 export default router

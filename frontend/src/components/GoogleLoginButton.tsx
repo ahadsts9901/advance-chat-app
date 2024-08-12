@@ -45,7 +45,11 @@ const GoogleLoginButton = () => {
 
         try {
 
-            const resp = await axios.post(`${baseUrl}/api/v1/`)
+            const resp = await axios.post(`${baseUrl}/api/v1/google-login`, {
+                accessToken: `Bearer ${token}`
+            }, { withCredentials: true })
+
+            console.log(resp?.data)
 
         } catch (error) {
             console.error(error)
