@@ -6,7 +6,7 @@ export const dummyContacts = [
         messageType: "text",
         userName: "Thomas Edison",
         time: "August 12, 2024, 04:50 PM",
-        _id: "",
+        _id: "66b9da4e5580a4580fd65c22",
         isRecieved: false
     },
     {

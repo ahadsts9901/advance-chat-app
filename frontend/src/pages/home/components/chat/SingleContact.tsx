@@ -6,6 +6,7 @@ import { FaCamera } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa";
 import moment from "moment"
+import { useNavigate } from "react-router-dom";
 
 const Status = ({ status }: any) => {
 
@@ -38,6 +39,8 @@ const MessageType = ({ lastMessage, messageType }: any) => {
 
 const SingleContact = ({ data, userId }: any) => {
 
+    const navigate = useNavigate()
+
     const timeAgo = (date: string) => {
         const now = moment();
         const momentDate = moment(date);
@@ -63,7 +66,9 @@ const SingleContact = ({ data, userId }: any) => {
 
     return (
         <>
-            <div className={`singleContact ${data?._id === userId ? "special-singleContact" : ""}`}>
+            <div className={`singleContact ${data?._id === userId ? "special-singleContact" : ""}`}
+                onClick={() => navigate(`/chat/${data?._id}`)}
+            >
                 <div>
                     <img src={data?.profilePhoto} alt="profile-photo"
                         onError={(e: any) => {
