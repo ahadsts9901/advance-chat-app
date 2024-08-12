@@ -4,7 +4,7 @@ import { upload } from "../utils/multer.mjs"
 
 const router = Router()
 
-router.put('/logout', logoutController)
+router.post('/logout', logoutController)
 
 router.get("/profile", getCurrentUserProfileController)
 
