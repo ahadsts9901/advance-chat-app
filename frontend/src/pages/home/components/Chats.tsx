@@ -1,3 +1,4 @@
+import "./main.css"
 import ChatContacts from "./chat/ChatContacts"
 import ChatHeader from "./chat/ChatHeader"
 import ChatSearch from "./chat/ChatSearch"
@@ -5,9 +6,11 @@ import ChatSearch from "./chat/ChatSearch"
 const Chats = () => {
     return (
         <>
-            <ChatHeader />
-            <ChatSearch />
-            <ChatContacts />
+            <div className="chatSection">
+                <ChatHeader />
+                <ChatSearch />
+                <ChatContacts />
+            </div>
         </>
     )
 }

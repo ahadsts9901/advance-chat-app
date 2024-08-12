@@ -1,11 +1,14 @@
+import "./main.css"
 import Chats from "./components/Chats"
 import Conversation from "./components/Conversation"
 
 const Home = () => {
   return (
     <>
-      <Chats />
-      <Conversation />
+      <div className="homeCont">
+        <Chats />
+        <Conversation />
+      </div>
     </>
   )
 }
