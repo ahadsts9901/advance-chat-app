@@ -1,0 +1,9 @@
+import "./main.css"
+
+const ChatHeader = () => {
+    return (
+        <div>ChatHeader</div>
+    )
+}
+
+export default ChatHeader

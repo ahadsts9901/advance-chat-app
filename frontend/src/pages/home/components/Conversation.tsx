@@ -1,6 +1,14 @@
+import ConversationBody from "./conversation/ConversationBody"
+import ConversationForm from "./conversation/ConversationForm"
+import ConversationHeader from "./conversation/ConversationHeader"
+
 const Conversation = () => {
     return (
-        <div>Conversation</div>
+        <>
+            <ConversationHeader />
+            <ConversationBody />
+            <ConversationForm />
+        </>
     )
 }
 
