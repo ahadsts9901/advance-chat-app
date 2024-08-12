@@ -5,4 +5,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.conversationHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #202c33;
+  padding: 0.6em 0.8em;
+}
+.conversationHeader .userData {
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+}
+.conversationHeader .userData img {
+  width: 2em;
+  height: 2em;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 100%;
+  background-color: #005c4b;
+  cursor: pointer;
 }/*# sourceMappingURL=main.css.map */

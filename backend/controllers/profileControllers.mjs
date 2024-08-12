@@ -57,21 +57,21 @@ export const getCurrentUserProfileController = async (req, res, next) => {
 
 export const getUserProfileController = async (req, res, next) => {
 
+    const { userId } = req?.params
+
+    if (!userId || userId?.trim() === "") {
+        return res.status(401).send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    if (!isValidObjectId(userId)) {
+        return res.status(401).send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
     try {
-
-        const userId = req?.params
-
-        if (!userId || userId?.trim() === "") {
-            return res.status(401).send({
-                message: errorMessages?.unAuthError
-            })
-        }
-
-        if (!isValidObjectId(userId)) {
-            return res.status(401).send({
-                message: errorMessages?.unAuthError
-            })
-        }
 
         const user = await userModel.findById(userId).exec()
 

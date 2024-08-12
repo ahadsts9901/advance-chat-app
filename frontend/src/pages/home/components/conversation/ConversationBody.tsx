@@ -1,6 +1,6 @@
 import "./main.css"
 
-const ConversationBody = () => {
+const ConversationBody = ({ user }: any) => {
     return (
         <div>ConversationBody</div>
     )
