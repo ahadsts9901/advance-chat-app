@@ -138,7 +138,7 @@ export const updateUserNameController = async (req, res, next) => {
             })
         }
 
-        user?.userName = userName?.trim()
+        user.userName = userName?.trim()
 
         await user?.save()
 
@@ -156,7 +156,7 @@ export const updateUserNameController = async (req, res, next) => {
 
 }
 
-export const updateProfilePictureController = async (res, res, next) => {
+export const updateProfilePictureController = async (req, res, next) => {
 
     const { files } = req
     const { _id } = req?.currentUser

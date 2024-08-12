@@ -1,7 +1,7 @@
 import { emailPattern, googleUserApi, passwordPattern, userNamePattern } from "../core.mjs"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
-import { compare, hash } from "bcrypt"
+import bcrypt from "bcrypt"
 import axios from "axios"
 
 export const signupController = async (req, res, next) => {
@@ -54,7 +54,8 @@ export const signupController = async (req, res, next) => {
             })
         }
 
-        const passwordHash = await hash(password, 12)
+        const passwordHash = await bcrypt.hash(password, 12)
+        
 
         const userPayload = {
             userName: userName,
@@ -125,7 +126,7 @@ export const loginController = async (req, res, next) => {
             })
         }
 
-        const isPasswordCorrect = await compare(password, user?.password)
+        const isPasswordCorrect = await bcrypt.compare(password, user?.password)
 
         if (!isPasswordCorrect) {
             return res.status(400).send({

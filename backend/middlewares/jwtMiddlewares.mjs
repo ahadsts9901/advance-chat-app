@@ -1,5 +1,5 @@
 import "dotenv/config"
-import { sign, verify } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 import { errorMessages } from "../errorMessages.mjs"
 import { sessionInDays } from "../core.mjs"
 
@@ -15,7 +15,7 @@ export const authenticationMiddleware = async (req, res, next) => {
             })
         }
 
-        const currentUser = verify(hart, process.env.JWT_KEY)
+        const currentUser = jwt?.verify(hart, process.env.JWT_KEY)
 
         if (!currentUser) {
             return res.status(401).send({
@@ -49,7 +49,7 @@ export const issueLoginToken = async (req, res, next) => {
             })
         }
 
-        const hart = sign(loginTokenPayload, process.env.JWT_KEY, { expiresIn: `${sessionInDays}d` })
+        const hart = jwt?.sign(loginTokenPayload, process.env.JWT_KEY, { expiresIn: `${sessionInDays}d` })
 
         res.cookie('hart', hart, {
             httpOnly: true,
