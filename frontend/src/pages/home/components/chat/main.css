@@ -109,12 +109,11 @@
   background-color: #2a3942;
 }
 .singleContact div {
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.7em;
 }
 .singleContact div img {
   width: 2.3em;
@@ -126,4 +125,53 @@
   border-radius: 100%;
   background-color: #005c4b;
   cursor: pointer;
+}
+.singleContact div div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.4em;
+}
+.singleContact div div h4 {
+  font-size: 0.7em;
+  color: #aebac1;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+}
+.singleContact div div div {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.3em;
+}
+.singleContact div div div .readReciepts {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.singleContact div div div .readReciepts svg {
+  color: #aebac1;
+  font-size: 0.8em;
+}
+.singleContact div div div .readReciepts .read {
+  color: #53bdeb;
+}
+.singleContact div div div .messageType svg {
+  color: #aebac1;
+  font-size: 0.6em;
+}
+.singleContact div div div .messageType p {
+  color: #aebac1;
+  font-size: 0.6em;
+  padding-top: 3px;
+}
+.singleContact div .messageTime {
+  color: #aebac1;
+  font-size: 0.6em;
+  width: 100%;
+  text-align: right;
 }/*# sourceMappingURL=main.css.map */
