@@ -3,7 +3,7 @@ import { dummyContacts } from "../../../../dummy-data"
 import { useEffect, useState } from "react"
 import SingleContact from "./SingleContact"
 
-const ChatContacts = () => {
+const ChatContacts = ({ userId }: any) => {
 
     const [contacts, setContacts] = useState<any[]>([])
 
@@ -15,7 +15,7 @@ const ChatContacts = () => {
         <>
             <div className="contactsContainer">
                 {
-                    contacts?.map((contact: any, i: number) => <SingleContact key={i} data={contact} />)
+                    contacts?.map((contact: any, i: number) => <SingleContact key={i} data={contact} userId={userId} />)
                 }
             </div>
         </>

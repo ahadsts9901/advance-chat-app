@@ -2,14 +2,20 @@ import "./main.css"
 import ConversationBody from "./conversation/ConversationBody"
 import ConversationForm from "./conversation/ConversationForm"
 import ConversationHeader from "./conversation/ConversationHeader"
+import ConversationSplash from "./conversation/ConversationSplash"
 
-const Conversation = () => {
+const Conversation = ({ userId }: any) => {
     return (
         <>
             <div className="conversationSection">
-                <ConversationHeader />
-                <ConversationBody />
-                <ConversationForm />
+                {
+                    !userId ? <ConversationSplash /> :
+                        <>
+                            <ConversationHeader />
+                            <ConversationBody />
+                            <ConversationForm />
+                        </>
+                }
             </div>
         </>
     )

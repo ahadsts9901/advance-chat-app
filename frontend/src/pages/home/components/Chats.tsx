@@ -3,13 +3,13 @@ import ChatContacts from "./chat/ChatContacts"
 import ChatHeader from "./chat/ChatHeader"
 import ChatSearch from "./chat/ChatSearch"
 
-const Chats = () => {
+const Chats = ({ userId }: any) => {
     return (
         <>
             <div className="chatSection">
                 <ChatHeader />
                 <ChatSearch />
-                <ChatContacts />
+                <ChatContacts userId={userId} />
             </div>
         </>
     )

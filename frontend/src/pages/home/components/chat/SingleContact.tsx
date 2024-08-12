@@ -36,7 +36,7 @@ const MessageType = ({ lastMessage, messageType }: any) => {
 
 }
 
-const SingleContact = ({ data }: any) => {
+const SingleContact = ({ data, userId }: any) => {
 
     const timeAgo = (date: string) => {
         const now = moment();
@@ -63,7 +63,7 @@ const SingleContact = ({ data }: any) => {
 
     return (
         <>
-            <div className="singleContact">
+            <div className={`singleContact ${data?._id === userId ? "special-singleContact" : ""}`}>
                 <div>
                     <img src={data?.profilePhoto} alt="profile-photo"
                         onError={(e: any) => {

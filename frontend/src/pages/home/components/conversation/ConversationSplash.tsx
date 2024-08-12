@@ -1,8 +1,9 @@
 import "./main.css"
+import SplashScreen from "../../../splashScreen/SplashScreen"
 
 const ConversationSplash = () => {
     return (
-        <div>ConversationSplash</div>
+        <div className="noUserChatSplash"><SplashScreen /></div>
     )
 }
 
