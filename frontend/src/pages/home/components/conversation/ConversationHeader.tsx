@@ -5,7 +5,6 @@ import { MdLocalPhone } from "react-icons/md";
 import { IoIosVideocam } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -13,11 +12,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 const DropMenu = () => {
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
     const [alertData, setAlertdata] = useState<any>(null)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    console.log(setAlertdata, setIsLoading, navigate)
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
