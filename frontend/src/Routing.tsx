@@ -12,6 +12,7 @@ import { baseUrl } from "./core";
 import SplashScreen from "./pages/splashScreen/SplashScreen";
 import Login from "./pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
 
 const UnAuthRouting = () => {
 
@@ -19,6 +20,17 @@ const UnAuthRouting = () => {
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<Navigate to="/login" replace={true} />} />
+        </Routes>
+    )
+
+}
+
+const AuthRouting = () => {
+
+    return (
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
     )
 
@@ -57,6 +69,10 @@ const Routing = () => {
 
             {
                 currentUser?.isLogin == false ? <UnAuthRouting /> : null
+            }
+
+            {
+                currentUser?.isLogin == true ? <AuthRouting /> : null
             }
 
         </>

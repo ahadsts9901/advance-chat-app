@@ -8,7 +8,7 @@ export const getCurrentUserProfileController = async (req, res, next) => {
 
     try {
 
-        const currentUser = { req }
+        const {currentUser} = req
 
         if (!currentUser) {
             return res.status(401).send({
