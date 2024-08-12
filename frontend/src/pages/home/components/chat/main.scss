@@ -32,6 +32,7 @@ $icon-ack: #53bdeb;
         object-fit: cover;
         object-position: center;
         border-radius: 100%;
+        background-color: $outgoing-background;
     }
 
     .iconsCont {
@@ -48,4 +49,8 @@ $icon-ack: #53bdeb;
 
     }
 
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+    padding: 0 !important;
 }

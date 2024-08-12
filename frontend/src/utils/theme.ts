@@ -71,7 +71,7 @@ export const themeSchema: any = {
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#233138', // dropdown-background
+                    backgroundColor: '#182229', // dropdown-background
                 },
                 elevation1: {
                     '&:hover': {

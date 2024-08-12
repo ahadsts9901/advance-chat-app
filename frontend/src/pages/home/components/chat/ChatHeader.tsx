@@ -11,6 +11,7 @@ import { baseUrl } from "../../../../core";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../../redux/user";
 import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert";
+import fallBackProfileImage from "/default_avatar.png"
 
 const DropLogout = () => {
 
@@ -101,7 +102,7 @@ const DropLogout = () => {
                 onClose={handleClose}
             >
                 {options?.map((option: any, i: number) => (
-                    <MenuItem key={i} onClick={option?.fun} sx={{ fontSize: "0.8em" }}>
+                    <MenuItem key={i} onClick={option?.fun} sx={{ fontSize: "0.8em", padding: "1em" }}>
                         {option?.label}
                     </MenuItem>
                 ))}
@@ -117,7 +118,10 @@ const ChatHeader = () => {
 
     return (
         <div className="chatHeader">
-            <img src={currentUser?.profilePhoto} alt="profile picture" />
+            <img src={currentUser?.profilePhoto} alt="profile picture" onError={(e: any) => {
+                e.target.src = fallBackProfileImage
+                e.target.style.padding = "0.4em"
+            }} />
             <div className="iconsCont">
                 <IconButton><MdChat /></IconButton>
                 <DropLogout />

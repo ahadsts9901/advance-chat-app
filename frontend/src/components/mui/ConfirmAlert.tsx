@@ -17,13 +17,13 @@ export default function ConfirmAlertMUI({ isLoading, open, setOpen, title, descr
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-                <DialogContent><DialogContentText id="alert-dialog-description">{description}</DialogContentText></DialogContent>
+                <DialogContent><DialogContentText id="alert-dialog-description" sx={{ fontSize: "0.8em" }}>{description}</DialogContentText></DialogContent>
                 <DialogActions sx={{ paddingBottom: "24px", paddingRight: "24px" }}>
                     <Button
-                        sx={{ padding: "2px" }}
+                        sx={{ padding: "2px", fontSize: "0.8em" }}
                         onClick={() => setOpen(false)} disabled={isLoading}>No</Button>
                     <Button
-                        sx={{ padding: "2px" }}
+                        sx={{ padding: "2px", fontSize: "0.8em" }}
                         variant="contained" color="primary"
                         onClick={() => fun()} autoFocus disabled={isLoading}>Yes</Button>
                 </DialogActions>
