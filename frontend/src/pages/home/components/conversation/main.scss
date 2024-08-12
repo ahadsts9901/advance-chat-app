@@ -42,7 +42,7 @@ $icon-ack: #53bdeb;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        gap: 0.5em;
+        gap: 0.8em;
 
         img {
             width: 2em;
@@ -52,6 +52,46 @@ $icon-ack: #53bdeb;
             border-radius: 100%;
             background-color: $outgoing-background;
             cursor: pointer;
+        }
+
+        div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0.3em;
+
+            h4 {
+                font-size: 0.8em;
+                color: $primary-strong;
+                width: 100%;
+                text-align: left;
+                font-weight: normal;
+            }
+
+            p {
+                font-size: 0.6em;
+                color: $panel-header-icon;
+                width: 100%;
+                text-align: left;
+            }
+
+        }
+
+    }
+
+    .icons {
+
+        width: fit-content;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5em;
+
+        svg{
+            font-size: 0.8em;
+            color: $panel-header-icon;
         }
 
     }
