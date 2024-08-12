@@ -19,6 +19,7 @@ $bubble-meta: hsla(0, 0%, 100%, 0.6);
 $icon-ack: #53bdeb;
 
 .chatHeader {
+
     width: 100%;
     background-color: $panel-header-background;
     padding: 0.6em 0.8em;
@@ -33,6 +34,7 @@ $icon-ack: #53bdeb;
         object-position: center;
         border-radius: 100%;
         background-color: $outgoing-background;
+        cursor: pointer;
     }
 
     .iconsCont {
@@ -53,4 +55,51 @@ $icon-ack: #53bdeb;
 
 .css-6hp17o-MuiList-root-MuiMenu-list {
     padding: 0 !important;
+}
+
+.chatSearchContainer {
+
+    width: 100%;
+    background-color: $search-input-container-background;
+    padding: 0.4em;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    svg {
+        color: $panel-header-icon;
+        font-size: 0.8em;
+    }
+
+    .searchBar {
+        width: 80%;
+        background-color: $input-background;
+        padding: 0.4em;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        border-radius: 4px;
+
+        svg {
+            color: $panel-header-icon;
+            font-size: 0.8em;
+        }
+
+        input {
+            width: 100%;
+            background-color: $input-background;
+            border: 0;
+            outline: none;
+            padding: 0.2em;
+            padding-left: 1em;
+            font-size: 0.8em;
+            color: $icon-lighter;
+        }
+
+        input::placeholder {
+            color: $icon-lighter;
+        }
+
+    }
+
 }
