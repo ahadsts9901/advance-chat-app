@@ -7,8 +7,14 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import AlertMui from "./mui/AlertMui";
 import axios from "axios";
 import { baseUrl } from "../core";
+import { login, logout } from "../redux/user";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const GoogleLoginButton = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const googleProvider = new GoogleAuthProvider();
     const auth = getAuth();
@@ -49,10 +55,12 @@ const GoogleLoginButton = () => {
                 accessToken: `Bearer ${token}`
             }, { withCredentials: true })
 
-            console.log(resp?.data)
+            dispatch(login(resp?.data?.data))
+            navigate("/")
 
         } catch (error) {
             console.error(error)
+            dispatch(logout())
             setErrorMessage("Error in signing in")
             setTimeout(() => {
                 setErrorMessage(null)

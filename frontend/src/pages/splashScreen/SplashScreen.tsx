@@ -1,5 +1,5 @@
 import "./SplashScreen.css"
-import whatsappAnimation from "../../../public/whatsapp.gif"
+import whatsappAnimation from "/whatsapp.gif"
 import GoogleLoginButton from "../../components/GoogleLoginButton"
 
 const SplashScreen = ({ showLoginButton }: any) => {
