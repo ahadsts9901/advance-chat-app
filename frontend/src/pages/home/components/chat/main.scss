@@ -126,6 +126,18 @@ $icon-ack: #53bdeb;
         background-color: $input-background;
     }
 
+    &::-moz-scrollbar {
+        width: 10px;
+    }
+
+    &::-moz-scrollbar-track {
+        background-color: $search-input-container-background;
+    }
+
+    &::-moz-scrollbar-thumb {
+        background-color: $input-background;
+    }
+
 }
 
 .singleContact {

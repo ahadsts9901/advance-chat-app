@@ -94,6 +94,15 @@
 .contactsContainer::-webkit-scrollbar-thumb {
   background-color: #2a3942;
 }
+.contactsContainer::-moz-scrollbar {
+  width: 10px;
+}
+.contactsContainer::-moz-scrollbar-track {
+  background-color: #111b21;
+}
+.contactsContainer::-moz-scrollbar-thumb {
+  background-color: #2a3942;
+}
 
 .singleContact {
   width: 100%;
