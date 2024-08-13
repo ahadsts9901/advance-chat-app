@@ -173,6 +173,14 @@ $icon-ack: #53bdeb;
     justify-content: flex-start;
     align-items: center;
     background-color: $panel-header-background;
+    position: relative;
+
+    .emojiPickerCont {
+        position: absolute;
+        z-index: 20;
+        bottom: 1em;
+        left: 1em;
+    }
 
     svg {
         font-size: 0.7em;
@@ -299,6 +307,80 @@ $icon-ack: #53bdeb;
 
         }
 
+    }
+
+}
+
+// emoji picker
+
+.emojiPickerCont * {
+    font-family: "Josefin sans" !important;
+}
+
+.emojiPickerCont .EmojiPickerReact {
+    background-color: $dropdown-background !important;
+    border: none !important;
+    color: $panel-header-icon !important;
+}
+
+.emojiPickerCont .EmojiPickerReact .epr-emoji-category-label {
+    background-color: $dropdown-background !important;
+    color: $panel-header-icon !important;
+}
+
+.emojiPickerCont .EmojiPickerReact .epr-emoji-picker-search {
+
+    background-color: $dropdown-background-hover !important;
+    border: none !important;
+    outline: none !important;
+    padding-left: 1em !important;
+
+    &::placeholder {
+        color: $panel-header-icon;
+    }
+
+}
+
+.epr-search-container>div {
+    display: none !important;
+}
+
+.epr-search-container input {
+
+    &:focus,
+    &:active {
+        background-color: $background-default-hover !important;
+        color: $panel-header-icon !important;
+        border: none !important;
+        outline: none !important;
+        padding-left: 1em !important;
+    }
+}
+
+.epr-body {
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $input-background;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $search-input-container-background;
+    }
+
+    &::-moz-scrollbar {
+        width: 10px;
+    }
+
+    &::-moz-scrollbar-track {
+        background-color: $input-background;
+    }
+
+    &::-moz-scrollbar-thumb {
+        background-color: $search-input-container-background;
     }
 
 }
