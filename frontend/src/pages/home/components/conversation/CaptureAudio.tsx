@@ -128,6 +128,11 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
             mediaRecorder.ondataavailable = (e: any) => {
                 chunks.push(e?.data)
             }
+
+            mediaRecorder.onerror = (e) => {
+                console.error('MediaRecorder error:', e);
+            };
+
             mediaRecorder.onstop = () => {
                 const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
                 const audioUrl = URL.createObjectURL(blob)
@@ -144,11 +149,33 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
     }
 
-    const handleStopRecording = () => { }
+    const handleStopRecording = () => {
+
+        if (mediaRecordedRef?.current && isRecording) {
+
+            mediaRecordedRef?.current?.stop()
+            setIsRecording(false)
+            waveForm?.stop()
+
+            const audioChunks: any = []
+
+            mediaRecordedRef?.current?.addEventListener("dataavailable", (e: any) => {
+                audioChunks.push(e?.data)
+            })
+
+            mediaRecordedRef?.current?.addEventListener("stop", () => {
+
+                const audioBlob = new Blob(audioChunks, { type: "audio/mp3" })
+                const audioFile = new File([audioBlob], "recording.mp3")
+                setRenderedAudio(audioFile)
+
+            })
+
+        }
+
+    }
 
     const sendRecording = async () => { }
-
-    console.log(isRecording, recordedAudio, isPlaying)
 
     return (
         <>
@@ -179,18 +206,17 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
                             recordedAudio && !isPlaying && <span>{formatTime(totalDuration)}</span>
                         }
                         <audio ref={audioRef} hidden></audio>
-                        <div>
-                            {
-                                !isRecording ?
-                                    <IconButton onClick={handleStartRecording}><FaMicrophone /></IconButton>
-                                    :
-                                    <IconButton onClick={handleStopRecording}><FaPauseCircle /></IconButton>
-                            }
-                        </div>
+                    </div>
+                    <div>
+                        {
+                            isRecording ?
+                                <IconButton onClick={handleStopRecording}><FaPauseCircle /></IconButton>
+                                :
+                                <IconButton onClick={handleStartRecording}><FaMicrophone /></IconButton>
+                        }
                     </div>
                 </>
                 <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
-                <IconButton onClick={() => setIsRecording(!isRecording)} sx={{ marginLeft: "auto" }}><FaMicrophone /></IconButton>
             </div>
         </>
     )
