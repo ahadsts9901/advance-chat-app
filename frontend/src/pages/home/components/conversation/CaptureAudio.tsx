@@ -8,6 +8,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaPauseCircle } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import WaveSurfer from "wavesurfer.js"
+import { formatTime } from "../../../../utils/functions";
 
 const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
