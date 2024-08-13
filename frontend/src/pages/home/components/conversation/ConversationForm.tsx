@@ -10,9 +10,11 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 const ConversationForm = ({ user }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
+    const fileInputRef: any = useRef(null)
 
     const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
+    const [files, setFiles] = useState<any>(null)
 
     useEffect(() => {
 
@@ -49,11 +51,12 @@ const ConversationForm = ({ user }: any) => {
                     }
                 </>
                 <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} ><BsEmojiSmile /></IconButton>
-                <IconButton><GrAttachment /></IconButton>
+                <IconButton onClick={() => fileInputRef?.current?.click()}><GrAttachment /></IconButton>
                 <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
                 {
-                    chatInput ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
+                    (chatInput || files) ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
                 }
+                <input type="file" hidden ref={fileInputRef} onChange={(e: any) => setFiles(e?.target?.files[0])} />
             </form>
         </>
     )

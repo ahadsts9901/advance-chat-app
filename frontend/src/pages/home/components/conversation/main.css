@@ -83,6 +83,9 @@
   bottom: 3.5em;
   left: 1em;
 }
+.conversationForm label {
+  cursor: pointer;
+}
 .conversationForm svg {
   font-size: 0.7em;
   color: #aebac1;
