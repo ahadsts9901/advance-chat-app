@@ -55,7 +55,37 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
     const handlePlayRecording = () => { }
     const handlePauseRecording = () => { }
 
-    const handleStartRecording = () => { }
+    const handleStartRecording = () => {
+
+        setRecordingDuration(0)
+        setCurrentPlaybacktime(0)
+        setTotalDuration(0)
+        setIsRecording(true)
+
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream: any) => {
+
+            const mediaRecorder = new MediaRecorder(stream)
+            mediaRecordedRef.current = mediaRecorder
+            audioRef.current.srcObject = stream
+
+            const chunks: any = []
+
+            mediaRecorder.ondataavailable = (e: any) => chunks.push(e?.data)
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+                const audioUrl = URL.createObjectURL(blob)
+                const audio = new Audio(audioUrl)
+                setRecordedAudio(audio)
+                waveForm.load(audioUrl)
+            }
+
+            mediaRecorder.start()
+
+        }).catch((error) => {
+            console.error(error)
+        })
+
+    }
     const handleStopRecording = () => { }
 
     const sendRecording = async () => { }
