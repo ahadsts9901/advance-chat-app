@@ -5,10 +5,10 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { FaCamera } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa";
-import moment from "moment"
 import { useNavigate } from "react-router-dom";
+import { timeAgo } from "../../../../utils/functions";
 
-const Status = ({ status }: any) => {
+export const Status = ({ status }: any) => {
 
     return (
         <>
@@ -40,29 +40,6 @@ const MessageType = ({ lastMessage, messageType }: any) => {
 const SingleContact = ({ data, userId }: any) => {
 
     const navigate = useNavigate()
-
-    const timeAgo = (date: string) => {
-        const now = moment();
-        const momentDate = moment(date);
-        const diffInHours = now.diff(momentDate, 'hours');
-
-        if (diffInHours < 24) {
-            return momentDate.format('h:mm A');
-        } else {
-            const diffInDays = now.diff(momentDate, 'days');
-            if (diffInDays < 30) {
-                return diffInDays === 1 ? '1 day ago' : `${diffInDays} days ago`;
-            } else {
-                const diffInMonths = now.diff(momentDate, 'months');
-                if (diffInMonths < 12) {
-                    return diffInMonths === 1 ? '1 month ago' : `${diffInMonths} months ago`;
-                } else {
-                    const diffInYears = now.diff(momentDate, 'years');
-                    return diffInYears === 1 ? '1 year ago' : `${diffInYears} years ago`;
-                }
-            }
-        }
-    };
 
     return (
         <>

@@ -120,12 +120,17 @@
   top: 0;
   left: 0;
   overflow-y: auto;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2em;
 }
 .conversationBody .body::-webkit-scrollbar {
   width: 10px;
 }
 .conversationBody .body::-webkit-scrollbar-track {
-  background-color: #111b21;
+  background-color: rgba(0, 0, 0, 0);
 }
 .conversationBody .body::-webkit-scrollbar-thumb {
   background-color: #2a3942;
@@ -134,12 +139,122 @@
   width: 10px;
 }
 .conversationBody .body::-moz-scrollbar-track {
-  background-color: #111b21;
+  background-color: rgba(0, 0, 0, 0);
 }
 .conversationBody .body::-moz-scrollbar-thumb {
   background-color: #2a3942;
 }
-.conversationBody .body .chatBubble {
-  color: white;
-  background-color: red;
+.conversationBody .body .leftChatBubble {
+  min-width: 6em;
+  max-width: 80%;
+  height: 100%;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #202c33;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 4px;
+}
+.conversationBody .body .leftChatBubble .photo-message {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.conversationBody .body .leftChatBubble .video-message {
+  width: 100%;
+  height: 100%;
+}
+.conversationBody .body .leftChatBubble p {
+  font-size: 0.7em;
+  width: 100%;
+  text-align: left;
+  color: #aebac1;
+  padding: 0.5em 0.5em 0 0.5em;
+  line-height: 1.2em;
+}
+.conversationBody .body .leftChatBubble .timeAndRead {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.conversationBody .body .leftChatBubble .timeAndRead .readReciepts {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0 0.3em;
+}
+.conversationBody .body .leftChatBubble .timeAndRead .readReciepts svg {
+  color: #aebac1;
+  font-size: 0.8em;
+}
+.conversationBody .body .leftChatBubble .timeAndRead .readReciepts .read {
+  color: #53bdeb;
+}
+.conversationBody .body .leftChatBubble .timeAndRead .time {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 0.6em;
+  color: #aebac1;
+  padding: 0;
+}
+.conversationBody .body .rightChatBubble {
+  min-width: 6em;
+  max-width: 80%;
+  height: 100%;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #005c4b;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-end;
+  gap: 4px;
+}
+.conversationBody .body .rightChatBubble .photo-message {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.conversationBody .body .rightChatBubble .video-message {
+  width: 100%;
+  height: 100%;
+}
+.conversationBody .body .rightChatBubble p {
+  font-size: 0.7em;
+  width: 100%;
+  text-align: left;
+  color: #aebac1;
+  padding: 0.5em 0.5em 0 0.5em;
+  line-height: 1.2em;
+}
+.conversationBody .body .rightChatBubble .timeAndRead {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.conversationBody .body .rightChatBubble .timeAndRead .readReciepts {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0 0.3em;
+}
+.conversationBody .body .rightChatBubble .timeAndRead .readReciepts svg {
+  color: #aebac1;
+  font-size: 0.8em;
+}
+.conversationBody .body .rightChatBubble .timeAndRead .readReciepts .read {
+  color: #53bdeb;
+}
+.conversationBody .body .rightChatBubble .timeAndRead .time {
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 0.6em;
+  color: #aebac1;
+  padding: 0;
 }/*# sourceMappingURL=main.css.map */

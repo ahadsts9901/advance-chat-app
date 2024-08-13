@@ -18,6 +18,73 @@ $outgoing-background: #005c4b;
 $bubble-meta: hsla(0, 0%, 100%, 0.6);
 $icon-ack: #53bdeb;
 
+@mixin chatBubble($background, $alignSelf) {
+    min-width: 6em;
+    max-width: 80%;
+    height: 100%;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: $background;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: $alignSelf;
+    gap: 4px;
+}
+
+@mixin photoMessage() {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@mixin videoMessage() {
+    width: 100%;
+    height: 100%;
+}
+
+@mixin textMessage() {
+    font-size: 0.7em;
+    width: 100%;
+    text-align: left;
+    color: $panel-header-icon;
+    padding: 0.5em 0.5em 0 0.5em;
+    line-height: 1.2em;
+}
+
+@mixin timeAndRead() {
+
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .readReciepts {
+
+        width: fit-content;
+        padding: 0 0.3em;
+
+        svg {
+            color: $panel-header-icon;
+            font-size: 0.8em;
+        }
+
+        .read {
+            color: $icon-ack;
+        }
+
+    }
+
+    .time {
+        width: fit-content;
+        font-size: 0.6em;
+        color: $panel-header-icon;
+        padding: 0;
+    }
+
+}
+
 .noUserChatSplash {
     width: calc(100vw - 400px);
     height: 100vh;
@@ -156,13 +223,19 @@ $icon-ack: #53bdeb;
         top: 0;
         left: 0;
         overflow-y: auto;
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2em;
 
         &::-webkit-scrollbar {
             width: 10px;
         }
 
         &::-webkit-scrollbar-track {
-            background-color: $search-input-container-background;
+            // background-color: $search-input-container-background;
+            background-color: #00000000;
         }
 
         &::-webkit-scrollbar-thumb {
@@ -174,16 +247,56 @@ $icon-ack: #53bdeb;
         }
 
         &::-moz-scrollbar-track {
-            background-color: $search-input-container-background;
+            // background-color: $search-input-container-background;
+            background-color: #00000000;
         }
 
         &::-moz-scrollbar-thumb {
             background-color: $input-background;
         }
 
-        .chatBubble {
-            color: white;
-            background-color: red;
+        .leftChatBubble {
+
+            @include chatBubble($incoming-background, flex-start);
+
+            .photo-message {
+                @include photoMessage()
+            }
+
+            .video-message {
+                @include videoMessage()
+            }
+
+            p {
+                @include textMessage()
+            }
+
+            .timeAndRead {
+                @include timeAndRead()
+            }
+
+        }
+
+        .rightChatBubble {
+
+            @include chatBubble($outgoing-background, flex-end);
+
+            .photo-message {
+                @include photoMessage()
+            }
+
+            .video-message {
+                @include videoMessage()
+            }
+
+            p {
+                @include textMessage()
+            }
+
+            .timeAndRead {
+                @include timeAndRead()
+            }
+
         }
 
     }
