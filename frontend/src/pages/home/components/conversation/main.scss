@@ -89,11 +89,44 @@ $icon-ack: #53bdeb;
         align-items: center;
         gap: 0.5em;
 
-        svg{
+        svg {
             font-size: 0.8em;
             color: $panel-header-icon;
         }
 
+    }
+
+}
+
+.conversationForm {
+
+    width: 100%;
+    padding: 0.5em 0.8em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $panel-header-background;
+
+    svg {
+        font-size: 0.7em;
+        color: $panel-header-icon;
+    }
+
+    input {
+        width: 100%;
+        background-color: $input-background;
+        border: 0;
+        outline: none;
+        padding: 0.6em;
+        font-size: 0.8em;
+        color: $icon-lighter;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        border-radius: 4px;
+    }
+
+    input::placeholder {
+        color: $icon-lighter;
     }
 
 }

@@ -66,4 +66,35 @@
 .conversationHeader .icons svg {
   font-size: 0.8em;
   color: #aebac1;
+}
+
+.conversationForm {
+  width: 100%;
+  padding: 0.5em 0.8em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #202c33;
+}
+.conversationForm svg {
+  font-size: 0.7em;
+  color: #aebac1;
+}
+.conversationForm input {
+  width: 100%;
+  background-color: #2a3942;
+  border: 0;
+  outline: none;
+  padding: 0.6em;
+  font-size: 0.8em;
+  color: #8696a0;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  border-radius: 4px;
+}
+.conversationForm input::-moz-placeholder {
+  color: #8696a0;
+}
+.conversationForm input::placeholder {
+  color: #8696a0;
 }/*# sourceMappingURL=main.css.map */
