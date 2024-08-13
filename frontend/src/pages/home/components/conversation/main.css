@@ -324,6 +324,11 @@
   color: rgb(229, 71, 71);
   font-weight: bold;
 }
+.audioRecorder .recordedWaves {
+  width: 100px;
+  height: 30px;
+  background-color: green;
+}
 
 .emojiPickerCont * {
   font-family: "Josefin sans" !important;

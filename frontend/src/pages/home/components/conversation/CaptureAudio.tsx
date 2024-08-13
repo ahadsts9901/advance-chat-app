@@ -82,7 +82,7 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
             }
 
             recordedAudio.addEventListener("timeupdate", updatePlaybackTime)
-            
+
             return () => {
                 recordedAudio.removeEventListener("timeupdate", updatePlaybackTime)
             }
@@ -125,7 +125,9 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
             const chunks: any = []
 
-            mediaRecorder.ondataavailable = (e: any) => chunks.push(e?.data)
+            mediaRecorder.ondataavailable = (e: any) => {
+                chunks.push(e?.data)
+            }
             mediaRecorder.onstop = () => {
                 const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
                 const audioUrl = URL.createObjectURL(blob)
@@ -145,6 +147,8 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
     const handleStopRecording = () => { }
 
     const sendRecording = async () => { }
+
+    console.log(isRecording, recordedAudio, isPlaying)
 
     return (
         <>

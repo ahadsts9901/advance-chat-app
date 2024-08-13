@@ -376,10 +376,18 @@ $icon-ack: #53bdeb;
         color: $panel-header-icon;
     }
 
-    .recording{
+    .recording {
         font-size: 0.8em;
         color: rgb(229, 71, 71);
         font-weight: bold;
+    }
+
+    .recordedWaves {
+        
+        width: 100px;
+        height: 30px;
+        background-color: green;
+
     }
 
 }
