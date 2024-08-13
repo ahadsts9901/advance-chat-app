@@ -1,8 +1,17 @@
 import "./main.css"
 
 const ConversationBody = ({ user }: any) => {
+
+    console.log(user)
+
     return (
-        <div>ConversationBody</div>
+        <>
+            <div className="conversationBody">
+                <div className="background">
+                    
+                </div>
+            </div>
+        </>
     )
 }
 

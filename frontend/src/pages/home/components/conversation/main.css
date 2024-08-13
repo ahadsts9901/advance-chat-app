@@ -97,4 +97,18 @@
 }
 .conversationForm input::placeholder {
   color: #8696a0;
+}
+
+.conversationBody {
+  background-color: #0b141a;
+  width: 100%;
+  height: 100%;
+}
+.conversationBody .background {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../../../public/chat-bg.png");
+  background-repeat: repeat;
+  background-size: 50%;
+  filter: opacity(30%);
 }/*# sourceMappingURL=main.css.map */
