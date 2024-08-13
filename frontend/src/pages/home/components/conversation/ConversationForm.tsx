@@ -8,10 +8,9 @@ import { useEffect, useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { RxCross2 } from "react-icons/rx";
 import { formatFileSize } from "../../../../utils/functions";
+import CaptureAudio from "./CaptureAudio";
 
 const SelectedFile = ({ file, setFile }: any) => {
-
-    console.log(file)
 
     return (
         <>
@@ -35,6 +34,7 @@ const ConversationForm = ({ user }: any) => {
     const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
     const [file, setFile] = useState<any>(null)
+    const [showAudioRecorder, setShowAudioRecorder] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -61,26 +61,38 @@ const ConversationForm = ({ user }: any) => {
     return (
         <>
             {file && <SelectedFile file={file} setFile={setFile} />}
-            <form className="conversationForm" onSubmit={sendMessage}>
-                <>
-                    {
-                        showEmojiPicker ?
-                            <div className="emojiPickerCont" ref={emojiPickerRef}>
-                                <EmojiPicker searchPlaceHolder="Search emoji" onEmojiClick={handleEmojiClick} />
-                            </div>
-                            : null
-                    }
-                </>
-                <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} ><BsEmojiSmile /></IconButton>
-                <IconButton onClick={() => fileInputRef?.current?.click()}><GrAttachment /></IconButton>
-                <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
-                {
-                    (chatInput || file) ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
-                }
-                <input type="file" hidden ref={fileInputRef} onChange={(e: any) => setFile(e?.target?.files[0])}
-                    accept="image/*,video/*,audio/*"
-                />
-            </form>
+            {
+                showAudioRecorder ?
+                    <>
+                        {showAudioRecorder && <CaptureAudio setShowAudioRecorder={setShowAudioRecorder} />}
+                    </>
+                    :
+                    <>
+                        <form className="conversationForm" onSubmit={sendMessage}>
+                            <>
+                                {
+                                    showEmojiPicker ?
+                                        <div className="emojiPickerCont" ref={emojiPickerRef}>
+                                            <EmojiPicker searchPlaceHolder="Search emoji" onEmojiClick={handleEmojiClick} />
+                                        </div>
+                                        : null
+                                }
+                            </>
+                            <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} ><BsEmojiSmile /></IconButton>
+                            <IconButton onClick={() => fileInputRef?.current?.click()}><GrAttachment /></IconButton>
+                            <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
+                            {
+                                (chatInput || file) ?
+                                    <IconButton><IoSendSharp /></IconButton>
+                                    :
+                                    <IconButton onClick={() => setShowAudioRecorder(true)}><FaMicrophone /></IconButton>
+                            }
+                            <input type="file" hidden ref={fileInputRef} onChange={(e: any) => setFile(e?.target?.files[0])}
+                                accept="image/*,video/*,audio/*"
+                            />
+                        </form>
+                    </>
+            }
         </>
     )
 }

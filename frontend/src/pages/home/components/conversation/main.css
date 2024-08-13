@@ -306,6 +306,25 @@
   color: #aebac1;
 }
 
+.audioRecorder {
+  width: 100%;
+  padding: 0.5em 1em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+  background-color: #2a3942;
+}
+.audioRecorder svg {
+  font-size: 0.7em;
+  color: #aebac1;
+}
+.audioRecorder .recording {
+  font-size: 0.8em;
+  color: rgb(229, 71, 71);
+  font-weight: bold;
+}
+
 .emojiPickerCont * {
   font-family: "Josefin sans" !important;
 }
