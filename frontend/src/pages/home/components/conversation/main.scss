@@ -383,10 +383,15 @@ $icon-ack: #53bdeb;
     }
 
     .recordedWaves {
-        
+
         width: 100px;
         height: 30px;
         background-color: green;
+        cursor: pointer;
+
+        div {
+            margin-top: -1em;
+        }
 
     }
 

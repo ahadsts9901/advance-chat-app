@@ -5,7 +5,7 @@ import { FaTrash } from "react-icons/fa";
 import { FaMicrophone } from "react-icons/fa";
 import { FaStop } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
-import { FaPauseCircle } from "react-icons/fa";
+import { FaPause } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
 import WaveSurfer from "wavesurfer.js"
 import { formatTime } from "../../../../utils/functions";
@@ -92,23 +92,18 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
     }, [recordedAudio])
 
     const handlePlayRecording = () => {
-
         if (recordedAudio) {
-            waveForm.stop()
-            waveForm.play()
-            recordedAudio.play()
-            setIsPlaying(true)
+            waveForm.play();
+            recordedAudio.play();
+            setIsPlaying(true);
         }
-
-    }
+    };
 
     const handlePauseRecording = () => {
-
-        waveForm.stop()
-        recordedAudio.pause()
-        setIsPlaying(false)
-
-    }
+        waveForm.pause();
+        recordedAudio.pause();
+        setIsPlaying(false);
+    };
 
     const handleStartRecording = () => {
 
@@ -191,7 +186,7 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
                                 <>
                                     {
                                         isPlaying ?
-                                            <IconButton><FaStop onClick={handlePauseRecording} /></IconButton>
+                                            <IconButton><FaPause onClick={handlePauseRecording} /></IconButton>
                                             :
                                             <IconButton><FaPlay onClick={handlePlayRecording} /></IconButton>
                                     }
@@ -210,7 +205,7 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
                     <div>
                         {
                             isRecording ?
-                                <IconButton onClick={handleStopRecording}><FaPauseCircle /></IconButton>
+                                <IconButton onClick={handleStopRecording}><FaStop /></IconButton>
                                 :
                                 <IconButton onClick={handleStartRecording}><FaMicrophone /></IconButton>
                         }
