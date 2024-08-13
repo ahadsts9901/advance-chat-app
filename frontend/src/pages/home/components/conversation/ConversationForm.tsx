@@ -5,13 +5,13 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 const ConversationForm = ({ user }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
 
-    const [chatInput, setChatInput] = useState<null | string>(null)
+    const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
 
     useEffect(() => {
@@ -29,6 +29,8 @@ const ConversationForm = ({ user }: any) => {
 
     }, [emojiPickerRef]);
 
+    const handleEmojiClick = (emojiData: EmojiClickData) => setChatInput((prevInput) => prevInput + emojiData.emoji);
+
     const sendMessage = async (e: any) => {
         e?.preventDefault()
         console.log(chatInput, user)
@@ -41,14 +43,14 @@ const ConversationForm = ({ user }: any) => {
                     {
                         showEmojiPicker ?
                             <div className="emojiPickerCont" ref={emojiPickerRef}>
-                                <EmojiPicker searchPlaceHolder="Search emoji" />
+                                <EmojiPicker searchPlaceHolder="Search emoji" onEmojiClick={handleEmojiClick} />
                             </div>
                             : null
                     }
                 </>
                 <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} ><BsEmojiSmile /></IconButton>
                 <IconButton><GrAttachment /></IconButton>
-                <input type="text" placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
+                <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
                 {
                     chatInput ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
                 }
