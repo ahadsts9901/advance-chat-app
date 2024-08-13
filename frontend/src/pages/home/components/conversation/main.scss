@@ -315,6 +315,50 @@ $icon-ack: #53bdeb;
 
 }
 
+// file preview
+
+.fileCont {
+
+    width: 100%;
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5em;
+    background-color: $input-background;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0.3em;
+
+        p {
+            font-size: 0.8em;
+            color: $panel-header-icon;
+            width: 100%;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        h5 {
+            font-size: 0.6em;
+            color: $panel-header-icon;
+            width: 100%;
+            text-align: left;
+            overflow: hidden;
+        }
+
+    }
+
+    svg {
+        font-size: 0.8em;
+        color: $panel-header-icon;
+    }
+
+}
+
 // emoji picker
 
 .emojiPickerCont * {

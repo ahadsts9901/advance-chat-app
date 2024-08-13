@@ -6,6 +6,26 @@ import { GrAttachment } from "react-icons/gr";
 import { IoSendSharp } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { RxCross2 } from "react-icons/rx";
+import { formatFileSize } from "../../../../utils/functions";
+
+const SelectedFile = ({ file, setFile }: any) => {
+
+    console.log(file)
+
+    return (
+        <>
+            <div className="fileCont">
+                <IconButton onClick={() => setFile(null)}><RxCross2 /></IconButton>
+                <div>
+                    <p>{file?.name?.length > 30 ? `${file?.name?.substr(0, 30)}...` : file?.name}</p>
+                    <h5>{formatFileSize(file?.size)}</h5>
+                </div>
+            </div>
+        </>
+    )
+
+}
 
 const ConversationForm = ({ user }: any) => {
 
@@ -14,7 +34,7 @@ const ConversationForm = ({ user }: any) => {
 
     const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
-    const [files, setFiles] = useState<any>(null)
+    const [file, setFile] = useState<any>(null)
 
     useEffect(() => {
 
@@ -40,6 +60,7 @@ const ConversationForm = ({ user }: any) => {
 
     return (
         <>
+            {file && <SelectedFile file={file} setFile={setFile} />}
             <form className="conversationForm" onSubmit={sendMessage}>
                 <>
                     {
@@ -54,9 +75,11 @@ const ConversationForm = ({ user }: any) => {
                 <IconButton onClick={() => fileInputRef?.current?.click()}><GrAttachment /></IconButton>
                 <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
                 {
-                    (chatInput || files) ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
+                    (chatInput || file) ? <IconButton><IoSendSharp /></IconButton> : <IconButton><FaMicrophone /></IconButton>
                 }
-                <input type="file" hidden ref={fileInputRef} onChange={(e: any) => setFiles(e?.target?.files[0])} />
+                <input type="file" hidden ref={fileInputRef} onChange={(e: any) => setFile(e?.target?.files[0])}
+                    accept="image/*,video/*,audio/*"
+                />
             </form>
         </>
     )
