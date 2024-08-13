@@ -124,7 +124,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.2em;
+  gap: 0.3em;
 }
 .conversationBody .body::-webkit-scrollbar {
   width: 10px;
@@ -147,7 +147,8 @@
 .conversationBody .body .leftChatBubble {
   min-width: 6em;
   max-width: 80%;
-  height: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
   padding: 4px;
   border-radius: 4px;
   background-color: #202c33;
@@ -160,13 +161,13 @@
 }
 .conversationBody .body .leftChatBubble .photo-message {
   width: 100%;
-  height: 100%;
+  height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .conversationBody .body .leftChatBubble .video-message {
   width: 100%;
-  height: 100%;
+  height: 200px;
 }
 .conversationBody .body .leftChatBubble p {
   font-size: 0.7em;
@@ -174,7 +175,7 @@
   text-align: left;
   color: #aebac1;
   padding: 0.5em 0.5em 0 0.5em;
-  line-height: 1.2em;
+  line-height: 1.3em;
 }
 .conversationBody .body .leftChatBubble .timeAndRead {
   width: 100%;
@@ -204,7 +205,8 @@
 .conversationBody .body .rightChatBubble {
   min-width: 6em;
   max-width: 80%;
-  height: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
   padding: 4px;
   border-radius: 4px;
   background-color: #005c4b;
@@ -217,13 +219,13 @@
 }
 .conversationBody .body .rightChatBubble .photo-message {
   width: 100%;
-  height: 100%;
+  height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
 }
 .conversationBody .body .rightChatBubble .video-message {
   width: 100%;
-  height: 100%;
+  height: 200px;
 }
 .conversationBody .body .rightChatBubble p {
   font-size: 0.7em;
@@ -231,7 +233,7 @@
   text-align: left;
   color: #aebac1;
   padding: 0.5em 0.5em 0 0.5em;
-  line-height: 1.2em;
+  line-height: 1.3em;
 }
 .conversationBody .body .rightChatBubble .timeAndRead {
   width: 100%;
