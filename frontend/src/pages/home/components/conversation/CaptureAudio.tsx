@@ -25,6 +25,27 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
     const [currentPlaybacktime, setCurrentPlaybacktime] = useState<number>(0)
     const [totalDuration, setTotalDuration] = useState<number>(0)
 
+    const [renderedAudio, setRenderedAudio] = useState<any>(null)
+
+    useEffect(() => {
+
+        let interval: any
+
+        if (isRecording) {
+            interval = setInterval(() => {
+                setRecordingDuration((prevDuration: any) => {
+                    setTotalDuration(prevDuration + 1)
+                    return prevDuration + 1
+                })
+            }, 1000)
+        }
+
+        return () => {
+            clearInterval(interval)
+        }
+
+    }, [isRecording])
+
     useEffect(() => {
 
         const waveSurfer = WaveSurfer.create({
@@ -52,8 +73,42 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
         if (waveForm) handleStartRecording()
     }, [waveForm])
 
-    const handlePlayRecording = () => { }
-    const handlePauseRecording = () => { }
+    useEffect(() => {
+
+        if (recordedAudio) {
+
+            const updatePlaybackTime = () => {
+                setCurrentPlaybacktime(recordedAudio.currentTime)
+            }
+
+            recordedAudio.addEventListener("timeupdate", updatePlaybackTime)
+            
+            return () => {
+                recordedAudio.removeEventListener("timeupdate", updatePlaybackTime)
+            }
+
+        }
+
+    }, [recordedAudio])
+
+    const handlePlayRecording = () => {
+
+        if (recordedAudio) {
+            waveForm.stop()
+            waveForm.play()
+            recordedAudio.play()
+            setIsPlaying(true)
+        }
+
+    }
+
+    const handlePauseRecording = () => {
+
+        waveForm.stop()
+        recordedAudio.pause()
+        setIsPlaying(false)
+
+    }
 
     const handleStartRecording = () => {
 
@@ -86,6 +141,7 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
         })
 
     }
+
     const handleStopRecording = () => { }
 
     const sendRecording = async () => { }
