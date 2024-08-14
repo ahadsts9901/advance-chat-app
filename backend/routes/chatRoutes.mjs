@@ -3,6 +3,6 @@ import { getAllContactsWithChatsController } from "../controllers/chatController
 
 const router = Router()
 
-router.get("/contacts", getAllContactsWithChatsController) 
+router.get("/contacts", getAllContactsWithChatsController)
 
 export default router

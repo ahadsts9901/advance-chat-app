@@ -69,9 +69,9 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
     }, [])
 
-    useEffect(() => {
-        if (waveForm) handleStartRecording()
-    }, [waveForm])
+    // useEffect(() => {
+    //     if (waveForm) handleStartRecording()
+    // }, [waveForm])
 
     useEffect(() => {
 
@@ -107,46 +107,50 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
     const handleStartRecording = () => {
 
-        setRecordingDuration(0)
-        setCurrentPlaybacktime(0)
-        setTotalDuration(0)
-        setIsRecording(true)
+        if (waveForm) {
 
-        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream: any) => {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream: any) => {
 
-            const mediaRecorder = new MediaRecorder(stream)
-            mediaRecordedRef.current = mediaRecorder
-            audioRef.current.srcObject = stream
+                setRecordingDuration(0)
+                setCurrentPlaybacktime(0)
+                setTotalDuration(0)
+                setIsRecording(true)
 
-            const chunks: any = []
+                const mediaRecorder = new MediaRecorder(stream)
+                mediaRecordedRef.current = mediaRecorder
+                audioRef.current.srcObject = stream
 
-            mediaRecorder.ondataavailable = (e: any) => {
-                chunks.push(e?.data)
-            }
+                const chunks: any = []
 
-            mediaRecorder.onerror = (e) => {
-                console.error('MediaRecorder error:', e);
-            };
+                mediaRecorder.ondataavailable = (e: any) => {
+                    chunks.push(e?.data)
+                }
 
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
-                const audioUrl = URL.createObjectURL(blob)
-                const audio = new Audio(audioUrl)
-                setRecordedAudio(audio)
-                waveForm.load(audioUrl)
-            }
+                mediaRecorder.onerror = (e) => {
+                    console.error('MediaRecorder error:', e);
+                };
 
-            mediaRecorder.start()
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+                    const audioUrl = URL.createObjectURL(blob)
+                    const audio = new Audio(audioUrl)
+                    setRecordedAudio(audio)
+                    waveForm.load(audioUrl)
+                }
 
-        }).catch((error) => {
-            console.error(error)
-        })
+                mediaRecorder.start()
+
+            }).catch((error) => {
+                console.error(error)
+            })
+
+        }
 
     }
 
     const handleStopRecording = () => {
 
-        if (mediaRecordedRef?.current && isRecording) {
+        if (mediaRecordedRef.current && isRecording) {
 
             mediaRecordedRef?.current?.stop()
             setIsRecording(false)
