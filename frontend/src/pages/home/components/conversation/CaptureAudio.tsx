@@ -69,10 +69,6 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
     }, [])
 
-    // useEffect(() => {
-    //     if (waveForm) handleStartRecording()
-    // }, [waveForm])
-
     useEffect(() => {
 
         if (recordedAudio) {
@@ -179,43 +175,68 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
     return (
         <>
             <div className="audioRecorder">
-                <IconButton onClick={() => setShowAudioRecorder(false)}><FaTrash /></IconButton>
-                {
-                    isRecording ?
-                        <p className="recording">Recording...<span>{recordingDuration}</span></p>
-                        :
+                <IconButton onClick={() => {
+                    handleStopRecording()
+                    setRenderedAudio(null)
+                    setRecordedAudio(null)
+                    setWaveForm(null)
+                    setIsPlaying(false)
+                    setCurrentPlaybacktime(0)
+                    setTotalDuration(0)
+                    setShowAudioRecorder(false)
+                }}><FaTrash /></IconButton>
+                <>
+                    <div className="recording-audio">
                         <>
-                            {
-                                recordedAudio &&
+                            <div className="record-cont">
+                                {
+                                    !isRecording && !recordedAudio && !isPlaying && <span className="audio-time-format start-recording" onClick={handleStartRecording}>Start recording</span>
+                                }
+                                {
+                                    isRecording ?
+                                        <p className="recording">Recording...<span>{formatTime(recordingDuration)}</span></p>
+                                        :
+                                        <>
+                                            {
+                                                recordedAudio &&
+                                                <>
+                                                    {
+                                                        isPlaying ?
+                                                            <IconButton><FaPause onClick={handlePauseRecording} /></IconButton>
+                                                            :
+                                                            <IconButton><FaPlay onClick={handlePlayRecording} /></IconButton>
+                                                    }
+                                                </>
+                                            }
+                                        </>
+                                }
                                 <>
+                                    <div className="recordedWaves" ref={waveFormRef} hidden={isRecording}>
+                                        <audio ref={audioRef} hidden></audio>
+                                    </div>
+                                    <div>
+                                        {
+                                            isRecording ?
+                                                <IconButton onClick={handleStopRecording}><FaStop /></IconButton>
+                                                :
+                                                null
+                                        }
+                                    </div>
+                                    {recordedAudio && isPlaying && !isRecording && <span className="audio-time-format">{formatTime(currentPlaybacktime)}</span>}
                                     {
-                                        isPlaying ?
-                                            <IconButton><FaPause onClick={handlePauseRecording} /></IconButton>
-                                            :
-                                            <IconButton><FaPlay onClick={handlePlayRecording} /></IconButton>
+                                        recordedAudio && !isPlaying && !isRecording && <span className="audio-time-format">{formatTime(totalDuration)}</span>
                                     }
                                 </>
+                            </div>
+                            {
+                                !isRecording ? <IconButton onClick={handleStartRecording} sx={{ marginRight: "0.5em" }}><FaMicrophone /></IconButton>
+                                    :
+                                    null
                             }
                         </>
-                }
-                <>
-                    <div className="recordedWaves" hidden={isRecording} ref={waveFormRef}>
-                        {recordedAudio && isPlaying && <span>{formatTime(currentPlaybacktime)}</span>}
-                        {
-                            recordedAudio && !isPlaying && <span>{formatTime(totalDuration)}</span>
-                        }
-                        <audio ref={audioRef} hidden></audio>
-                    </div>
-                    <div>
-                        {
-                            isRecording ?
-                                <IconButton onClick={handleStopRecording}><FaStop /></IconButton>
-                                :
-                                <IconButton onClick={handleStartRecording}><FaMicrophone /></IconButton>
-                        }
+                        <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
                     </div>
                 </>
-                <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
             </div>
         </>
     )

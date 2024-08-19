@@ -366,7 +366,7 @@ $icon-ack: #53bdeb;
     width: 100%;
     padding: 0.5em 1em;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: 0.5em;
     background-color: $input-background;
@@ -376,21 +376,57 @@ $icon-ack: #53bdeb;
         color: $panel-header-icon;
     }
 
-    .recording {
-        font-size: 0.8em;
-        color: rgb(229, 71, 71);
-        font-weight: bold;
-    }
+    .recording-audio {
 
-    .recordedWaves {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
 
-        width: 100px;
-        height: 30px;
-        background-color: green;
-        cursor: pointer;
+        .record-cont {
 
-        div {
-            margin-top: -1em;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-right: 1em;
+            gap: 0.2em;
+            padding: 0.2em;
+            background-color: $photopicker-overlay-background;
+            width: 100%;
+            border-radius: 100px;
+
+            span.start-recording {
+                width: 100%;
+                text-align: left;
+                padding-left: 1em;
+                cursor: pointer;
+            }
+
+            .recording {
+                font-size: 0.8em;
+                color: rgb(229, 71, 71);
+                font-weight: bold;
+                padding-left: 1em;
+                margin-right: auto;
+            }
+
+            .recordedWaves {
+
+                background-color: $photopicker-overlay-background;
+                cursor: pointer;
+                width: 100%;
+                margin-right: 0.5em;
+                opacity: 20%;
+
+            }
+
+            .audio-time-format {
+                color: $panel-header-icon;
+                font-size: 0.8em;
+                width: 40px;
+                padding-right: 1em;
+            }
+
         }
 
     }
