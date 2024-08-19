@@ -3,6 +3,7 @@ import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
 import { cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
+import { chatModel } from "../models/chatModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
 
@@ -82,17 +83,33 @@ export const createMessageController = async (req, res, next) => {
 
         }
 
+        var contentUrl = ""
+
         if (messageType !== 'text') {
 
             const fileResp = await uploadOnCloudinary(req?.files[0], cloudinaryChatFilesFolder)
 
-            const contentUrl = fileResp?.url
+            contentUrl = fileResp?.url
 
         } else {
-            const contentUrl = null
+            contentUrl = null
         }
 
+        const cerateMessageResp = await chatModel?.create({
+            from_id: from_id,
+            to_id: to_id,
+            text: text ? text : null,
+            readBy: readBy,
+            status: status,
+            deletedFrom: deletedFrom,
+            isUnsend: isUnsend,
+            messageType: messageType,
+            contentUrl: contentUrl ? contentUrl : null
+        })
 
+        res.send({
+            message: errorMessages?.messageSend
+        })
 
     } catch (error) {
         console.error(error)
@@ -103,4 +120,3 @@ export const createMessageController = async (req, res, next) => {
     }
 
 }
-

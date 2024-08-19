@@ -19,4 +19,5 @@ export const errorMessages = {
     emptyMessageError: "message can't be empty",
     imageMessageSizeError: "image size must be less than 5mb",
     videoMessageSizeError: "video size must be less than 25mb",
+    messageSend: 'message sent successfully'
 }
