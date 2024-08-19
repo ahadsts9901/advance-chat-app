@@ -1,7 +1,8 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { imageMessageSize, videoMessageSize } from "../core.mjs"
+import { cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize } from "../core.mjs"
+import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
 
@@ -81,7 +82,17 @@ export const createMessageController = async (req, res, next) => {
 
         }
 
-        
+        if (messageType !== 'text') {
+
+            const fileResp = await uploadOnCloudinary(req?.files[0], cloudinaryChatFilesFolder)
+
+            const contentUrl = fileResp?.url
+
+        } else {
+            const contentUrl = null
+        }
+
+
 
     } catch (error) {
         console.error(error)
