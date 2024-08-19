@@ -34,13 +34,14 @@ let chatSchema = new Schema({
                 type: Schema.Types.ObjectId,
                 required: true
             }
-        ]
+        ],
     },
 
     status: {
         type: String,
         enum: ['sent', 'delievered', 'seen', 'unsend'],
         required: true,
+        default: "sent"
     },
 
     messageType: {
@@ -54,7 +55,8 @@ let chatSchema = new Schema({
             {
                 type: Schema.Types.ObjectId,
             }
-        ]
+        ],
+        default: []
     },
 
     isUnsend: {
