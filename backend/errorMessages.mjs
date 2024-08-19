@@ -13,5 +13,8 @@ export const errorMessages = {
     noAccessToken: "access token is required",
     noFileProvided: "file not provided",
     largeImage: "image too large please select under 2mb",
-    onlyImagesAllowed: "only images are allowed"
+    onlyImagesAllowed: "only images are allowed",
+    idIsMissing: "id is required",
+    invalidId: "id is invalid",
+    emptyMessageError: "message can't be empty",
 }

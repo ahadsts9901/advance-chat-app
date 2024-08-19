@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
 
@@ -31,7 +32,35 @@ export const createMessageController = async (req, res, next) => {
 
         const messageType = getMessageType(req?.files)
 
-        
+        if (!from_id || !isValidObjectId(from_id)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        if (!to_id) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing
+            })
+        }
+
+        if (!isValidObjectId(to_id)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId
+            })
+        }
+
+        if (!req?.files && !text && text?.trim() === "") {
+            return res.status(400).send({
+                message: errorMessages?.emptyMessageError
+            })
+        }
+
+        if (!messageType || messageType?.trim() === "") {
+            return res.status(400).send({
+                message: errorMessages?.serverError
+            })
+        }
 
     } catch (error) {
         console.error(error)
