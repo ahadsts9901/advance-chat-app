@@ -22,7 +22,7 @@ let chatSchema = new Schema({
         default: Date.now
     },
 
-    content: {
+    contentUrl: {
         type: String,
         default: null,
         maxlength: 1000,
