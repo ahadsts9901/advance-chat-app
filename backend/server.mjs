@@ -15,7 +15,7 @@ const app = express()
 app.use(cors({ origin: "http://localhost:5173", credentials: true }))
 app.use(json())
 app.use(cookieParser())
-app.use(morgan())
+app.use(morgan("dev"))
 
 app.use("/api/v1", authRoutes, authenticationMiddleware, profileRoutes, chatRoutes)
 
