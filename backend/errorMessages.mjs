@@ -17,4 +17,6 @@ export const errorMessages = {
     idIsMissing: "id is required",
     invalidId: "id is invalid",
     emptyMessageError: "message can't be empty",
+    imageMessageSizeError: "image size must be less than 5mb",
+    videoMessageSizeError: "video size must be less than 25mb",
 }

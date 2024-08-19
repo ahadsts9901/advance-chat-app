@@ -1,6 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
+import { imageMessageSize, videoMessageSize } from "../core.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
 
@@ -61,6 +62,26 @@ export const createMessageController = async (req, res, next) => {
                 message: errorMessages?.serverError
             })
         }
+
+        if (messageType !== 'text') {
+
+            const file = req?.files[0]
+
+            if (messageType === 'image' && file?.size > imageMessageSize) {
+                return res.status(400).send({
+                    message: errorMessages?.imageMessageSizeError
+                })
+            }
+
+            if (messageType === 'video' && file?.size > videoMessageSize) {
+                return res.status(400).send({
+                    message: errorMessages?.videoMessageSizeError
+                })
+            }
+
+        }
+
+        
 
     } catch (error) {
         console.error(error)

@@ -6,6 +6,8 @@ export const defaultProfilePicture = "https://res.cloudinary.com/do6sd9nyx/image
 
 export const sessionInDays = 15;
 export const _1mbSize = 10000000 // 1_mb
+export const imageMessageSize = _1mbSize * 5
+export const videoMessageSize = _1mbSize * 25
 
 export const welcomeEmailSubject = "Welcome to STS Chat"
 export const emailVerificationSubject = "Email verification OTP"
