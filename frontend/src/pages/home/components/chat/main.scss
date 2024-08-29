@@ -113,6 +113,7 @@ $icon-ack: #53bdeb;
     justify-content: flex-start;
     align-items: flex-start;
     overflow-y: auto;
+    background-color: $search-input-container-background;
 
     &::-webkit-scrollbar {
         width: 10px;

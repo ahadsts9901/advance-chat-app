@@ -17,8 +17,6 @@ const DropMenu = () => {
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    console.log(setAlertdata, setIsLoading, navigate)
-
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 

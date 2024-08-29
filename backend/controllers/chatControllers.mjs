@@ -4,12 +4,111 @@ import { getMessageType } from "../functions.mjs"
 import { cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
+import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
 
+    // {
+    //     profilePhoto: "",
+    //     lastMessage: "Hello man",
+    //     status: "read",
+    //     messageType: "text",
+    //     userName: "Thomas Edison",
+    //     time: "August 12, 2024, 04:50 PM",
+    //     _id: "66b9da4e5580a4580fd65c22",
+    //     isRecieved: false
+    // },
+
     try {
 
+        const pipeline = [
+            {
+                $lookup: {
+                    from: "chats",
+                    let: { userId: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $or: [
+                                        { $eq: ["$from_id", "$$userId"] },
+                                        { $eq: ["$to_id", "$$userId"] }
+                                    ]
+                                },
+                                isUnsend: false,
+                                deletedFrom: { $ne: "$$userId" }
+                            }
+                        },
+                        { $sort: { createdOn: -1 } },
+                        { $limit: 1 }
+                    ],
+                    as: "lastMessage"
+                }
+            },
+            {
+                $unwind: {
+                    path: "$lastMessage",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $addFields: {
+                    profilePhoto: "$profilePhoto",
+                    lastMessage: "$lastMessage.text",
+                    status: {
+                        $cond: {
+                            if: {
+                                $in: [
+                                    {
+                                        $cond: {
+                                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
+                                            then: "$lastMessage.to_id",
+                                            else: "$lastMessage.from_id"
+                                        }
+                                    },
+                                    { $ifNull: ["$lastMessage.readBy", []] }
+                                ]
+                            },
+                            then: "read",
+                            else: "sent"
+                        }
+                    },
+                    messageType: "$lastMessage.messageType",
+                    userName: "$userName",
+                    time: {
+                        $dateToString: {
+                            format: "%Y-%m-%d %H:%M:%S",
+                            date: "$lastMessage.createdOn"
+                        }
+                    },
+                    isRecieved: {
+                        $cond: {
+                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
+                            then: false,
+                            else: true
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    profilePhoto: 1,
+                    lastMessage: 1,
+                    status: 1,
+                    messageType: 1,
+                    userName: 1,
+                    time: 1,
+                    isRecieved: 1
+                }
+            }
+        ];
 
+        const users = await userModel.aggregate(pipeline);
+
+        res.send({
+            message: errorMessages?.contactsFetched,
+            data: users
+        })
 
     } catch (error) {
         console.error(error)

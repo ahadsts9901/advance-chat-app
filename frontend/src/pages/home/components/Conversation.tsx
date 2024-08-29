@@ -26,7 +26,6 @@ const Conversation = ({ userId }: any) => {
             setIsLoading(true)
 
             const resp = await axios.get(`${baseUrl}/api/v1/profile/${userId}`, { withCredentials: true })
-            console.log(resp?.data?.data)
             setUser(resp?.data?.data)
             setIsLoading(false)
 

@@ -5,10 +5,7 @@ import MessageBubble from "./MessageBubble"
 
 const ConversationBody = ({ user }: any) => {
 
-    console.log(user)
-
     const [messages, setMessages] = useState<any[]>([])
-
 
     useEffect(() => {
         setMessages(dummyMessages)

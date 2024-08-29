@@ -84,6 +84,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   overflow-y: auto;
+  background-color: #111b21;
 }
 .contactsContainer::-webkit-scrollbar {
   width: 10px;
