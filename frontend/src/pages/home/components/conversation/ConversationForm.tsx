@@ -9,7 +9,6 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { RxCross2 } from "react-icons/rx";
 import { formatFileSize } from "../../../../utils/functions";
 import CaptureAudio from "./CaptureAudio";
-import { useParams } from "react-router-dom";
 import { imageMessageSize, videoMessageSize } from "../../../../core";
 import { errorMessages } from "../../../../errorMessages";
 
@@ -37,7 +36,6 @@ const ConversationForm = ({ user }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const fileInputRef: any = useRef(null)
-    const params = useParams()
 
     const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
@@ -48,12 +46,11 @@ const ConversationForm = ({ user }: any) => {
     useEffect(() => {
 
         const handleClickOutside = (event: MouseEvent) => {
-            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
-                setShowEmojiPicker(false);
-            }
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) setShowEmojiPicker(false)
         };
 
         document.addEventListener("mousedown", handleClickOutside);
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -75,6 +72,8 @@ const ConversationForm = ({ user }: any) => {
         if (file?.type?.startsWith("video") && file?.size > videoMessageSize) {
             return setFileSizeValidation(errorMessages?.videoMessageSizeError)
         }
+
+        
 
         console.log("chatInput", chatInput)
         console.log("user", user)
