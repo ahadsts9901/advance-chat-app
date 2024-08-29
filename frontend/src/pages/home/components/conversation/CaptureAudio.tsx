@@ -10,7 +10,7 @@ import { IoMdSend } from "react-icons/io";
 import WaveSurfer from "wavesurfer.js"
 import { formatTime } from "../../../../utils/functions";
 
-const CaptureAudio = ({ setShowAudioRecorder }: any) => {
+const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage }: any) => {
 
     const audioRef: any = useRef(null)
     const mediaRecordedRef: any = useRef(null)
@@ -170,7 +170,10 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
 
     }
 
-    const sendRecording = async () => { }
+    const sendRecording = () => {
+        setFile(renderedAudio)
+        sendMessage()
+    }
 
     return (
         <>
@@ -229,12 +232,20 @@ const CaptureAudio = ({ setShowAudioRecorder }: any) => {
                                 </>
                             </div>
                             {
-                                !isRecording ? <IconButton onClick={handleStartRecording} sx={{ marginRight: "0.5em" }}><FaMicrophone /></IconButton>
+                                !isRecording ? <IconButton onClick={handleStartRecording}
+                                    sx={{
+                                        marginLeft: (!isRecording && !recordedAudio && !isPlaying) ? "0.5em" : recordedAudio ? "0.2em" : "0em",
+                                        marginRight: recordedAudio ? "0.2em" : "0em",
+                                    }}
+                                ><FaMicrophone /></IconButton>
                                     :
                                     null
                             }
                         </>
-                        <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
+                        {
+                            recordedAudio &&
+                            <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
+                        }
                     </div>
                 </>
             </div>

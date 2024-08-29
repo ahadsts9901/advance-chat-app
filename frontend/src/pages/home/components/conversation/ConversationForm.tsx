@@ -54,8 +54,12 @@ const ConversationForm = ({ user }: any) => {
     const handleEmojiClick = (emojiData: EmojiClickData) => setChatInput((prevInput) => prevInput + emojiData.emoji);
 
     const sendMessage = async (e: any) => {
+
         e?.preventDefault()
-        console.log(chatInput, user)
+
+        console.log("chatInput", chatInput)
+        console.log("user", user)
+        console.log("file", file)
     }
 
     return (
@@ -64,7 +68,7 @@ const ConversationForm = ({ user }: any) => {
             {
                 showAudioRecorder ?
                     <>
-                        {showAudioRecorder && <CaptureAudio setShowAudioRecorder={setShowAudioRecorder} />}
+                        {showAudioRecorder && <CaptureAudio sendMessage={sendMessage} setFile={setFile} setShowAudioRecorder={setShowAudioRecorder} />}
                     </>
                     :
                     <>
