@@ -109,6 +109,13 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                             then: true,
                             else: false
                         }
+                    },
+                    contactId: {
+                        $cond: {
+                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
+                            then: "$lastMessage.to_id",
+                            else: "$lastMessage.from_id"
+                        }
                     }
                 }
             },
@@ -123,16 +130,17 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                     messageType: 1,
                     userName: 1,
                     time: 1,
-                    isRecieved: 1
+                    isRecieved: 1,
+                    contactId: 1 // Include the contact ID of the opposite user
                 }
             }
         ];
 
-        const users = await userModel.aggregate(pipeline);
+        const allUsers = await userModel.aggregate(pipeline);
 
         res.send({
             message: errorMessages?.contactsFetched,
-            data: users
+            data: allUsers
         })
 
     } catch (error) {
