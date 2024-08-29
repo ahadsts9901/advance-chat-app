@@ -25,8 +25,6 @@ const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage, isLoading }:
     const [currentPlaybacktime, setCurrentPlaybacktime] = useState<number>(0)
     const [totalDuration, setTotalDuration] = useState<number>(0)
 
-    const [renderedAudio, setRenderedAudio] = useState<any>(null)
-
     useEffect(() => {
 
         let interval: any
@@ -162,7 +160,7 @@ const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage, isLoading }:
 
                 const audioBlob = new Blob(audioChunks, { type: "audio/mp3" })
                 const audioFile = new File([audioBlob], "recording.mp3")
-                setRenderedAudio(audioFile)
+                setFile(audioFile)
 
             })
 
@@ -170,23 +168,20 @@ const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage, isLoading }:
 
     }
 
-    const sendRecording = () => {
-        setFile(renderedAudio)
-        sendMessage()
-    }
+    const sendRecording = () => sendMessage()
 
     return (
         <>
             <div className="audioRecorder">
                 <IconButton onClick={() => {
                     handleStopRecording()
-                    setRenderedAudio(null)
                     setRecordedAudio(null)
                     setWaveForm(null)
                     setIsPlaying(false)
                     setCurrentPlaybacktime(0)
                     setTotalDuration(0)
                     setShowAudioRecorder(false)
+                    setFile(null)
                 }}><FaTrash /></IconButton>
                 <>
                     <div className="recording-audio">
