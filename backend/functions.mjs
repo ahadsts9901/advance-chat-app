@@ -9,6 +9,6 @@ export const getMessageType = (files) => {
     if (!file) return "text"
     if (file?.mimetype?.startsWith("image")) return "image"
     if (file?.mimetype?.startsWith("video")) return "video"
-    if (file?.mimetype?.startsWith("audio")) return "audio"
+    if (file?.originalname?.endsWith(".mp3")) return "audio"
 
 }

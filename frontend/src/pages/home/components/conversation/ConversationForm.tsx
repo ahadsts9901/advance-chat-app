@@ -9,8 +9,9 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { RxCross2 } from "react-icons/rx";
 import { formatFileSize } from "../../../../utils/functions";
 import CaptureAudio from "./CaptureAudio";
-import { imageMessageSize, videoMessageSize } from "../../../../core";
+import { baseUrl, imageMessageSize, videoMessageSize } from "../../../../core";
 import { errorMessages } from "../../../../errorMessages";
+import axios from "axios";
 
 const SelectedFile = ({ file, setFile, fileSizeValidation, fileInputRef }: any) => {
 
@@ -42,6 +43,7 @@ const ConversationForm = ({ user }: any) => {
     const [file, setFile] = useState<any>(null)
     const [showAudioRecorder, setShowAudioRecorder] = useState<boolean>(false)
     const [fileSizeValidation, setFileSizeValidation] = useState<null | string>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -73,7 +75,34 @@ const ConversationForm = ({ user }: any) => {
             return setFileSizeValidation(errorMessages?.videoMessageSizeError)
         }
 
-        
+        try {
+
+            setIsLoading(true)
+            setFileSizeValidation(null)
+
+            const formData = new FormData()
+
+            if (chatInput) formData?.append('text', chatInput)
+            if (file) formData?.append('file', file)
+
+            const resp = await axios.post(`${baseUrl}/api/v1/chats/${user?._id}`, formData, {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+
+            setIsLoading(false)
+            setFileSizeValidation(null)
+            setChatInput("")
+            setFile(null)
+            setShowAudioRecorder(false)
+            if (fileInputRef?.current) fileInputRef.current.value = ""
+            console.log(resp)
+
+        } catch (error: any) {
+            console.error(error)
+            setIsLoading(false)
+            setFileSizeValidation(error?.response?.data?.message)
+        }
 
         console.log("chatInput", chatInput)
         console.log("user", user)
@@ -87,7 +116,7 @@ const ConversationForm = ({ user }: any) => {
             {
                 showAudioRecorder ?
                     <>
-                        {showAudioRecorder && <CaptureAudio sendMessage={sendMessage} setFile={setFile} setShowAudioRecorder={setShowAudioRecorder} />}
+                        {showAudioRecorder && <CaptureAudio isLoading={isLoading} sendMessage={sendMessage} setFile={setFile} setShowAudioRecorder={setShowAudioRecorder} />}
                     </>
                     :
                     <>
@@ -106,7 +135,7 @@ const ConversationForm = ({ user }: any) => {
                             <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
                             {
                                 (chatInput || file) ?
-                                    <IconButton onClick={sendMessage}><IoSendSharp /></IconButton>
+                                    <IconButton onClick={sendMessage} disabled={isLoading}><IoSendSharp /></IconButton>
                                     :
                                     <IconButton onClick={() => setShowAudioRecorder(true)}><FaMicrophone /></IconButton>
                             }

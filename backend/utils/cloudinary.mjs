@@ -22,7 +22,7 @@ export const uploadOnCloudinary = (file, folder) => {
                 folder: folder
             })
 
-            fs.unlink(localFilePath, (unlinkError) => {
+            fs.unlink(file?.path, (unlinkError) => {
                 if (unlinkError) {
                     console.error("error removing local file:", unlinkError);
                 }
@@ -31,7 +31,7 @@ export const uploadOnCloudinary = (file, folder) => {
             resolve(response);
 
         } catch (error) {
-            fs.unlinkSync(localFilePath)
+            fs.unlinkSync(file?.path)
             reject(error)
         }
 

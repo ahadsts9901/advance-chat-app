@@ -10,7 +10,7 @@ import { IoMdSend } from "react-icons/io";
 import WaveSurfer from "wavesurfer.js"
 import { formatTime } from "../../../../utils/functions";
 
-const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage }: any) => {
+const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage, isLoading }: any) => {
 
     const audioRef: any = useRef(null)
     const mediaRecordedRef: any = useRef(null)
@@ -244,7 +244,7 @@ const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage }: any) => {
                         </>
                         {
                             recordedAudio &&
-                            <IconButton onClick={sendRecording}><IoMdSend /></IconButton>
+                            <IconButton disabled={isLoading} onClick={sendRecording}><IoMdSend /></IconButton>
                         }
                     </div>
                 </>
