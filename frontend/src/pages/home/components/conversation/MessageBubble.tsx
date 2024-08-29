@@ -2,7 +2,8 @@ import { useSelector } from "react-redux"
 import { Status } from "../chat/SingleContact"
 import { timeAgo } from "../../../../utils/functions"
 
-const Media = ({ messageType, content }: any) => {
+export const Media = ({ messageType, content }: any) => {
+
     return (
         <>
             {messageType === "image" && <img src={content} alt="photo-message" className="photo-message" />}
@@ -13,11 +14,12 @@ const Media = ({ messageType, content }: any) => {
 }
 
 export const RightChat = ({ data }: any) => {
+
     return (
         <>
             <div className="rightChatBubble">
                 {
-                    data?.messageType !== "text" && <Media messageType={data?.messageType} content={data?.content} />
+                    data?.messageType !== "text" && <Media messageType={data?.messageType} content={data?.contentUrl} />
                 }
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
@@ -45,7 +47,7 @@ export const LeftChat = ({ data }: any) => {
         <>
             <div className="leftChatBubble">
                 {
-                    data?.messageType !== "text" && <Media messageType={data?.messageType} content={data?.content} />
+                    data?.messageType !== "text" && <Media messageType={data?.messageType} content={data?.contentUrl} />
                 }
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null

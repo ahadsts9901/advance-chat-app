@@ -96,17 +96,12 @@ const ConversationForm = ({ user }: any) => {
             setFile(null)
             setShowAudioRecorder(false)
             if (fileInputRef?.current) fileInputRef.current.value = ""
-            console.log(resp)
 
         } catch (error: any) {
             console.error(error)
             setIsLoading(false)
             setFileSizeValidation(error?.response?.data?.message)
         }
-
-        console.log("chatInput", chatInput)
-        console.log("user", user)
-        console.log("file", file)
 
     }
 

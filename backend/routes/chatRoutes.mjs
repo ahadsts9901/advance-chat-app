@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMessageController, getAllContactsWithChatsController } from "../controllers/chatControllers.mjs";
+import { createMessageController, getAllContactsWithChatsController, getMessagesController } from "../controllers/chatControllers.mjs";
 import { upload } from "../utils/multer.mjs"
 
 const router = Router()
@@ -7,5 +7,7 @@ const router = Router()
 router.get("/contacts", getAllContactsWithChatsController)
 
 router.post("/chats/:to_id", upload?.any(), createMessageController)
+
+router.get("/chats/:to_id", getMessagesController)
 
 export default router

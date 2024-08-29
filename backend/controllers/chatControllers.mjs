@@ -188,7 +188,7 @@ export const createMessageController = async (req, res, next) => {
 
             const fileResp = await uploadOnCloudinary(req?.files[0], cloudinaryChatFilesFolder)
 
-            contentUrl = fileResp?.url
+            contentUrl = fileResp?.secure_url
 
         } else {
             contentUrl = null
@@ -208,6 +208,56 @@ export const createMessageController = async (req, res, next) => {
 
         res.send({
             message: errorMessages?.messageSend
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
+
+export const getMessagesController = async (req, res, next) => {
+
+    try {
+
+        const from_id = req?.currentUser?._id
+        const to_id = req?.params?.to_id
+
+        if (!from_id || !isValidObjectId(from_id)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        if (!to_id) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing
+            })
+        }
+
+        if (!isValidObjectId(to_id)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId
+            })
+        }
+
+        const query = {
+            $or: [
+                { from_id, to_id },
+                { from_id: to_id, to_id: from_id }
+            ],
+            deletedFrom: { $ne: from_id }
+        }
+
+        const messages = await chatModel.find(query).sort({ _id: -1 }).exec()
+
+        res.send({
+            message: errorMessages?.messagesFetched,
+            data: messages
         })
 
     } catch (error) {

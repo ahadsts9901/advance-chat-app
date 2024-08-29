@@ -1,15 +1,30 @@
 import "./main.css"
 import { useEffect, useState } from "react"
-import { dummyMessages } from "../../../../dummy-data"
+// import { dummyMessages } from "../../../../dummy-data"
 import MessageBubble from "./MessageBubble"
+import axios from "axios"
+import { baseUrl } from "../../../../core"
 
 const ConversationBody = ({ user }: any) => {
 
     const [messages, setMessages] = useState<any[]>([])
 
     useEffect(() => {
-        setMessages(dummyMessages)
+        getMessages()
     }, [])
+
+    const getMessages = async () => {
+
+        try {
+
+            const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
+            setMessages(resp?.data?.data)
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
 
     return (
         <>
