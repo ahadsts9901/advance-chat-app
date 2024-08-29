@@ -302,6 +302,10 @@
   text-align: left;
   overflow: hidden;
 }
+.fileCont div h6 {
+  font-size: 0.4em;
+  color: rgb(229, 71, 71);
+}
 .fileCont svg {
   font-size: 0.8em;
   color: #aebac1;

@@ -9,16 +9,23 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { RxCross2 } from "react-icons/rx";
 import { formatFileSize } from "../../../../utils/functions";
 import CaptureAudio from "./CaptureAudio";
+import { useParams } from "react-router-dom";
+import { imageMessageSize, videoMessageSize } from "../../../../core";
+import { errorMessages } from "../../../../errorMessages";
 
-const SelectedFile = ({ file, setFile }: any) => {
+const SelectedFile = ({ file, setFile, fileSizeValidation, fileInputRef }: any) => {
 
     return (
         <>
             <div className="fileCont">
-                <IconButton onClick={() => setFile(null)}><RxCross2 /></IconButton>
+                <IconButton onClick={() => {
+                    setFile(null)
+                    if (fileInputRef?.current) fileInputRef.current.value = ''
+                }}><RxCross2 /></IconButton>
                 <div>
                     <p>{file?.name?.length > 30 ? `${file?.name?.substr(0, 30)}...` : file?.name}</p>
                     <h5>{formatFileSize(file?.size)}</h5>
+                    <h6>{fileSizeValidation}</h6>
                 </div>
             </div>
         </>
@@ -30,11 +37,13 @@ const ConversationForm = ({ user }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const fileInputRef: any = useRef(null)
+    const params = useParams()
 
     const [chatInput, setChatInput] = useState<string>("")
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
     const [file, setFile] = useState<any>(null)
     const [showAudioRecorder, setShowAudioRecorder] = useState<boolean>(false)
+    const [fileSizeValidation, setFileSizeValidation] = useState<null | string>(null)
 
     useEffect(() => {
 
@@ -57,14 +66,25 @@ const ConversationForm = ({ user }: any) => {
 
         e?.preventDefault()
 
+        if (!file && !chatInput && chatInput?.trim() === "") return
+
+        if (file?.type?.startsWith("image") && file?.size > imageMessageSize) {
+            return setFileSizeValidation(errorMessages?.imageMessageSizeError)
+        }
+
+        if (file?.type?.startsWith("video") && file?.size > videoMessageSize) {
+            return setFileSizeValidation(errorMessages?.videoMessageSizeError)
+        }
+
         console.log("chatInput", chatInput)
         console.log("user", user)
         console.log("file", file)
+
     }
 
     return (
         <>
-            {file && <SelectedFile file={file} setFile={setFile} />}
+            {file && <SelectedFile fileInputRef={fileInputRef} file={file} setFile={setFile} fileSizeValidation={fileSizeValidation} />}
             {
                 showAudioRecorder ?
                     <>
@@ -87,7 +107,7 @@ const ConversationForm = ({ user }: any) => {
                             <input type="text" value={chatInput} placeholder="Type a message" onChange={(e: any) => setChatInput(e?.target?.value)} />
                             {
                                 (chatInput || file) ?
-                                    <IconButton><IoSendSharp /></IconButton>
+                                    <IconButton onClick={sendMessage}><IoSendSharp /></IconButton>
                                     :
                                     <IconButton onClick={() => setShowAudioRecorder(true)}><FaMicrophone /></IconButton>
                             }

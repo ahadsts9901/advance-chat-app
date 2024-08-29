@@ -17,6 +17,7 @@ $incoming-background: #202c33;
 $outgoing-background: #005c4b;
 $bubble-meta: hsla(0, 0%, 100%, 0.6);
 $icon-ack: #53bdeb;
+$red: rgb(229, 71, 71);
 
 @mixin chatBubble($background, $alignSelf) {
     min-width: 6em;
@@ -351,6 +352,11 @@ $icon-ack: #53bdeb;
             overflow: hidden;
         }
 
+        h6{
+            font-size: 0.4em;
+            color: $red;
+        }
+
     }
 
     svg {
@@ -404,7 +410,7 @@ $icon-ack: #53bdeb;
 
             .recording {
                 font-size: 0.8em;
-                color: rgb(229, 71, 71);
+                color: $red;
                 font-weight: bold;
                 padding-left: 1em;
                 margin-right: auto;
