@@ -24,18 +24,7 @@ export const RightChat = ({ data }: any) => {
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
                 }
-                <TimeAndRead status={data?.status} time={data?.time} />
-            </div>
-        </>
-    )
-}
-
-export const TimeAndRead = ({ status, time }: any) => {
-    return (
-        <>
-            <div className="timeAndRead">
-                <p className="time">{timeAgo(time)}</p>
-                <Status status={status} />
+                <TimeAndRead chat="right" status={data?.status} time={data?.time} />
             </div>
         </>
     )
@@ -52,7 +41,18 @@ export const LeftChat = ({ data }: any) => {
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
                 }
-                <TimeAndRead status={data?.status} time={data?.time} />
+                <TimeAndRead chat="left" status={data?.status} time={data?.time} />
+            </div>
+        </>
+    )
+}
+
+export const TimeAndRead = ({ chat, status, time }: any) => {
+    return (
+        <>
+            <div className="timeAndRead">
+                <p className="time">{timeAgo(time)}</p>
+                {chat === "right" && <Status status={status} />}
             </div>
         </>
     )

@@ -21,7 +21,25 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
 
     try {
 
+        const currentUserId = req?.currentUser?._id
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        const userIds = await chatModel.distinct('from_id', { $or: [{ to_id: currentUserId }, { from_id: currentUserId }] });
+        const toUserIds = await chatModel.distinct('to_id', { $or: [{ to_id: currentUserId }, { from_id: currentUserId }] });
+
+        const allUserIds = [...new Set([...userIds, ...toUserIds])]; // Ensure unique user IDs
+
         const pipeline = [
+            {
+                $match: {
+                    _id: { $in: allUserIds }
+                }
+            },
             {
                 $lookup: {
                     from: "chats",
@@ -30,13 +48,17 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                         {
                             $match: {
                                 $expr: {
-                                    $or: [
-                                        { $eq: ["$from_id", "$$userId"] },
-                                        { $eq: ["$to_id", "$$userId"] }
+                                    $and: [
+                                        {
+                                            $or: [
+                                                { $eq: ["$from_id", "$$userId"] },
+                                                { $eq: ["$to_id", "$$userId"] }
+                                            ]
+                                        },
+                                        { $ne: ["$deletedFrom", "$$userId"] },
+                                        { $eq: ["$isUnsend", false] }
                                     ]
-                                },
-                                isUnsend: false,
-                                deletedFrom: { $ne: "$$userId" }
+                                }
                             }
                         },
                         { $sort: { createdOn: -1 } },
@@ -84,11 +106,14 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                     isRecieved: {
                         $cond: {
                             if: { $eq: ["$lastMessage.from_id", "$_id"] },
-                            then: false,
-                            else: true
+                            then: true,
+                            else: false
                         }
                     }
                 }
+            },
+            {
+                $sort: { time: -1 }
             },
             {
                 $project: {
