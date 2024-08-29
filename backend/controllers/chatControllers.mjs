@@ -33,8 +33,6 @@ export const createMessageController = async (req, res, next) => {
         const deletedFrom = []
         const isUnsend = false
 
-        console.log("req?.files", req?.files)
-
         const messageType = getMessageType(req?.files)
 
         if (!from_id || !isValidObjectId(from_id)) {
