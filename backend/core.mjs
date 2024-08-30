@@ -16,3 +16,8 @@ export const emailVerificationSubject = "Email verification OTP"
 export const googleUserApi = "https://www.googleapis.com/oauth2/v3/userinfo"
 
 export const profilePictureUploadFolder = "advance-chat-app/profile-pictures"
+
+export const allowedOrigins = "http://localhost:5173"
+export let globalIoObject = { io: null }
+
+export const chatMessageChannel = "chat-message"

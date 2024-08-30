@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize } from "../core.mjs"
+import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
@@ -257,8 +257,16 @@ export const createMessageController = async (req, res, next) => {
             contentUrl: contentUrl ? contentUrl : null
         })
 
+        if (globalIoObject?.io) {
+
+            console.log(`emitting message to ${to_id}`)
+            globalIoObject?.io?.emit(`${chatMessageChannel}-${to_id}`, cerateMessageResp)
+
+        }
+
         res.send({
-            message: errorMessages?.messageSend
+            message: errorMessages?.messageSend,
+            data: cerateMessageResp
         })
 
     } catch (error) {
