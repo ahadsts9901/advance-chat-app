@@ -363,6 +363,8 @@ export const getNewMessagesCountController = async (req, res, next) => {
 
         const unReadMessages = await chatModel.countDocuments(query).exec()
 
+        console.log("unReadMessages", unReadMessages)
+
         res.send({
             message: errorMessages?.unReadMessagesFetched,
             data: unReadMessages

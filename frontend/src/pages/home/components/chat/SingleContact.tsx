@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../../../utils/functions";
 import { GiPin } from "react-icons/gi";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { baseUrl } from "../../../../core";
 
 export const Status = ({ status }: any) => {
 
@@ -43,6 +46,29 @@ const SingleContact = ({ data, userId }: any) => {
 
     const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state?.user)
+
+    const [unReadMessages, setUnReadMessages] = useState<number>(0)
+
+    useEffect(() => {
+        getUnReadMessages(data._id)
+    }, [])
+
+    const getUnReadMessages = async (opponentId: string) => {
+
+        if (!opponentId || opponentId?.trim() === "") return
+
+        try {
+
+            const resp = await axios.get(`${baseUrl}/api/v1/unread-messages/${opponentId}`, { withCredentials: true })
+
+            console.log(resp?.data?.data)
+            setUnReadMessages(resp?.data?.data)
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
 
     return (
         <>
