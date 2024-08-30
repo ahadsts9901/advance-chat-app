@@ -86,6 +86,45 @@ $red: rgb(229, 71, 71);
 
 }
 
+@mixin audioMessage() {
+
+    width: fit-content;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 4px;
+    padding-bottom: 0;
+    margin-bottom: -6px;
+
+    img {
+        width: 2em;
+        height: 2em;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 100%;
+        background-color: $outgoing-background;
+        cursor: pointer;
+    }
+
+    svg {
+        font-size: 0.7em;
+    }
+
+    .recorderTime {
+        font-size: 0.8em;
+        width: 3em;
+        text-align: right;
+        color: $panel-header-icon;
+    }
+
+    .waves-recorded {
+        width: 100px;
+        height: 30px;
+    }
+
+}
+
 .noUserChatSplash {
     width: calc(100vw - 400px);
     height: 100vh;
@@ -289,6 +328,10 @@ $red: rgb(229, 71, 71);
                 @include timeAndRead()
             }
 
+            .audioMessage {
+                @include audioMessage()
+            }
+
         }
 
         .rightChatBubble {
@@ -309,6 +352,10 @@ $red: rgb(229, 71, 71);
 
             .timeAndRead {
                 @include timeAndRead()
+            }
+
+            .audioMessage {
+                @include audioMessage()
             }
 
         }
@@ -352,7 +399,7 @@ $red: rgb(229, 71, 71);
             overflow: hidden;
         }
 
-        h6{
+        h6 {
             font-size: 0.4em;
             color: $red;
         }

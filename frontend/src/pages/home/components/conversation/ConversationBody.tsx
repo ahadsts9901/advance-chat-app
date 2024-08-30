@@ -32,7 +32,7 @@ const ConversationBody = ({ user }: any) => {
                 <div className="background"></div>
                 <div className="body">
                     {
-                        messages?.map((message: any, i: number) => <MessageBubble key={i} data={message} />)
+                        messages?.map((message: any, i: number) => <MessageBubble key={i} data={message} user={user} />)
                     }
                 </div>
             </div>
