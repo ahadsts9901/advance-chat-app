@@ -61,8 +61,6 @@ const SingleContact = ({ data, userId }: any) => {
         try {
 
             const resp = await axios.get(`${baseUrl}/api/v1/unread-messages/${opponentId}`, { withCredentials: true })
-
-            console.log(resp?.data?.data)
             setUnReadMessages(resp?.data?.data)
 
         } catch (error) {
