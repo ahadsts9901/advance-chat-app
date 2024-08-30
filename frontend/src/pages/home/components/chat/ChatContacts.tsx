@@ -8,12 +8,10 @@ const ChatContacts = ({ userId }: any) => {
 
     const [contacts, setContacts] = useState<any[]>([])
 
-    console.log(contacts)
-
     useEffect(() => {
         getContacts()
     }, [])
-
+    
     const getContacts = async () => {
 
         try {

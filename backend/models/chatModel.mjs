@@ -28,15 +28,6 @@ let chatSchema = new Schema({
         maxlength: 1000,
     },
 
-    readBy: {
-        type: [
-            {
-                type: Schema.Types.ObjectId,
-                required: true
-            }
-        ],
-    },
-
     status: {
         type: String,
         enum: ['sent', 'delievered', 'seen', 'unsend'],

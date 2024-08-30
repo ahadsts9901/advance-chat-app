@@ -10,18 +10,23 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
 
     try {
 
-        const currentUserId = req?.currentUser?._id
+        const currentUserId = req?.currentUser?._id;
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
             return res.status(401).send({
-                message: errorMessages?.unAuthError
-            })
+                message: errorMessages?.unAuthError,
+            });
         }
 
-        const userIds = await chatModel.distinct('from_id', { $or: [{ to_id: currentUserId }, { from_id: currentUserId }] });
-        const toUserIds = await chatModel.distinct('to_id', { $or: [{ to_id: currentUserId }, { from_id: currentUserId }] });
+        const userIds = await chatModel.distinct('from_id', {
+            $or: [{ to_id: currentUserId }, { from_id: currentUserId }]
+        });
 
-        const allUserIds = [...new Set([...userIds, ...toUserIds])]; // Ensure unique user IDs
+        const toUserIds = await chatModel.distinct('to_id', {
+            $or: [{ to_id: currentUserId }, { from_id: currentUserId }]
+        });
+
+        const allUserIds = [...new Set([...userIds, ...toUserIds])];
 
         const pipeline = [
             {
@@ -38,12 +43,7 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                             $match: {
                                 $expr: {
                                     $and: [
-                                        {
-                                            $or: [
-                                                { $eq: ["$from_id", "$$userId"] },
-                                                { $eq: ["$to_id", "$$userId"] }
-                                            ]
-                                        },
+                                        { $or: [{ $eq: ["$from_id", "$$userId"] }, { $eq: ["$to_id", "$$userId"] }] },
                                         { $ne: ["$deletedFrom", "$$userId"] },
                                         { $eq: ["$isUnsend", false] }
                                     ]
@@ -92,7 +92,7 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                             date: "$lastMessage.createdOn"
                         }
                     },
-                    isRecieved: {
+                    isReceived: {
                         $cond: {
                             if: { $eq: ["$lastMessage.from_id", "$_id"] },
                             then: true,
@@ -119,59 +119,58 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                     messageType: 1,
                     userName: 1,
                     time: 1,
-                    isRecieved: 1,
-                    contactId: 1 // Include the contact ID of the opposite user
+                    isReceived: 1,
+                    contactId: 1
                 }
             }
         ];
 
         const allUsers = await userModel.aggregate(pipeline);
 
-        const users = allUsers?.filter((user) => user?.contactId == currentUserId)
+        const users = allUsers?.filter((user) => user?._id != currentUserId);
 
         const myChatQuery = {
             from_id: currentUserId,
             to_id: currentUserId,
             isUnsend: false,
             deletedFrom: { $nin: [currentUserId] },
-        }
+        };
 
-        const myChat = await userModel.find(myChatQuery).sort({ _id: -1 }).limit(1).exec()
-        const currentUser = await userModel.findById(currentUserId)
+        const myChat = await chatModel.find(myChatQuery).sort({ createdOn: -1 }).limit(1).exec();
+        const currentUser = await userModel.findById(currentUserId);
 
         if (!currentUser) {
             return res.status(401).send({
-                message: errorMessages?.unAuthError
-            })
+                message: errorMessages?.unAuthError,
+            });
         }
 
         const myUser = {
+            _id: currentUserId,
+            contactId: currentUserId,
             userName: currentUser?.userName,
             profilePhoto: currentUser?.profilePhoto,
-            lastMessage: myChat[0] ? myChat[0]?.text : "",
-            status: myChat[0] ? myChat[0]?.status : "",
-            messageType: myChat[0] ? myChat[0]?.messageType : "",
-            time: myChat[0] ? myChat[0]?.createdOn : "",
-            _id: myChat[0] ? myChat[0]?._id : "",
-            isRecieved: myChat[0] ? myChat[0]?.isRecieved : "",
-            contactId: currentUserId
-        }
+            lastMessage: myChat[0]?.text || "",
+            status: myChat[0]?.status || "",
+            messageType: myChat[0]?.messageType || "",
+            time: myChat[0]?.createdOn || "",
+            isReceived: false,
+        };
 
-        users?.unshift(myUser)
+        users?.unshift(myUser);
 
-        res.send({
+        return res.send({
             message: errorMessages?.contactsFetched,
             data: users
-        })
+        });
 
     } catch (error) {
-        console.error(error)
-        res.status(500).send({
+        console.error(error);
+        return res.status(500).send({
             message: errorMessages?.serverError,
             error: error?.message
-        })
+        });
     }
-
 }
 
 export const createMessageController = async (req, res, next) => {
@@ -181,8 +180,7 @@ export const createMessageController = async (req, res, next) => {
         const from_id = req?.currentUser?._id
         const to_id = req?.params?.to_id
         const text = req?.body?.text
-        const readBy = [req?.currentUser?._id]
-        const status = 'sent'
+        const status = from_id == to_id ? "seen" : 'sent'
         const deletedFrom = []
         const isUnsend = false
 
@@ -252,7 +250,6 @@ export const createMessageController = async (req, res, next) => {
             from_id: from_id,
             to_id: to_id,
             text: text ? text : null,
-            readBy: readBy,
             status: status,
             deletedFrom: deletedFrom,
             isUnsend: isUnsend,

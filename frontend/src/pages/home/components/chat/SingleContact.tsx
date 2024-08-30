@@ -7,6 +7,8 @@ import { FaVideo } from "react-icons/fa6";
 import { FaMicrophone } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { timeAgo } from "../../../../utils/functions";
+import { GiPin } from "react-icons/gi";
+import { useSelector } from "react-redux";
 
 export const Status = ({ status }: any) => {
 
@@ -15,7 +17,7 @@ export const Status = ({ status }: any) => {
             <div className="readReciepts">
                 {status === "sent" && <DoneIcon className="sent" />}
                 {status === "delievered" && <DoneAllIcon className="delievered" />}
-                {status === "read" && <DoneAllIcon className="read" />}
+                {status === "seen" && <DoneAllIcon className="read" />}
             </div>
         </>
     )
@@ -40,6 +42,7 @@ const MessageType = ({ lastMessage, messageType }: any) => {
 const SingleContact = ({ data, userId }: any) => {
 
     const navigate = useNavigate()
+    const currentUser = useSelector((state: any) => state?.user)
 
     return (
         <>
@@ -56,11 +59,14 @@ const SingleContact = ({ data, userId }: any) => {
                     <div>
                         <h4>{data?.userName}</h4>
                         <div>
-                            {!data?.isRecieved ? <Status status={data?.status} /> : null}
+                            {data?.isReceived ? null : <Status status={data?.status} />}
                             <MessageType lastMessage={data?.lastMessage} messageType={data?.messageType} />
                         </div>
                     </div>
-                    <p className="messageTime">{timeAgo(data?.time)}</p>
+                    <p className="messageTime">
+                        {data?.time ? timeAgo(data?.time) : ""}
+                        {data?._id == currentUser?._id ? <GiPin style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
+                    </p>
                 </div>
             </div>
         </>
