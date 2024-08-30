@@ -29,7 +29,7 @@ const ChatContacts = ({ userId }: any) => {
         <>
             <div className="contactsContainer">
                 {
-                    contacts?.map((contact: any, i: number) => <SingleContact key={i} data={contact} userId={userId} />)
+                    contacts?.map((contact: any, i: number) => <SingleContact key={i} data={contact} userId={userId} getContacts={getContacts} contacts={contacts} />)
                 }
             </div>
         </>

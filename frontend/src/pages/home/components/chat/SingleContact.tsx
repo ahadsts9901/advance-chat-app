@@ -44,7 +44,7 @@ const MessageType = ({ lastMessage, messageType }: any) => {
 
 }
 
-const SingleContact = ({ data, userId }: any) => {
+const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
 
     const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state?.user)
@@ -74,14 +74,18 @@ const SingleContact = ({ data, userId }: any) => {
     const listenSocketChannel = async () => {
 
         const socket = io(baseUrl);
-        
+
         socket.on(`${messageCountChannel}-${data?._id}`, async () => {
-            getUnReadMessages(data?._id)
+            getContacts()
         })
 
         return () => socket.close()
 
     }
+
+    useEffect(() => {
+        getUnReadMessages(data?._id)
+    }, [contacts])
 
     return (
         <>
