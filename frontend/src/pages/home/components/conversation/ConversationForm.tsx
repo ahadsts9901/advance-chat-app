@@ -33,7 +33,7 @@ const SelectedFile = ({ file, setFile, fileSizeValidation, fileInputRef }: any) 
 
 }
 
-const ConversationForm = ({ user }: any) => {
+const ConversationForm = ({ user, setMessages }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const fileInputRef: any = useRef(null)
@@ -90,6 +90,7 @@ const ConversationForm = ({ user }: any) => {
                 headers: { "Content-Type": "multipart/form-data" },
             })
 
+            setMessages((oldMessages: any) => [resp?.data?.data, ...oldMessages])
             setIsLoading(false)
             setFileSizeValidation(null)
             setChatInput("")

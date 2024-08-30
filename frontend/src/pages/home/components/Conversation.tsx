@@ -13,6 +13,7 @@ const Conversation = ({ userId }: any) => {
     const navigate = useNavigate()
 
     const [user, setUser] = useState<any>(null)
+    const [messages, setMessages] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
@@ -44,8 +45,8 @@ const Conversation = ({ userId }: any) => {
                     (!userId || !user || isLoading) ? <ConversationSplash /> :
                         <>
                             <ConversationHeader user={user} />
-                            <ConversationBody user={user} />
-                            <ConversationForm user={user} />
+                            <ConversationBody user={user} messages={messages} setMessages={setMessages} />
+                            <ConversationForm user={user} setMessages={setMessages} />
                         </>
                 }
             </div>

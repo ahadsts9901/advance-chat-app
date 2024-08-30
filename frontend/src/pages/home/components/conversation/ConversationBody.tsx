@@ -1,16 +1,18 @@
 import "./main.css"
-import { useEffect, useState } from "react"
-// import { dummyMessages } from "../../../../dummy-data"
+import { useEffect } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
-import { baseUrl } from "../../../../core"
+import { baseUrl, chatMessageChannel } from "../../../../core"
+import io from 'socket.io-client';
+import { useSelector } from "react-redux"
 
-const ConversationBody = ({ user }: any) => {
+const ConversationBody = ({ user, messages, setMessages }: any) => {
 
-    const [messages, setMessages] = useState<any[]>([])
+    const currentUser = useSelector((state: any) => state?.user)
 
     useEffect(() => {
         getMessages()
+        listenSocketChannel()
     }, [])
 
     const getMessages = async () => {
@@ -25,6 +27,21 @@ const ConversationBody = ({ user }: any) => {
         }
 
     }
+
+    const listenSocketChannel = async () => {
+
+        const socket = io(baseUrl);
+
+        socket.on('connect', () => console.log("socket connected"))
+
+        socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
+
+        socket.on(`${chatMessageChannel}-${currentUser?._id}`, async (e: any) => setMessages((oldMessages: any) => [e, ...oldMessages]))
+
+        return () => socket.close()
+
+    }
+
 
     return (
         <>
