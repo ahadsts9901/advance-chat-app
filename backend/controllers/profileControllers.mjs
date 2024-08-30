@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
-import { _1mbSize, profilePictureUploadFolder, userActiveChannel, userNamePattern } from "../core.mjs"
+import { _1mbSize, profilePictureUploadFolder, userActiveChannel, userNamePattern, globalIoObject } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 
 export const getCurrentUserProfileController = async (req, res, next) => {

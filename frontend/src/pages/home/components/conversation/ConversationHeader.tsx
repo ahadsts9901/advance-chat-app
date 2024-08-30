@@ -5,9 +5,11 @@ import { MdLocalPhone } from "react-icons/md";
 import { IoIosVideocam } from "react-icons/io";
 import { IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import io from "socket.io-client"
+import { baseUrl, userActiveChannel } from "../../../../core";
 
 const DropMenu = () => {
 
@@ -74,7 +76,21 @@ const DropMenu = () => {
 
 }
 
-const ConversationHeader = ({ user }: any) => {
+const ConversationHeader = ({ user, setUser }: any) => {
+
+    useEffect(() => {
+        listenSocketChannel()
+    }, [])
+
+    const listenSocketChannel = async () => {
+
+        const socket = io(baseUrl);
+
+        socket.on(`${userActiveChannel}-${user?._id}`, async (e: any) => setUser({ ...user, ...e }))
+
+        return () => socket.close()
+
+    }
 
     return (
         <>
