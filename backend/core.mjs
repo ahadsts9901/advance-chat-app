@@ -22,3 +22,4 @@ export let globalIoObject = { io: null }
 
 export const chatMessageChannel = "chat-message"
 export const userActiveChannel = "user-active"
+export const messageCountChannel = "message-count"

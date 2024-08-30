@@ -8,3 +8,4 @@ export const cloudinaryChatFilesFolder = "advance-chat-app/chat-files"
 // socket.io channels
 export const chatMessageChannel = "chat-message"
 export const userActiveChannel = "user-active"
+export const messageCountChannel = "message-count"

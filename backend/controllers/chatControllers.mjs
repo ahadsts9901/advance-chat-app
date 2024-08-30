@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject } from "../core.mjs"
+import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
@@ -246,7 +246,7 @@ export const createMessageController = async (req, res, next) => {
             contentUrl = null
         }
 
-        const cerateMessageResp = await chatModel?.create({
+        const createMessageResp = await chatModel?.create({
             from_id: from_id,
             to_id: to_id,
             text: text ? text : null,
@@ -260,7 +260,9 @@ export const createMessageController = async (req, res, next) => {
         if (globalIoObject?.io) {
 
             console.log(`emitting message to ${to_id}`)
-            globalIoObject?.io?.emit(`${chatMessageChannel}-${to_id}`, cerateMessageResp)
+            globalIoObject?.io?.emit(`${chatMessageChannel}-${to_id}`, createMessageResp)
+            console.log(`emitting realtime message count to ${from_id}`)
+            globalIoObject?.io?.emit(`${messageCountChannel}-${from_id}`, createMessageResp)
 
         }
 
