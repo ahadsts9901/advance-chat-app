@@ -134,6 +134,9 @@ export const loginController = async (req, res, next) => {
             })
         }
 
+        user.isActive = true
+        await user.save()
+
         const tokenPayload = {
             _id: user?._id,
             userName: user?.userName,
