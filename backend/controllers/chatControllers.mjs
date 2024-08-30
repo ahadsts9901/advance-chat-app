@@ -8,17 +8,6 @@ import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
 
-    // {
-    //     profilePhoto: "",
-    //     lastMessage: "Hello man",
-    //     status: "read",
-    //     messageType: "text",
-    //     userName: "Thomas Edison",
-    //     time: "August 12, 2024, 04:50 PM",
-    //     _id: "66b9da4e5580a4580fd65c22",
-    //     isRecieved: false
-    // },
-
     try {
 
         const currentUserId = req?.currentUser?._id
@@ -138,9 +127,41 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
 
         const allUsers = await userModel.aggregate(pipeline);
 
+        const users = allUsers?.filter((user) => user?.contactId == currentUserId)
+
+        const myChatQuery = {
+            from_id: currentUserId,
+            to_id: currentUserId,
+            isUnsend: false,
+            deletedFrom: { $nin: [currentUserId] },
+        }
+
+        const myChat = await userModel.find(myChatQuery).sort({ _id: -1 }).limit(1).exec()
+        const currentUser = await userModel.findById(currentUserId)
+
+        if (!currentUser) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        const myUser = {
+            userName: currentUser?.userName,
+            profilePhoto: currentUser?.profilePhoto,
+            lastMessage: myChat[0] ? myChat[0]?.text : "",
+            status: myChat[0] ? myChat[0]?.status : "",
+            messageType: myChat[0] ? myChat[0]?.messageType : "",
+            time: myChat[0] ? myChat[0]?.createdOn : "",
+            _id: myChat[0] ? myChat[0]?._id : "",
+            isRecieved: myChat[0] ? myChat[0]?.isRecieved : "",
+            contactId: currentUserId
+        }
+
+        users?.unshift(myUser)
+
         res.send({
             message: errorMessages?.contactsFetched,
-            data: allUsers
+            data: users
         })
 
     } catch (error) {
