@@ -226,6 +226,25 @@ export const logoutController = async (req, res, next) => {
 
     try {
 
+        const userId = req?.currentUser?._id
+
+        if (!userId || userId?.trim() === "" || !isValidObjectId(userId)) {
+            return res.status(500).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        const user = await userModel.findById(userId).exec()
+
+        if (!user) {
+            return res.status(500).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        user.isActive = false
+        await user.save()
+
         res.clearCookie("hart")
 
         res.send({
