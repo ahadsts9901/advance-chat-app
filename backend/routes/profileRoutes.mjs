@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCurrentUserProfileController, getUserProfileController, logoutController, updateProfilePictureController, updateUserNameController } from "../controllers/profileControllers.mjs"
+import { getCurrentUserProfileController, getUserProfileController, logoutController, updateProfilePictureController, updateUserNameController, userOfflineController } from "../controllers/profileControllers.mjs"
 import { upload } from "../utils/multer.mjs"
 
 const router = Router()
@@ -14,5 +14,6 @@ router.put('/username', updateUserNameController)
 
 router.put('/profile-picture', upload.any(), updateProfilePictureController)
 
+router.put('/user-offline', userOfflineController)
 
 export default router

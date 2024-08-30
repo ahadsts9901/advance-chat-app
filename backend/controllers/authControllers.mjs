@@ -134,9 +134,6 @@ export const loginController = async (req, res, next) => {
             })
         }
 
-        user.isActive = true
-        await user.save()
-
         const tokenPayload = {
             _id: user?._id,
             userName: user?.userName,
@@ -210,6 +207,9 @@ export const googleLoginController = async (req, res, next) => {
             }
 
             req.loginTokenPayload = tokenPayload
+
+            user.isActive = true
+            await user.save()
 
         }
 

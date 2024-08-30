@@ -22,5 +22,6 @@ export const errorMessages = {
     messageSend: 'message sent successfully',
     contactsFetched: "contacts fetched",
     messagesFetched: "messages fetched",
-    unReadMessagesFetched: "unread & new messages fetched"
+    unReadMessagesFetched: "unread & new messages fetched",
+    userOffline: "user offline"
 }

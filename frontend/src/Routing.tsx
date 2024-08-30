@@ -62,6 +62,33 @@ const Routing = () => {
 
     }
 
+    const handleBeforeUnload = async (event: BeforeUnloadEvent) => {
+
+        event.preventDefault()
+
+        try {
+
+            const message = "Are you sure you want to leave? Changes you made may not be saved."
+            const resp = await axios.put(`${baseUrl}/api/v1/user-offline`, {}, { withCredentials: true })
+            console.log(resp)
+            return message;
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    };
+
+    useEffect(() => {
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+
+    }, []);
+
     return (
         <>
 

@@ -88,11 +88,11 @@ const SingleContact = ({ data, userId }: any) => {
                             <MessageType lastMessage={data?.lastMessage} messageType={data?.messageType} />
                         </div>
                     </div>
-                    <p className="messageTime">
+                    <span className="messageTime">
                         {data?.time ? <p>{timeAgo(data?.time)}</p> : null}
                         {data?._id == currentUser?._id ? <GiPin style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
                         {unReadMessages ? <Badge badgeContent={unReadMessages} color="primary" /> : null}
-                    </p>
+                    </span>
                 </div>
             </div>
         </>
