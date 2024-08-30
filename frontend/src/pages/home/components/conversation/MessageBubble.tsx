@@ -25,7 +25,7 @@ export const RightChat = ({ data, image }: any) => {
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
                 }
-                <TimeAndRead chat="right" status={data?.status} time={data?.time} />
+                <TimeAndRead chat="right" status={data?.status} time={data?.createdOn} />
             </div>
         </>
     )
@@ -42,7 +42,7 @@ export const LeftChat = ({ data, image }: any) => {
                 {
                     (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
                 }
-                <TimeAndRead chat="left" status={data?.status} time={data?.time} />
+                <TimeAndRead chat="left" status={data?.status} time={data?.createdOn} />
             </div>
         </>
     )
