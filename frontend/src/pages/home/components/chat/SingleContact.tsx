@@ -57,7 +57,7 @@ const SingleContact = ({ data, userId }: any) => {
                         }}
                     />
                     <div>
-                        <h4>{data?.userName}</h4>
+                        <h4>{data?.userName} {data?._id == currentUser?._id ? "(You)" : ""}</h4>
                         <div>
                             {data?.isReceived ? null : <Status status={data?.status} />}
                             <MessageType lastMessage={data?.lastMessage} messageType={data?.messageType} />

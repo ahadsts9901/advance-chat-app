@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import { Status } from "../chat/SingleContact"
 import { timeAgo } from "../../../../utils/functions"
+import AudioMessage from "./AudioMessage"
 
 export const Media = ({ messageType, content }: any) => {
 
@@ -8,7 +9,7 @@ export const Media = ({ messageType, content }: any) => {
         <>
             {messageType === "image" && <img src={content} alt="photo-message" className="photo-message" />}
             {messageType === "video" && <video src={content} className="video-message" controls />}
-            {messageType === "audio" && <audio src={content} className="audio-message" controls />}
+            {messageType === "audio" && <AudioMessage audioUrl={content} />}
         </>
     )
 }
