@@ -21,3 +21,4 @@ export const allowedOrigins = "http://localhost:5173"
 export let globalIoObject = { io: null }
 
 export const chatMessageChannel = "chat-message"
+export const userActiveChannel = "user-active"

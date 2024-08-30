@@ -1,4 +1,4 @@
-import { emailPattern, googleUserApi, passwordPattern, userNamePattern } from "../core.mjs"
+import { emailPattern, globalIoObject, googleUserApi, passwordPattern, userActiveChannel, userNamePattern } from "../core.mjs"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
 import bcrypt from "bcrypt"
@@ -210,6 +210,13 @@ export const googleLoginController = async (req, res, next) => {
 
             user.isActive = true
             await user.save()
+
+            if (globalIoObject?.io) {
+
+                console.log(`emitting online to ${user?._id}`)
+                globalIoObject?.io?.emit(`${userActiveChannel}-${user?._id}`, { isActive: true })
+
+            }
 
         }
 

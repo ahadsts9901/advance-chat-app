@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
-import { _1mbSize, profilePictureUploadFolder, userNamePattern } from "../core.mjs"
+import { _1mbSize, profilePictureUploadFolder, userActiveChannel, userNamePattern } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 
 export const getCurrentUserProfileController = async (req, res, next) => {
@@ -41,6 +41,13 @@ export const getCurrentUserProfileController = async (req, res, next) => {
         if (!user?.isActive) {
             user.isActive = true
             await user.save()
+        }
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting online to ${user?._id}`)
+            globalIoObject?.io?.emit(`${userActiveChannel}-${user?._id}`, { isActive: true })
+
         }
 
         const { userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive } = user
@@ -250,6 +257,13 @@ export const logoutController = async (req, res, next) => {
         user.isActive = false
         await user.save()
 
+        if (globalIoObject?.io) {
+
+            console.log(`emitting online to ${user?._id}`)
+            globalIoObject?.io?.emit(`${userActiveChannel}-${user?._id}`, { isActive: false })
+
+        }
+
         res.clearCookie("hart")
 
         res.send({
@@ -288,6 +302,13 @@ export const userOfflineController = async (req, res, next) => {
 
         user.isActive = false
         await user.save()
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting online to ${user?._id}`)
+            globalIoObject?.io?.emit(`${userActiveChannel}-${user?._id}`, { isActive: false })
+
+        }
 
         res.send({
             message: errorMessages?.userOffline
