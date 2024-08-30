@@ -38,6 +38,11 @@ export const getCurrentUserProfileController = async (req, res, next) => {
             })
         }
 
+        if (!user?.isActive) {
+            user.isActive = true
+            await user.save()
+        }
+
         const { userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive } = user
 
         res.send({
