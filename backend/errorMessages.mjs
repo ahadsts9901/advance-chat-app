@@ -21,5 +21,6 @@ export const errorMessages = {
     videoMessageSizeError: "video size must be less than 25mb",
     messageSend: 'message sent successfully',
     contactsFetched: "contacts fetched",
-    messagesFetched: "messages fetched"
+    messagesFetched: "messages fetched",
+    unReadMessagesFetched: "unread & new messages fetched"
 }

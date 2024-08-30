@@ -328,3 +328,52 @@ export const getMessagesController = async (req, res, next) => {
     }
 
 }
+
+export const getNewMessagesCountController = async (req, res, next) => {
+
+    try {
+
+        const currentUserId = req?.currentUser?._id
+        const opponentId = req?.params?.to_id
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        if (!opponentId) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing
+            })
+        }
+
+        if (!isValidObjectId(opponentId)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId
+            })
+        }
+
+        const query = {
+            to_id: currentUserId,
+            from_id: opponentId,
+            deletedFrom: { $ne: currentUserId },
+            status: "delievered",
+        }
+
+        const unReadMessages = await chatModel.countDocuments(query).exec()
+
+        res.send({
+            message: errorMessages?.unReadMessagesFetched,
+            data: unReadMessages
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
