@@ -10,6 +10,7 @@ import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import io from "socket.io-client"
 import { baseUrl, userActiveChannel } from "../../../../core";
+import { useSelector } from "react-redux";
 
 const DropMenu = () => {
 
@@ -78,6 +79,8 @@ const DropMenu = () => {
 
 const ConversationHeader = ({ user, setUser }: any) => {
 
+    const currentUser = useSelector((state: any) => state?.user)
+
     useEffect(() => {
         listenSocketChannel()
     }, [])
@@ -103,7 +106,10 @@ const ConversationHeader = ({ user, setUser }: any) => {
                         }} />
                         <div>
                             <h4>{user?.userName}</h4>
-                            <p>{user?.isActive ? "Online" : "Offline"}</p>
+                            {
+                                user?._id == currentUser?._id ? <p>You</p> :
+                                    <p>{user?.isActive ? "Online" : "Offline"}</p>
+                            }
                         </div>
                     </div>
                 </>
