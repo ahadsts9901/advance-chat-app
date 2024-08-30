@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../../../../core";
+import { Badge } from "@mui/material";
 
 export const Status = ({ status }: any) => {
 
@@ -90,8 +91,9 @@ const SingleContact = ({ data, userId }: any) => {
                         </div>
                     </div>
                     <p className="messageTime">
-                        {data?.time ? timeAgo(data?.time) : ""}
+                        {data?.time ? <p>{timeAgo(data?.time)}</p> : null}
                         {data?._id == currentUser?._id ? <GiPin style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
+                        {unReadMessages ? <Badge badgeContent={unReadMessages} color="primary" /> : null}
                     </p>
                 </div>
             </div>

@@ -184,6 +184,11 @@
   font-size: 0.6em;
   width: 100%;
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2em;
+  margin-right: 1em;
 }
 
 .special-singleContact {
