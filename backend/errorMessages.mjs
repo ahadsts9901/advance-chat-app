@@ -23,5 +23,6 @@ export const errorMessages = {
     contactsFetched: "contacts fetched",
     messagesFetched: "messages fetched",
     unReadMessagesFetched: "unread & new messages fetched",
-    userOffline: "user offline"
+    userOffline: "user offline",
+    noAccountFound: "account not found",
 }

@@ -11,8 +11,9 @@ import { GiPin } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { baseUrl } from "../../../../core";
+import { baseUrl, messageCountChannel } from "../../../../core";
 import { Badge } from "@mui/material";
+import io from "socket.io-client"
 
 export const Status = ({ status }: any) => {
 
@@ -52,6 +53,7 @@ const SingleContact = ({ data, userId }: any) => {
 
     useEffect(() => {
         getUnReadMessages(data._id)
+        listenSocketChannel()
     }, [])
 
     const getUnReadMessages = async (opponentId: string) => {
@@ -66,6 +68,18 @@ const SingleContact = ({ data, userId }: any) => {
         } catch (error) {
             console.error(error)
         }
+
+    }
+
+    const listenSocketChannel = async () => {
+
+        const socket = io(baseUrl);
+        
+        socket.on(`${messageCountChannel}-${data?._id}`, async () => {
+            getUnReadMessages(data?._id)
+        })
+
+        return () => socket.close()
 
     }
 

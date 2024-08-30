@@ -246,11 +246,19 @@ export const createMessageController = async (req, res, next) => {
             contentUrl = null
         }
 
+        const opponentUser = await userModel.findById(to_id).exec()
+
+        if (!opponentUser) {
+            return res.status(500).send({
+                message: errorMessages?.noAccountFound
+            })
+        }
+
         const createMessageResp = await chatModel?.create({
             from_id: from_id,
             to_id: to_id,
             text: text ? text : null,
-            status: status,
+            status: opponentUser?.isActive ? "delievered" : status,
             deletedFrom: deletedFrom,
             isUnsend: isUnsend,
             messageType: messageType,
@@ -262,13 +270,13 @@ export const createMessageController = async (req, res, next) => {
             console.log(`emitting message to ${to_id}`)
             globalIoObject?.io?.emit(`${chatMessageChannel}-${to_id}`, createMessageResp)
             console.log(`emitting realtime message count to ${from_id}`)
-            globalIoObject?.io?.emit(`${messageCountChannel}-${from_id}`, createMessageResp)
+            globalIoObject?.io?.emit(`${messageCountChannel}-${from_id}`)
 
         }
 
         res.send({
             message: errorMessages?.messageSend,
-            data: cerateMessageResp
+            data: createMessageResp
         })
 
     } catch (error) {
