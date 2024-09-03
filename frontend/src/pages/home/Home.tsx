@@ -11,6 +11,7 @@ const Home = () => {
   const { userId } = useParams()
 
   const [contacts, setContacts] = useState<any[]>([])
+  const [filteredContacts, setFilteredContacts] = useState([]);
 
   const getContacts = async () => {
 
@@ -18,6 +19,7 @@ const Home = () => {
 
       const resp = await axios.get(`${baseUrl}/api/v1/contacts`, { withCredentials: true })
       setContacts(resp?.data?.data)
+      setFilteredContacts(resp?.data?.data)
 
     } catch (error) {
       console.error(error)
@@ -28,8 +30,8 @@ const Home = () => {
   return (
     <>
       <div className="homeCont">
-        <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} />
-        <Conversation userId={userId} getContacts={getContacts} />
+        <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} />
+        <Conversation userId={userId} getContacts={getContacts} setFilteredContacts={setFilteredContacts} />
       </div>
     </>
   )

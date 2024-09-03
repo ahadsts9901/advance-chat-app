@@ -1,26 +1,33 @@
+import { useState, useEffect } from "react";
 import "./main.css";
 import { IconButton } from "@mui/material";
 import { MdFilterList } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
 
-const ChatSearch = ({ contacts, setContacts }: any) => {
+const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
+    
+    const [backupContacts, setBackupContacts] = useState([]);
 
-    const backupContacts = contacts
+    useEffect(() => {
+        setBackupContacts(contacts);
+        setFilteredContacts(contacts);
+    }, [contacts]);
 
     const searchContacts = (text: string) => {
 
         if (!text || text.trim() === "") {
-            setContacts(backupContacts);
+            setFilteredContacts(backupContacts);
             return;
         }
 
-        const filteredContacts = backupContacts.filter((contact: any) =>
+        const filtered = backupContacts.filter((contact: any) =>
             contact.userName.toLowerCase().includes(text.toLowerCase()) ||
             contact.lastMessage.toLowerCase().includes(text.toLowerCase()) ||
             contact.messageType.toLowerCase().includes(text.toLowerCase())
         );
 
-        setContacts(filteredContacts);
+        setFilteredContacts(filtered);
+        
     };
 
     return (

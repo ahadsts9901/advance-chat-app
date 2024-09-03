@@ -33,7 +33,7 @@ const SelectedFile = ({ file, setFile, fileSizeValidation, fileInputRef }: any) 
 
 }
 
-const ConversationForm = ({ user, setMessages }: any) => {
+const ConversationForm = ({ user, setMessages, setFilteredContacts }: any) => {
 
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const fileInputRef: any = useRef(null)
@@ -96,6 +96,7 @@ const ConversationForm = ({ user, setMessages }: any) => {
             setChatInput("")
             setFile(null)
             setShowAudioRecorder(false)
+            setFilteredContacts([])
             if (fileInputRef?.current) fileInputRef.current.value = ""
 
         } catch (error: any) {

@@ -61,7 +61,6 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
             })
             socket.on(`${messageSeenChannel}-${currentUser?._id}`, async (e: any) => {
                 if (e?.opponentId?.toString() === currentUser?._id?.toString()) {
-                    console.log("start")
                     setMessages((oldMessages: any) =>
                         oldMessages.map((message: any) => {
                             if (

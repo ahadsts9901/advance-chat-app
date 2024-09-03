@@ -8,7 +8,7 @@ import axios from "axios"
 import { baseUrl } from "../../../core"
 import { useEffect, useState } from "react"
 
-const Conversation = ({ userId, getContacts }: any) => {
+const Conversation = ({ userId, getContacts, setFilteredContacts }: any) => {
 
     const navigate = useNavigate()
 
@@ -63,7 +63,7 @@ const Conversation = ({ userId, getContacts }: any) => {
                         <>
                             <ConversationHeader user={user} setUser={setUser} />
                             <ConversationBody user={user} messages={messages} setMessages={setMessages} getContacts={getContacts} />
-                            <ConversationForm user={user} setMessages={setMessages} />
+                            <ConversationForm user={user} setMessages={setMessages} setFilteredContacts={setFilteredContacts}/>
                         </>
                 }
             </div>

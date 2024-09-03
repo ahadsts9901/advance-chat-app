@@ -5,6 +5,7 @@ const initialState = {
         isLogin: null,
         isDarkTheme: true,
         isSelectedUrdu: false,
+        currentUserContacts: [],
     },
 }
 
@@ -20,9 +21,12 @@ export const userSlice: any = createSlice({
         logout: (state: { user: {} | null }) => {
             state.user = { ...state?.user, isLogin: false }
         },
+        setCurrentUserContacts: (state, action) => {
+            state.user.currentUserContacts = action.payload;
+        },
     }
 })
 
-export const { login, logout } = userSlice.actions
+export const { login, logout, setCurrentUserContacts } = userSlice.actions
 
 export default userSlice.reducer
