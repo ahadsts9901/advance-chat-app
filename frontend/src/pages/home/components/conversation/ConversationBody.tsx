@@ -34,13 +34,17 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
                 await markDelivered()
                 setMessages((oldMessages: any) =>
                     oldMessages.map((message: any) => {
-                        if (message?.from_id?.toString() === currentUser?._id?.toString()) {
+                        if (
+                            (message?.from_id?.toString() === currentUser?._id?.toString())
+                            &&
+                            (message?.status === "sent")
+                        ) {
                             return { ...message, status: "delievered" };
                         }
                         return message;
                     })
                 );
-                if (e?.from_id.toString() === user?._id?.toString()) {
+                if ((e?.from_id.toString() === user?._id?.toString() && e?.from_id != e?.to_id)) {
                     setMessages((oldMessages: any) => [e, ...oldMessages])
                 }
             })

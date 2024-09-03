@@ -185,11 +185,13 @@ export const createMessageController = async (req, res, next) => {
             })
         }
 
+        const _status = status === "seen" ? "seen" : opponentUser?.isActive ? "delievered" : status
+
         const createMessageResp = await chatModel?.create({
             from_id: from_id,
             to_id: to_id,
             text: text ? text : null,
-            status: opponentUser?.isActive ? "delievered" : status,
+            status: _status,
             deletedFrom: deletedFrom,
             isUnsend: isUnsend,
             messageType: messageType,
@@ -335,7 +337,8 @@ export const delivereMessagesController = async (req, res, next) => {
 
         const resp = await chatModel.updateMany(
             {
-                to_id: _id
+                to_id: _id,
+                status: "sent"
             },
             {
                 $set: { status: "delievered" }
