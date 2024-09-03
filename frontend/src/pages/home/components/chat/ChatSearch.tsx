@@ -5,7 +5,7 @@ import { MdFilterList } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
 
 const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
-    
+
     const [backupContacts, setBackupContacts] = useState([]);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
         );
 
         setFilteredContacts(filtered);
-        
+
     };
 
     return (
