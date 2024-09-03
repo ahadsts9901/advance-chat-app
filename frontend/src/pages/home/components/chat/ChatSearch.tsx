@@ -34,7 +34,7 @@ const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
 
     return (
         <>
-            {showChatSearch && <ContactSearchParent />}
+            {showChatSearch && <ContactSearchParent setShowChatSearch={setShowChatSearch} />}
             <div className="chatSearchContainer">
                 <div className="searchBar">
                     <IoSearch />

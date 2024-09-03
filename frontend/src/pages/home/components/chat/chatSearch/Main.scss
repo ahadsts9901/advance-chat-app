@@ -35,11 +35,16 @@ $icon-ack: #53bdeb;
     .chatSearchBar {
         width: 100%;
         height: fit-content;
-        padding: 1em;
+        padding: 0.7em;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.7em;
         background-color: $panel-header-background;
+
+        svg {
+            color: $panel-header-icon;
+        }
 
         .searchBar {
             width: 100%;

@@ -15,11 +15,15 @@
   width: 100%;
   height: -moz-fit-content;
   height: fit-content;
-  padding: 1em;
+  padding: 0.7em;
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7em;
   background-color: #202c33;
+}
+.ContactSearchParent .chatSearchBar svg {
+  color: #aebac1;
 }
 .ContactSearchParent .chatSearchBar .searchBar {
   width: 100%;
