@@ -2,7 +2,7 @@ import "./main.css"
 import { useEffect } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
-import { baseUrl, chatMessageChannel } from "../../../../core"
+import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
@@ -45,7 +45,35 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
                     })
                 );
                 if ((e?.from_id.toString() === user?._id?.toString() && e?.from_id != e?.to_id)) {
-                    setMessages((oldMessages: any) => [e, ...oldMessages])
+                    setMessages((oldMessages: any) => [e, ...oldMessages].map((message: any) => {
+                        if (
+                            (message?.from_id?.toString() === currentUser?._id?.toString())
+                            &&
+                            (message?.status === "sent" || message?.status === "delievered")
+                        ) {
+                            return { ...message, status: "seen" };
+                        }
+                        return message;
+                    })
+                    )
+                    await markRead(user?._id)
+                }
+            })
+            socket.on(`${messageSeenChannel}-${currentUser?._id}`, async (e: any) => {
+                if (e?.opponentId?.toString() === currentUser?._id?.toString()) {
+                    console.log("start")
+                    setMessages((oldMessages: any) =>
+                        oldMessages.map((message: any) => {
+                            if (
+                                (message?.status === "sent")
+                                ||
+                                (message?.status === "delievered")
+                            ) {
+                                return { ...message, status: "seen" };
+                            }
+                            return message;
+                        })
+                    );
                 }
             })
         }
@@ -94,6 +122,22 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
                 console.error(error)
             }
 
+        }
+
+    }
+
+    const markRead = async (id: string) => {
+
+        if (!id || id?.trim() === "") return
+
+        try {
+
+            await axios.put(`${baseUrl}/api/v1/mark-messages-read/${id}`, {}, {
+                withCredentials: true
+            })
+
+        } catch (error) {
+            console.error(error)
         }
 
     }

@@ -18,6 +18,7 @@ const Conversation = ({ userId, getContacts }: any) => {
 
     useEffect(() => {
         getUserData()
+        markRead(userId)
     }, [userId])
 
     const getUserData = async () => {
@@ -44,7 +45,9 @@ const Conversation = ({ userId, getContacts }: any) => {
 
         try {
 
-            
+            await axios.put(`${baseUrl}/api/v1/mark-messages-read/${id}`, {}, {
+                withCredentials: true
+            })
 
         } catch (error) {
             console.error(error)

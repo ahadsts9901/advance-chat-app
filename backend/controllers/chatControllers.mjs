@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel } from "../core.mjs"
+import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel, messageSeenChannel } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
@@ -387,12 +387,20 @@ export const readMessagesController = async (req, res, next) => {
         const resp = await chatModel.updateMany(
             {
                 to_id: currentUserId,
-                from_id: opponentId
+                from_id: opponentId,
+                $or: [{ status: "delievered" }, { status: "sent" }]
             },
             {
                 $set: { status: "seen" }
             }
         )
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting seen message mark ${opponentId}`)
+            globalIoObject?.io?.emit(`${messageSeenChannel}-${opponentId}`, { opponentId: opponentId })
+
+        }
 
         res.send({
             message: errorMessages?.messagesRead,
