@@ -31,6 +31,15 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
             socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
             socket.on(`${chatMessageChannel}-${currentUser?._id}`, async (e: any) => {
                 await getContacts()
+                await markDelivered()
+                setMessages((oldMessages: any) =>
+                    oldMessages.map((message: any) => {
+                        if (message?.from_id?.toString() === currentUser?._id?.toString()) {
+                            return { ...message, status: "delievered" };
+                        }
+                        return message;
+                    })
+                );
                 if (e?.from_id.toString() === user?._id?.toString()) {
                     setMessages((oldMessages: any) => [e, ...oldMessages])
                 }
@@ -46,6 +55,24 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
         }
 
     }, [user?._id]);
+
+    const markDelivered = async () => {
+
+        if (currentUser?.isActive) {
+
+            try {
+
+                await axios.put(`${baseUrl}/api/v1/mark-messages-delievered`, {}, {
+                    withCredentials: true
+                })
+
+            } catch (error) {
+                console.error(error)
+            }
+
+        }
+
+    }
 
     return (
         <>

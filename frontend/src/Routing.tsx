@@ -53,6 +53,13 @@ const Routing = () => {
         try {
 
             const resp = await axios.get(`${baseUrl}/api/v1/profile`, { withCredentials: true })
+
+            if (currentUser?.isActive) {
+                await axios.put(`${baseUrl}/api/v1/mark-messages-delievered`, {}, {
+                    withCredentials: true
+                })
+            }
+
             dispatch(login(resp?.data?.data))
 
         } catch (error) {

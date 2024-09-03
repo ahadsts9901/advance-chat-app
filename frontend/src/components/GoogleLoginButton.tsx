@@ -51,11 +51,15 @@ const GoogleLoginButton = () => {
 
         try {
 
-            const resp = await axios.post(`${baseUrl}/api/v1/google-login`, {
+            const loginResp = await axios.post(`${baseUrl}/api/v1/google-login`, {
                 accessToken: `Bearer ${token}`
             }, { withCredentials: true })
 
-            dispatch(login(resp?.data?.data))
+            await axios.put(`${baseUrl}/api/v1/mark-messages-delievered`, {}, {
+                withCredentials: true
+            })
+
+            dispatch(login(loginResp?.data?.data))
             navigate("/")
 
         } catch (error) {
