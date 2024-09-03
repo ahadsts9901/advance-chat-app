@@ -99,9 +99,9 @@ const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
                         </div>
                     </div>
                     <span className="messageTime">
-                        {data?.time ? <p>{timeAgo(data?.time)}</p> : null}
+                        {data?.time ? <p style={{marginRight: data?._id?.toString() === currentUser?._id?.toString() ? '-2em' : '0em'}}>{timeAgo(data?.time)}</p> : null}
                         {data?._id == currentUser?._id ? <GiPin style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
-                        {unReadMessages ? <Badge badgeContent={unReadMessages} color="primary" /> : null}
+                        {(unReadMessages && data?._id?.toString() !== currentUser?._id?.toString()) ? <Badge badgeContent={unReadMessages} color="primary" /> : null}
                     </span>
                 </div>
             </div>
