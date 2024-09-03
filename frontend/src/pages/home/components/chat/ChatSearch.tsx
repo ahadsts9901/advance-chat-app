@@ -41,7 +41,7 @@ const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
                     <input
                         type="text"
                         placeholder="Search or start new chat"
-                        onChange={(e: any) => searchContacts(e.target.value)}
+                        onChange={(e: any) => searchContacts(e?.target?.value)}
                     />
                 </div>
                 <IconButton onClick={() => setShowChatSearch(true)}><MdFilterList /></IconButton>
