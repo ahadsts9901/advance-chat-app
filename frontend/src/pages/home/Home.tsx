@@ -28,7 +28,7 @@ const Home = () => {
   return (
     <>
       <div className="homeCont">
-        <Chats userId={userId} contacts={contacts} getContacts={getContacts} />
+        <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} />
         <Conversation userId={userId} getContacts={getContacts} />
       </div>
     </>
