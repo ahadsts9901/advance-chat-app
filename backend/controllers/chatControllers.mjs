@@ -7,7 +7,7 @@ import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
-    
+
     try {
         const currentUserId = req?.currentUser?._id;
 
@@ -53,7 +53,9 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
         });
 
         // Remove current user from contacts array
-        const users = contactsWithChats.filter(contact => contact._id.toString() !== currentUserId.toString());
+        const users = contactsWithChats
+            .filter(contact => contact._id.toString() !== currentUserId.toString())
+            .sort((a, b) => new Date(b.time) - new Date(a.time));
 
         // Step 4: Fetch current user's chat separately
         const myChatQuery = {

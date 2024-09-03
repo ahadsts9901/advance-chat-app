@@ -11,37 +11,36 @@ const ConversationBody = ({ user, messages, setMessages }: any) => {
     const currentUser = useSelector((state: any) => state?.user)
 
     useEffect(() => {
-        getMessages()
-        listenSocketChannel()
-    }, [])
-
-    const getMessages = async () => {
-
-        try {
-
-            const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
-            setMessages(resp?.data?.data)
-
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
-
-    const listenSocketChannel = async () => {
 
         const socket = io(baseUrl);
 
-        socket.on('connect', () => console.log("socket connected"))
+        const getMessages = async () => {
 
-        socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
+            try {
+                setMessages([])
+                const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
+                setMessages(resp?.data?.data)
+            } catch (error) {
+                console.error(error)
+            }
 
-        socket.on(`${chatMessageChannel}-${currentUser?._id}`, async (e: any) => setMessages((oldMessages: any) => [e, ...oldMessages]))
+        };
 
-        return () => socket.close()
+        const listenSocketChannel = () => {
+            socket.on('connect', () => console.log("socket connected"))
+            socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
+            socket.on(`${chatMessageChannel}-${currentUser?._id}`, (e: any) => setMessages((oldMessages: any) => [e, ...oldMessages]))
+        }
 
-    }
+        getMessages()
+        listenSocketChannel()
 
+        return () => {
+            socket.off(`${chatMessageChannel}-${currentUser?._id}`)
+            socket.disconnect();
+        }
+
+    }, [user?._id]);
 
     return (
         <>
