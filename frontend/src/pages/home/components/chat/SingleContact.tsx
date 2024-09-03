@@ -29,7 +29,7 @@ export const Status = ({ status }: any) => {
 
 }
 
-const MessageType = ({ lastMessage, messageType }: any) => {
+export const MessageType = ({ lastMessage, messageType }: any) => {
 
     return (
         <>
@@ -76,7 +76,7 @@ const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
         const socket = io(baseUrl);
 
         socket.on(`${messageCountChannel}-${data?._id}`, async () => {
-            getContacts()
+            await getContacts()
         })
 
         return () => socket.close()

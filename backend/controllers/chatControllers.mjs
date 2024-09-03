@@ -7,9 +7,8 @@ import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
-
+    
     try {
-
         const currentUserId = req?.currentUser?._id;
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
@@ -18,117 +17,45 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
             });
         }
 
-        const userIds = await chatModel.distinct('from_id', {
-            $or: [{ to_id: currentUserId }, { from_id: currentUserId }]
+        // Step 1: Fetch all users
+        const allUsers = await userModel.find({}).exec();
+
+        // Step 2: Fetch chats for all users excluding the current user's chats
+        const myChats = await chatModel.find({
+            $or: [
+                { from_id: currentUserId },
+                { to_id: currentUserId }
+            ],
+            deletedFrom: { $nin: [currentUserId] },
+            isUnsend: false,
+        }).exec();
+
+        // Step 3: Build contacts array
+        const contactsWithChats = allUsers.map((user) => {
+            // Filter chats involving the current user and the current user
+            const userChats = myChats.filter((chat) =>
+                (chat.from_id.toString() === user._id.toString() || chat.to_id.toString() === user._id.toString())
+            );
+
+            // Get the last message
+            const lastMessage = userChats.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn))[0];
+
+            return {
+                _id: user._id,
+                profilePhoto: user.profilePhoto,
+                userName: user.userName,
+                lastMessage: lastMessage?.text || "",
+                status: lastMessage?.status || "",
+                messageType: lastMessage?.messageType || "",
+                time: lastMessage ? new Date(lastMessage.createdOn).toLocaleString() : "",
+                isReceived: lastMessage ? lastMessage.to_id.toString() === currentUserId.toString() : false
+            };
         });
 
-        const toUserIds = await chatModel.distinct('to_id', {
-            $or: [{ to_id: currentUserId }, { from_id: currentUserId }]
-        });
+        // Remove current user from contacts array
+        const users = contactsWithChats.filter(contact => contact._id.toString() !== currentUserId.toString());
 
-        const allUserIds = [...new Set([...userIds, ...toUserIds])];
-
-        const pipeline = [
-            {
-                $match: {
-                    _id: { $in: allUserIds }
-                }
-            },
-            {
-                $lookup: {
-                    from: "chats",
-                    let: { userId: "$_id" },
-                    pipeline: [
-                        {
-                            $match: {
-                                $expr: {
-                                    $and: [
-                                        { $or: [{ $eq: ["$from_id", "$$userId"] }, { $eq: ["$to_id", "$$userId"] }] },
-                                        { $ne: ["$deletedFrom", "$$userId"] },
-                                        { $eq: ["$isUnsend", false] }
-                                    ]
-                                }
-                            }
-                        },
-                        { $sort: { createdOn: -1 } },
-                        { $limit: 1 }
-                    ],
-                    as: "lastMessage"
-                }
-            },
-            {
-                $unwind: {
-                    path: "$lastMessage",
-                    preserveNullAndEmptyArrays: true
-                }
-            },
-            {
-                $addFields: {
-                    profilePhoto: "$profilePhoto",
-                    lastMessage: "$lastMessage.text",
-                    status: {
-                        $cond: {
-                            if: {
-                                $in: [
-                                    {
-                                        $cond: {
-                                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
-                                            then: "$lastMessage.to_id",
-                                            else: "$lastMessage.from_id"
-                                        }
-                                    },
-                                    { $ifNull: ["$lastMessage.readBy", []] }
-                                ]
-                            },
-                            then: "read",
-                            else: "sent"
-                        }
-                    },
-                    messageType: "$lastMessage.messageType",
-                    userName: "$userName",
-                    time: {
-                        $dateToString: {
-                            format: "%Y-%m-%d %H:%M:%S",
-                            date: "$lastMessage.createdOn"
-                        }
-                    },
-                    isReceived: {
-                        $cond: {
-                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
-                            then: true,
-                            else: false
-                        }
-                    },
-                    contactId: {
-                        $cond: {
-                            if: { $eq: ["$lastMessage.from_id", "$_id"] },
-                            then: "$lastMessage.to_id",
-                            else: "$lastMessage.from_id"
-                        }
-                    }
-                }
-            },
-            {
-                $sort: { time: -1 }
-            },
-            {
-                $project: {
-                    profilePhoto: 1,
-                    lastMessage: 1,
-                    status: 1,
-                    messageType: 1,
-                    userName: 1,
-                    time: 1,
-                    isReceived: 1,
-                    contactId: 1
-                }
-            }
-        ];
-
-        const allUsers = await userModel.aggregate(pipeline);
-
-        const users = allUsers?.filter((user) => user?._id != currentUserId);
-
+        // Step 4: Fetch current user's chat separately
         const myChatQuery = {
             from_id: currentUserId,
             to_id: currentUserId,
@@ -145,19 +72,19 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
             });
         }
 
+        // Step 5: Add current user's data manually
         const myUser = {
             _id: currentUserId,
-            contactId: currentUserId,
-            userName: currentUser?.userName,
             profilePhoto: currentUser?.profilePhoto,
+            userName: currentUser?.userName,
             lastMessage: myChat[0]?.text || "",
             status: myChat[0]?.status || "",
             messageType: myChat[0]?.messageType || "",
-            time: myChat[0]?.createdOn || "",
+            time: myChat[0]?.createdOn ? new Date(myChat[0]?.createdOn).toLocaleString() : "",
             isReceived: false,
         };
 
-        users?.unshift(myUser);
+        users.unshift(myUser);
 
         return res.send({
             message: errorMessages?.contactsFetched,
