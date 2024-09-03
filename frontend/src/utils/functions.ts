@@ -45,3 +45,18 @@ export const formatTime = (time: number) => {
     return `${minutes?.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
 
 }
+
+export const groupUsersByLetter = (users: any[]) => {
+    const grouped: { [key: string]: any[] } = {};
+
+    users.forEach(user => {
+        const firstLetter = user.userName[0].toUpperCase();
+        if (!grouped[firstLetter]) {
+            grouped[firstLetter] = [];
+        }
+        grouped[firstLetter].push(user);
+    });
+
+    return grouped;
+
+};

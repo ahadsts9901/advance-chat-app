@@ -4,7 +4,7 @@ import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
 import { useState } from "react"
 
-const ContactSearchBar = ({ setShowChatSearch }: any) => {
+const ContactSearchBar = ({ setShowChatSearch, users, setUsers }: any) => {
 
     const [text, setText] = useState("")
 

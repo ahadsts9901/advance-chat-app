@@ -1,6 +1,9 @@
 import "./Main.css"
 
-const ContactSearchContact = () => {
+const ContactSearchContact = ({ data }: any) => {
+
+    console.log(data)
+
     return (
         <>
             <div className="chatSearchContact">
