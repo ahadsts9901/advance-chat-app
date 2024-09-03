@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
 import "./main.css";
+import { useState, useEffect } from "react";
 import { IconButton } from "@mui/material";
 import { MdFilterList } from "react-icons/md";
 import { IoSearch } from "react-icons/io5";
+import ContactSearchParent from "./chatSearch/ContactSearchParent";
 
 const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
 
     const [backupContacts, setBackupContacts] = useState([]);
+    const [showChatSearch, setShowChatSearch] = useState(false)
 
     useEffect(() => {
         setBackupContacts(contacts);
@@ -32,6 +34,7 @@ const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
 
     return (
         <>
+            {showChatSearch && <ContactSearchParent />}
             <div className="chatSearchContainer">
                 <div className="searchBar">
                     <IoSearch />
@@ -41,7 +44,7 @@ const ChatSearch = ({ contacts, setFilteredContacts }: any) => {
                         onChange={(e: any) => searchContacts(e.target.value)}
                     />
                 </div>
-                <IconButton><MdFilterList /></IconButton>
+                <IconButton onClick={() => setShowChatSearch(true)}><MdFilterList /></IconButton>
             </div>
         </>
     );
