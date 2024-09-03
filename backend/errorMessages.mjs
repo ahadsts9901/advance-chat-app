@@ -25,6 +25,7 @@ export const errorMessages = {
     unReadMessagesFetched: "unread & new messages fetched",
     userOffline: "user offline",
     noAccountFound: "account not found",
-    messagesDelievered:"messages marked as delievered",
-    messagesRead:"messages marked as read",
+    messagesDelievered: "messages marked as delievered",
+    messagesRead: "messages marked as read",
+    usersFetched: "users fetched successfully"
 }

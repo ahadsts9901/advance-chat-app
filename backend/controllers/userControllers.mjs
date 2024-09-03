@@ -101,3 +101,24 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
     }
 
 }
+
+export const getAllUsersController = async (req, res, next) => {
+
+    try {
+
+        const users = await userModel.find({}).sort({ userName: 1 }).exec()
+
+        return res.send({
+            message: errorMessages?.usersFetched,
+            data: users,
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message,
+        });
+    }
+
+}

@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { getAllContactsWithChatsController } from "../controllers/userControllers.mjs"
+import { getAllContactsWithChatsController, getAllUsersController } from "../controllers/userControllers.mjs"
 
 const router = Router()
 
 router.get("/contacts", getAllContactsWithChatsController)
+
+router.get("/users", getAllUsersController)
 
 export default router
