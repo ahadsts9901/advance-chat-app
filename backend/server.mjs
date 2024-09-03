@@ -10,7 +10,9 @@ import { allowedOrigins, globalIoObject } from "./core.mjs"
 
 import authRoutes from "./routes/authRoutes.mjs"
 import profileRoutes from "./routes/profileRoutes.mjs"
+import userRoutes from "./routes/userRoutes.mjs"
 import chatRoutes from "./routes/chatRoutes.mjs"
+
 import { authenticationMiddleware } from "./middlewares/jwtMiddlewares.mjs"
 
 const app = express()
@@ -20,7 +22,7 @@ app.use(json())
 app.use(cookieParser())
 app.use(morgan("dev"))
 
-app.use("/api/v1", authRoutes, authenticationMiddleware, profileRoutes, chatRoutes)
+app.use("/api/v1", authRoutes, authenticationMiddleware, userRoutes, profileRoutes, chatRoutes)
 
 // socket io
 
