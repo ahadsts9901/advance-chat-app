@@ -65,7 +65,11 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
         if (user?.isActive) {
             setMessages((oldMessages: any) =>
                 oldMessages.map((message: any) => {
-                    if (message?.from_id?.toString() === currentUser?._id?.toString()) {
+                    if (
+                        (message?.from_id?.toString() === currentUser?._id?.toString())
+                        &&
+                        (message?.status === "sent")
+                    ) {
                         return { ...message, status: "delievered" };
                     }
                     return message;
