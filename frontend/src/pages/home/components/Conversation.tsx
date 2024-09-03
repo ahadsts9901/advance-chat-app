@@ -38,6 +38,20 @@ const Conversation = ({ userId, getContacts }: any) => {
 
     }
 
+    const markRead = async (id: string) => {
+
+        if (!id || id?.trim() === "") return
+
+        try {
+
+            
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
+
     return (
         <>
             <div className="conversationSection">

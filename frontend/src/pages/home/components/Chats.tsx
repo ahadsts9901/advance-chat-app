@@ -4,6 +4,7 @@ import ChatHeader from "./chat/ChatHeader"
 import ChatSearch from "./chat/ChatSearch"
 
 const Chats = ({ userId, getContacts, contacts }: any) => {
+
     return (
         <>
             <div className="chatSection">
