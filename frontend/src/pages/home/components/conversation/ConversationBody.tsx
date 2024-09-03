@@ -56,6 +56,22 @@ const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => 
 
     }, [user?._id]);
 
+    useEffect(() => {
+
+        if (user?.isActive) {
+            setMessages((oldMessages: any) =>
+                oldMessages.map((message: any) => {
+                    if (message?.from_id?.toString() === currentUser?._id?.toString()) {
+                        return { ...message, status: "delievered" };
+                    }
+                    return message;
+                })
+            );
+            getContacts()
+        }
+
+    }, [user])
+
     const markDelivered = async () => {
 
         if (currentUser?.isActive) {
