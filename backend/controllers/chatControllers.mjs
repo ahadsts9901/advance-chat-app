@@ -7,8 +7,9 @@ import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
-    
+
     try {
+
         const currentUserId = req?.currentUser?._id;
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
@@ -17,10 +18,8 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
             });
         }
 
-        // Step 1: Fetch all users
         const allUsers = await userModel.find({}).exec();
 
-        // Step 2: Fetch chats for all users excluding the current user's chats
         const myChats = await chatModel.find({
             $or: [
                 { from_id: currentUserId },
@@ -30,19 +29,17 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
             isUnsend: false,
         }).exec();
 
-        // Step 3: Build contacts array
         const contactsWithChats = allUsers
             .map((user) => {
-                // Filter chats involving the current user and the current user
+
                 const userChats = myChats.filter((chat) =>
                     (chat.from_id.toString() === user._id.toString() || chat.to_id.toString() === user._id.toString())
                 );
 
                 if (userChats.length === 0) {
-                    return null; // No chats, skip this user
+                    return null;
                 }
 
-                // Get the last message
                 const lastMessage = userChats.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn))[0];
 
                 return {
@@ -55,10 +52,10 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
                     time: lastMessage ? new Date(lastMessage.createdOn).toLocaleString() : "",
                     isReceived: lastMessage ? lastMessage.to_id.toString() === currentUserId.toString() : false
                 };
-            })
-            .filter(contact => contact !== null); // Remove users with no chats
 
-        // Remove current user from contacts array
+            })
+            .filter(contact => contact !== null);
+
         const users = contactsWithChats
             .filter(contact => contact._id.toString() !== currentUserId.toString())
             .sort((a, b) => new Date(b.time) - new Date(a.time));
@@ -312,6 +309,41 @@ export const getNewMessagesCountController = async (req, res, next) => {
         res.send({
             message: errorMessages?.unReadMessagesFetched,
             data: unReadMessages
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
+
+export const delivereMessagesController = async (req, res, next) => {
+
+    try {
+
+        const { _id } = req?.currentUser
+
+        if (!_id || !isValidObjectId(_id)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        const resp = await chatModel.updateMany(
+            {
+                to_id: _id
+            },
+            {
+                $set: { status: "delievered" }
+            }
+        )
+
+        res.send({
+            message: errorMessages?.messagesDelievered,
         })
 
     } catch (error) {

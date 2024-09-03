@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMessageController, getAllContactsWithChatsController, getMessagesController, getNewMessagesCountController } from "../controllers/chatControllers.mjs";
+import { createMessageController, delivereMessagesController, getAllContactsWithChatsController, getMessagesController, getNewMessagesCountController } from "../controllers/chatControllers.mjs";
 import { upload } from "../utils/multer.mjs"
 
 const router = Router()
@@ -11,5 +11,7 @@ router.post("/chats/:to_id", upload?.any(), createMessageController)
 router.get("/chats/:to_id", getMessagesController)
 
 router.get("/unread-messages/:to_id", getNewMessagesCountController)
+
+router.put("/mark-messages-delievered", delivereMessagesController)
 
 export default router
