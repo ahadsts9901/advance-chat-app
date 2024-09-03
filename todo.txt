@@ -1,1 +1,2 @@
-myChat unread messages
+search or start new chat
+see all chats with alphabets
