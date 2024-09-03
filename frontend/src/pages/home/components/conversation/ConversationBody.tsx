@@ -6,7 +6,7 @@ import { baseUrl, chatMessageChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
-const ConversationBody = ({ user, messages, setMessages }: any) => {
+const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
@@ -29,7 +29,12 @@ const ConversationBody = ({ user, messages, setMessages }: any) => {
         const listenSocketChannel = () => {
             socket.on('connect', () => console.log("socket connected"))
             socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
-            socket.on(`${chatMessageChannel}-${currentUser?._id}`, (e: any) => setMessages((oldMessages: any) => [e, ...oldMessages]))
+            socket.on(`${chatMessageChannel}-${currentUser?._id}`, async (e: any) => {
+                await getContacts()
+                if (e?.from_id.toString() === user?._id?.toString()) {
+                    setMessages((oldMessages: any) => [e, ...oldMessages])
+                }
+            })
         }
 
         getMessages()

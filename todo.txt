@@ -1,2 +1,1 @@
-realtime message count
-send message status
+read messages

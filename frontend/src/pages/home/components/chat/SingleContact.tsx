@@ -46,46 +46,38 @@ export const MessageType = ({ lastMessage, messageType }: any) => {
 
 const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
 
-    const navigate = useNavigate()
-    const currentUser = useSelector((state: any) => state?.user)
-
-    const [unReadMessages, setUnReadMessages] = useState<number>(0)
+    const navigate = useNavigate();
+    const currentUser = useSelector((state: any) => state?.user);
+    const [unReadMessages, setUnReadMessages] = useState<number>(0);
 
     useEffect(() => {
-        getUnReadMessages(data._id)
-        listenSocketChannel()
-    }, [])
+        getUnReadMessages(data?._id);
+    }, [contacts]);
 
-    const getUnReadMessages = async (opponentId: string) => {
-
-        if (!opponentId || opponentId?.trim() === "") return
-
-        try {
-
-            const resp = await axios.get(`${baseUrl}/api/v1/unread-messages/${opponentId}`, { withCredentials: true })
-            setUnReadMessages(resp?.data?.data)
-
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
-
-    const listenSocketChannel = async () => {
+    useEffect(() => {
 
         const socket = io(baseUrl);
 
         socket.on(`${messageCountChannel}-${data?._id}`, async () => {
-            await getContacts()
-        })
+            await getContacts();
+        });
 
-        return () => socket.close()
+        return () => {
+            socket.disconnect();
+        }
 
-    }
+    }, [data._id, getContacts]);
 
-    useEffect(() => {
-        getUnReadMessages(data?._id)
-    }, [contacts])
+    const getUnReadMessages = async (opponentId: string) => {
+        if (!opponentId || opponentId?.trim() === "") return;
+
+        try {
+            const resp = await axios.get(`${baseUrl}/api/v1/unread-messages/${opponentId}`, { withCredentials: true });
+            setUnReadMessages(resp?.data?.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <>

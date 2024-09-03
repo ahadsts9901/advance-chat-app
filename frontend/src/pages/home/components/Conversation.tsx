@@ -8,7 +8,7 @@ import axios from "axios"
 import { baseUrl } from "../../../core"
 import { useEffect, useState } from "react"
 
-const Conversation = ({ userId }: any) => {
+const Conversation = ({ userId, getContacts }: any) => {
 
     const navigate = useNavigate()
 
@@ -45,7 +45,7 @@ const Conversation = ({ userId }: any) => {
                     (!userId || !user || isLoading) ? <ConversationSplash /> :
                         <>
                             <ConversationHeader user={user} setUser={setUser} />
-                            <ConversationBody user={user} messages={messages} setMessages={setMessages} />
+                            <ConversationBody user={user} messages={messages} setMessages={setMessages} getContacts={getContacts} />
                             <ConversationForm user={user} setMessages={setMessages} />
                         </>
                 }

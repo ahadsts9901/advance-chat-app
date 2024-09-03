@@ -1,29 +1,11 @@
 import "./main.css"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import SingleContact from "./SingleContact"
-import axios from "axios"
-import { baseUrl } from "../../../../core"
-
-const ChatContacts = ({ userId }: any) => {
-
-    const [contacts, setContacts] = useState<any[]>([])
+const ChatContacts = ({ userId, getContacts, contacts }: any) => {
 
     useEffect(() => {
         getContacts()
-    }, [])
-    
-    const getContacts = async () => {
-
-        try {
-
-            const resp = await axios.get(`${baseUrl}/api/v1/contacts`, { withCredentials: true })
-            setContacts(resp?.data?.data)
-
-        } catch (error) {
-            console.error(error)
-        }
-
-    }
+    }, [userId])
 
     return (
         <>

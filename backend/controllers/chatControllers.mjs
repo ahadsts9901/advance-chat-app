@@ -7,7 +7,7 @@ import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const getAllContactsWithChatsController = async (req, res, next) => {
-
+    
     try {
         const currentUserId = req?.currentUser?._id;
 
@@ -31,33 +31,38 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
         }).exec();
 
         // Step 3: Build contacts array
-        const contactsWithChats = allUsers.map((user) => {
-            // Filter chats involving the current user and the current user
-            const userChats = myChats.filter((chat) =>
-                (chat.from_id.toString() === user._id.toString() || chat.to_id.toString() === user._id.toString())
-            );
+        const contactsWithChats = allUsers
+            .map((user) => {
+                // Filter chats involving the current user and the current user
+                const userChats = myChats.filter((chat) =>
+                    (chat.from_id.toString() === user._id.toString() || chat.to_id.toString() === user._id.toString())
+                );
 
-            // Get the last message
-            const lastMessage = userChats.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn))[0];
+                if (userChats.length === 0) {
+                    return null; // No chats, skip this user
+                }
 
-            return {
-                _id: user._id,
-                profilePhoto: user.profilePhoto,
-                userName: user.userName,
-                lastMessage: lastMessage?.text || "",
-                status: lastMessage?.status || "",
-                messageType: lastMessage?.messageType || "",
-                time: lastMessage ? new Date(lastMessage.createdOn).toLocaleString() : "",
-                isReceived: lastMessage ? lastMessage.to_id.toString() === currentUserId.toString() : false
-            };
-        });
+                // Get the last message
+                const lastMessage = userChats.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn))[0];
+
+                return {
+                    _id: user._id,
+                    profilePhoto: user.profilePhoto,
+                    userName: user.userName,
+                    lastMessage: lastMessage?.text || "",
+                    status: lastMessage?.status || "",
+                    messageType: lastMessage?.messageType || "",
+                    time: lastMessage ? new Date(lastMessage.createdOn).toLocaleString() : "",
+                    isReceived: lastMessage ? lastMessage.to_id.toString() === currentUserId.toString() : false
+                };
+            })
+            .filter(contact => contact !== null); // Remove users with no chats
 
         // Remove current user from contacts array
         const users = contactsWithChats
             .filter(contact => contact._id.toString() !== currentUserId.toString())
             .sort((a, b) => new Date(b.time) - new Date(a.time));
 
-        // Step 4: Fetch current user's chat separately
         const myChatQuery = {
             from_id: currentUserId,
             to_id: currentUserId,
@@ -74,15 +79,15 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
             });
         }
 
-        // Step 5: Add current user's data manually
         const myUser = {
             _id: currentUserId,
-            profilePhoto: currentUser?.profilePhoto,
+            contactId: currentUserId,
             userName: currentUser?.userName,
+            profilePhoto: currentUser?.profilePhoto,
             lastMessage: myChat[0]?.text || "",
             status: myChat[0]?.status || "",
             messageType: myChat[0]?.messageType || "",
-            time: myChat[0]?.createdOn ? new Date(myChat[0]?.createdOn).toLocaleString() : "",
+            time: myChat[0]?.createdOn || "",
             isReceived: false,
         };
 
@@ -90,14 +95,14 @@ export const getAllContactsWithChatsController = async (req, res, next) => {
 
         return res.send({
             message: errorMessages?.contactsFetched,
-            data: users
+            data: users,
         });
 
     } catch (error) {
         console.error(error);
         return res.status(500).send({
             message: errorMessages?.serverError,
-            error: error?.message
+            error: error?.message,
         });
     }
 }
