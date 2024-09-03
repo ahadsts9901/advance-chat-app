@@ -355,3 +355,52 @@ export const delivereMessagesController = async (req, res, next) => {
     }
 
 }
+
+export const readMessagesController = async (req, res, next) => {
+
+    try {
+
+        const currentUserId = req?.currentUser?._id
+        const opponentId = req?.params?.userId
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        if (!opponentId) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing,
+            });
+        }
+
+        if (!isValidObjectId(opponentId)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId,
+            });
+        }
+
+        const resp = await chatModel.updateMany(
+            {
+                to_id: currentUserId,
+                from_id: opponentId
+            },
+            {
+                $set: { status: "seen" }
+            }
+        )
+
+        res.send({
+            message: errorMessages?.messagesRead,
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
