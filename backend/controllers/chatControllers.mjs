@@ -484,6 +484,14 @@ export const updateMessageController = async (req, res, next) => {
             });
         }
 
+        const isEditTimeExpired = moment().diff(moment(message?.createdOn), 'minutes') > 5;
+
+        if(isEditTimeExpired){
+            return res.status(401).send({
+                message: errorMessages?.editTimeExpired,
+            });
+        }
+
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
             { text: text }

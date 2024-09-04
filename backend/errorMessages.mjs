@@ -33,4 +33,5 @@ export const errorMessages = {
     messageDeletedForEveryone: "message deleted for everyone",
     textMissing: "text is missing",
     messageUpdated: "message updated successfully",
+    editTimeExpired: "edit message time limit 5 minutes has expired"
 }
