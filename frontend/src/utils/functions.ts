@@ -47,6 +47,7 @@ export const formatTime = (time: number) => {
 }
 
 export const groupUsersByLetter = (users: any[]) => {
+
     const grouped: { [key: string]: any[] } = {};
 
     users.forEach(user => {
@@ -60,3 +61,7 @@ export const groupUsersByLetter = (users: any[]) => {
     return grouped;
 
 };
+
+export const copyText = async (text:string) => {
+
+}

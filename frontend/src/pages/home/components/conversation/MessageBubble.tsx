@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux"
 import { Status } from "../chat/SingleContact"
-import { timeAgo } from "../../../../utils/functions"
+import { copyText, timeAgo } from "../../../../utils/functions"
 import AudioMessage from "./AudioMessage"
 import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { IconButton, Menu, MenuItem } from "@mui/material"
 import { FaChevronDown } from "react-icons/fa";
 
@@ -38,16 +37,50 @@ export const DropMenu = ({ data }: any) => {
         setAnchorEl(null);
     };
 
+    const deleteForMEConfirmation = () => {
+
+        setIsAlertOpen(true)
+        setAlertdata({
+            title: "Delete for me?",
+            description: "Are you sure you want to delete this message?. The action cannot be undone",
+            fun: deleteForMe,
+        })
+        handleClose()
+
+    }
+
+    const deleteForMe = async () => {
+
+    }
+
+    const deleteForEveryoneConfirmation = () => {
+
+        setIsAlertOpen(true)
+        setAlertdata({
+            title: "Delete for everyone?",
+            description: "Are you sure you want to unsend this message?. The action cannot be undone",
+            fun: deleteForEveryone,
+        })
+        handleClose()
+
+    }
+
+    const deleteForEveryone = async () => {
+
+    }
+
+
+
     const myOptions = [
-        { label: "Delete for me", fun: () => console.log("delete for me") },
-        { label: "Delete for everyone", fun: () => console.log("delete for everyone") },
+        { label: "Delete for me", fun: deleteForMEConfirmation },
+        { label: "Delete for everyone", fun: () => deleteForEveryoneConfirmation },
         { label: "Edit", fun: () => console.log("edit") },
-        { label: "Copy", fun: () => console.log("copy") },
+        { label: "Copy", fun: () => () => copyText(data?.text) },
     ]
 
     const opponentOptions = [
-        { label: "Delete for me", fun: () => console.log("delete for me") },
-        { label: "Copy", fun: () => console.log("copy") },
+        { label: "Delete for me", fun: () => deleteForMEConfirmation },
+        { label: "Copy", fun: () => copyText(data?.text) },
     ]
 
     const options = currentUser?._id?.toString() === data?.from_id?.toString() ? myOptions : opponentOptions
