@@ -1,2 +1,5 @@
-delete for everyone
 drag and drop files
+profile
+edit profile
+voice call
+video call
