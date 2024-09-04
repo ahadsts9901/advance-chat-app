@@ -406,16 +406,19 @@ export const deleteMessageForEveryoneController = async (req, res, next) => {
             });
         }
 
+        if (message?.from_id?.toString() !== currentUserId?.toString()) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
-            {
-                $addToSet: { deletedFrom: currentUserId }
-            },
-            { new: true }
+            { isUnsend: true }
         );
 
         res.send({
-            message: errorMessages?.messageDeletedForMe,
+            message: errorMessages?.messageDeletedForEveryone,
         })
 
     } catch (error) {

@@ -29,5 +29,6 @@ export const errorMessages = {
     messagesRead: "messages marked as read",
     usersFetched: "users fetched successfully",
     messageNotFound: "message not found",
-    messageDeletedForMe: "message deleted for me"
+    messageDeletedForMe: "message deleted for me",
+    messageDeletedForEveryone: "message deleted for everyone"
 }
