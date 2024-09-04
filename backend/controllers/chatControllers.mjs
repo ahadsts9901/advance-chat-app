@@ -372,3 +372,58 @@ export const deleteMessageForMeController = async (req, res, next) => {
     }
 
 }
+
+export const deleteMessageForEveryoneController = async (req, res, next) => {
+
+    try {
+
+        const currentUserId = req?.currentUser?._id
+        const messageId = req?.params?.messageId
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        if (!messageId) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing,
+            });
+        }
+
+        if (!isValidObjectId(messageId)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId,
+            });
+        }
+
+        const message = await chatModel.findById(messageId).exec()
+
+        if (!message) {
+            return res.status(404).send({
+                message: errorMessages?.messageNotFound,
+            });
+        }
+
+        const resp = await chatModel.findByIdAndUpdate(
+            messageId,
+            {
+                $addToSet: { deletedFrom: currentUserId }
+            },
+            { new: true }
+        );
+
+        res.send({
+            message: errorMessages?.messageDeletedForMe,
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
