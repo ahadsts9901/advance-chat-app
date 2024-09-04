@@ -7,20 +7,23 @@ import { IconButton } from "@mui/material"
 import {groupUsersByLetter} from "../../../../../utils/functions"
 
 const ContactSearchBar = ({ setShowChatSearch, users, setFilteredUsers }: any) => {
+
     const [text, setText] = useState("")
 
     const searchContacts = (text: string) => {
+
         setText(text)
+        
         if (!text || text.trim() === "") {
-            setFilteredUsers(groupUsersByLetter(users)) // Reset to the original grouped users when search is cleared
+            setFilteredUsers(groupUsersByLetter(users))
             return
         }
 
         const filtered = users.filter((user: any) =>
-            user.userName.toLowerCase().includes(text.toLowerCase())
+            user?.userName?.toLowerCase()?.includes(text?.toLowerCase())
         )
 
-        setFilteredUsers(groupUsersByLetter(filtered)) // Update with filtered users
+        setFilteredUsers(groupUsersByLetter(filtered))
     }
 
     return (

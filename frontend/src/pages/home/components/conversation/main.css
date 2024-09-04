@@ -67,6 +67,45 @@
   font-size: 0.8em;
   color: #aebac1;
 }
+.conversationHeader .searchBarMessage {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+}
+.conversationHeader .searchBarMessage svg {
+  color: #aebac1;
+  font-size: 0.8em;
+}
+.conversationHeader .searchBarMessage .searchBar {
+  width: 100%;
+  background-color: #2a3942;
+  padding: 0.35em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0;
+  border-radius: 4px;
+}
+.conversationHeader .searchBarMessage .searchBar input {
+  width: 100%;
+  background-color: #2a3942;
+  border: 0;
+  outline: none;
+  padding: 0.4em;
+  padding-left: 0.5em;
+  font-size: 0.8em;
+  color: #8696a0;
+}
+.conversationHeader .searchBarMessage .searchBar input::-moz-placeholder {
+  color: #8696a0;
+}
+.conversationHeader .searchBarMessage .searchBar input::placeholder {
+  color: #8696a0;
+}
 
 .conversationForm {
   width: 100%;

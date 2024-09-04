@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import "./main.css"
 import { IconButton } from "@mui/material"
-import { MdChat } from "react-icons/md";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -123,7 +122,6 @@ const ChatHeader = () => {
                 e.target.style.padding = "0.4em"
             }} />
             <div className="iconsCont">
-                <IconButton><MdChat /></IconButton>
                 <DropLogout />
             </div>
         </div>

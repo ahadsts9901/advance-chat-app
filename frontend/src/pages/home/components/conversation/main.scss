@@ -203,6 +203,50 @@ $red: rgb(229, 71, 71);
 
     }
 
+    .searchBarMessage {
+
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.5em;
+
+        svg {
+            color: $panel-header-icon;
+            font-size: 0.8em;
+        }
+
+        .searchBar {
+
+            width: 100%;
+            background-color: $input-background;
+            padding: 0.35em;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0;
+            border-radius: 4px;
+
+            input {
+                width: 100%;
+                background-color: $input-background;
+                border: 0;
+                outline: none;
+                padding: 0.4em;
+                padding-left: 0.5em;
+                font-size: 0.8em;
+                color: $icon-lighter;
+            }
+
+            input::placeholder {
+                color: $icon-lighter;
+            }
+
+        }
+
+    }
+
 }
 
 .conversationForm {

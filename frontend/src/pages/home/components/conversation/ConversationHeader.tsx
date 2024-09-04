@@ -11,8 +11,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import io from "socket.io-client"
 import { baseUrl, userActiveChannel } from "../../../../core";
 import { useSelector } from "react-redux";
+import { RxCross2 } from "react-icons/rx"
+import { IoArrowBackSharp } from "react-icons/io5"
 
-const DropMenu = () => {
+export const DropMenu = () => {
 
     const navigate = useNavigate()
 
@@ -77,50 +79,87 @@ const DropMenu = () => {
 
 }
 
-const ConversationHeader = ({ user, setUser }: any) => {
+export const SearchBarMessage = ({ searchText, setSearchText, setSearchMessage }: any) => {
+
+    return (
+        <>
+            <div className="searchBarMessage">
+                <IconButton onClick={() => setSearchMessage(false)} size="small">
+                    <IoArrowBackSharp />
+                </IconButton>
+                <div className="searchBar">
+                    <IoSearch />
+                    <input
+                        value={searchText}
+                        type="text"
+                        placeholder="Search messages"
+                        onChange={(e: any) => setSearchText(e?.target?.value)}
+                    />
+                    {searchText && (
+                        <IconButton onClick={() => setSearchText("")} size="small">
+                            <RxCross2 style={{ fontSize: "0.7em" }} />
+                        </IconButton>
+                    )}
+                </div>
+            </div>
+        </>
+    )
+}
+
+const ConversationHeader = ({ user, setUser, searchText, setSearchText }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
-    useEffect(() => {
-        listenSocketChannel()
-    }, [])
+    const [searchMessage, setSearchMessage] = useState<boolean>(false)
 
-    const listenSocketChannel = async () => {
+    useEffect(() => {
 
         const socket = io(baseUrl);
 
         socket.on(`${userActiveChannel}-${user?._id}`, async (e: any) => setUser({ ...user, ...e }))
 
-        return () => socket.close()
+        return () => {
+            socket.close()
+        }
 
-    }
+    }, [])
 
     return (
         <>
             <div className="conversationHeader">
-                <>
-                    <div className="userData">
-                        <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
-                            e.target.src = fallBackProfileImage
-                            e.target.style.padding = "0.4em"
-                        }} />
-                        <div>
-                            <h4>{user?.userName}</h4>
-                            {
-                                user?._id == currentUser?._id ? <p>You</p> :
-                                    <p>{user?.isActive ? "Online" : "Offline"}</p>
-                            }
-                        </div>
-                    </div>
-                </>
-                <>
-                    <div className="icons">
-                        <IconButton><MdLocalPhone /></IconButton>
-                        <IconButton><IoIosVideocam /></IconButton>
-                        <IconButton><IoSearch /></IconButton>
-                        <DropMenu />
-                    </div>
-                </>
+                {
+                    searchMessage ?
+                        <SearchBarMessage
+                            searchText={searchText}
+                            setSearchText={setSearchText}
+                            setSearchMessage={setSearchMessage}
+                        /> :
+                        <>
+                            <>
+                                <div className="userData">
+                                    <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
+                                        e.target.src = fallBackProfileImage
+                                        e.target.style.padding = "0.4em"
+                                    }} />
+                                    <div>
+                                        <h4>{user?.userName}</h4>
+                                        {
+                                            user?._id == currentUser?._id ? <p>You</p> :
+                                                <p>{user?.isActive ? "Online" : "Offline"}</p>
+                                        }
+                                    </div>
+                                </div>
+                            </>
+                            <>
+                                <div className="icons">
+                                    <IconButton><MdLocalPhone /></IconButton>
+                                    <IconButton><IoIosVideocam /></IconButton>
+                                    <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
+                                    <DropMenu />
+                                </div>
+                            </>
+                        </>
+                }
             </div>
         </>
     )

@@ -6,7 +6,7 @@ import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../cor
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
-const ConversationBody = ({ user, messages, setMessages, getContacts }: any) => {
+const ConversationBody = ({ user, messages, setMessages, getContacts, searchText, setSearchText }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
