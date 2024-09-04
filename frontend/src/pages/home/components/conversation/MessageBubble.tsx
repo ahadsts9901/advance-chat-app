@@ -6,6 +6,8 @@ import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert"
 import { useState } from "react"
 import { IconButton, Menu, MenuItem } from "@mui/material"
 import { FaChevronDown } from "react-icons/fa";
+import axios from "axios"
+import { baseUrl } from "../../../../core"
 
 export const Media = ({ messageType, content, image }: any) => {
 
@@ -18,7 +20,7 @@ export const Media = ({ messageType, content, image }: any) => {
     )
 }
 
-export const DropMenu = ({ data }: any) => {
+export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
@@ -50,7 +52,25 @@ export const DropMenu = ({ data }: any) => {
     }
 
     const deleteForMe = async () => {
-        console.log("delete for me")
+
+        if (!data?._id || data?._id?.trim() === "") return
+
+        try {
+
+            setIsLoading(true)
+            await axios.put(`${baseUrl}/api/v1/delete-message-for-me/${data?._id}`, {}, {
+                withCredentials: true
+            })
+            setMessages((oldMessages: any) => oldMessages?.filter((message: any) => message?._id?.toString() !== data?._id?.toString()))
+            setIsLoading(false)
+            setIsAlertOpen(false)
+            await getContacts()
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
+
     }
 
     const deleteForEveryoneConfirmation = () => {
@@ -79,7 +99,7 @@ export const DropMenu = ({ data }: any) => {
     ]
 
     const opponentOptions = [
-        { label: "Delete for me", fun: () => deleteForMEConfirmation },
+        { label: "Delete for me", fun: deleteForMEConfirmation },
         { label: "Copy", fun: copyMessage },
     ]
 
@@ -128,12 +148,12 @@ export const DropMenu = ({ data }: any) => {
 
 }
 
-export const RightChat = ({ data, image }: any) => {
+export const RightChat = ({ data, image, setMessages, getContacts }: any) => {
 
     return (
         <>
             <div className="rightChatBubble">
-                <DropMenu data={data} />
+                <DropMenu data={data} setMessages={setMessages} getContacts={getContacts} />
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />
                 }
@@ -146,12 +166,12 @@ export const RightChat = ({ data, image }: any) => {
     )
 }
 
-export const LeftChat = ({ data, image }: any) => {
+export const LeftChat = ({ data, image, setMessages, getContacts }: any) => {
 
     return (
         <>
             <div className="leftChatBubble">
-                <DropMenu data={data} />
+                <DropMenu data={data} setMessages={setMessages} getContacts={getContacts} />
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />
                 }
@@ -175,14 +195,14 @@ export const TimeAndRead = ({ chat, status, time }: any) => {
     )
 }
 
-const MessageBubble = ({ data, user }: any) => {
+const MessageBubble = ({ data, user, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
     return (
         <>
             {
-                data?.from_id === currentUser?._id ? <RightChat data={data} image={currentUser?.profilePhoto} /> : <LeftChat data={data} image={user?.profilePhoto} />
+                data?.from_id === currentUser?._id ? <RightChat data={data} image={currentUser?.profilePhoto} setMessages={setMessages} getContacts={getContacts} /> : <LeftChat data={data} image={user?.profilePhoto} setMessages={setMessages} getContacts={getContacts} />
             }
         </>
     )

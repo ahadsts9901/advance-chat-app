@@ -185,7 +185,7 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
                 <div className="body">
                     {
                         messages?.map((message: any, i: number) => <MessageBubble
-                            key={i} data={message} user={user}
+                            key={i} data={message} user={user} setMessages={setMessages} getContacts={getContacts}
                         />)
                     }
                 </div>
