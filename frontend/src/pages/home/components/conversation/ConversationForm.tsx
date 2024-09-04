@@ -108,6 +108,23 @@ const ConversationForm = ({ user, setMessages, setFilteredContacts, setOriginalM
 
     }
 
+    const handleDrop = (e: any) => {
+
+        e.preventDefault();
+        const droppedFile = e.dataTransfer.files[0];
+
+        if (!droppedFile?.type?.startsWith("image") && !droppedFile?.type?.startsWith("video") && !droppedFile?.name?.endsWith("mp3")) return
+
+        e.target.style.backgroundColor = "#202c33"
+        setFile(droppedFile);
+
+    };
+
+    const handleDragOver = (e: any) => {
+        e.preventDefault();
+        e.target.style.backgroundColor = "#2a3942"
+    };
+
     return (
         <>
             {file && <SelectedFile fileInputRef={fileInputRef} file={file} setFile={setFile} fileSizeValidation={fileSizeValidation} />}
@@ -118,7 +135,7 @@ const ConversationForm = ({ user, setMessages, setFilteredContacts, setOriginalM
                     </>
                     :
                     <>
-                        <form className="conversationForm" onSubmit={sendMessage}>
+                        <form className="conversationForm" onSubmit={sendMessage} onDragOver={handleDragOver} onDrop={handleDrop}>
                             <>
                                 {
                                     showEmojiPicker ?
