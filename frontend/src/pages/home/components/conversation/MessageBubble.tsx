@@ -22,9 +22,9 @@ export const RightChat = ({ data, image }: any) => {
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />
                 }
-                {
-                    (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
-                }
+                {data?.text && data?.messageType !== "audio" ? (
+                    <p dangerouslySetInnerHTML={{ __html: data?.text }} />
+                ) : null}
                 <TimeAndRead chat="right" status={data?.status} time={data?.createdOn} />
             </div>
         </>
@@ -39,9 +39,9 @@ export const LeftChat = ({ data, image }: any) => {
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />
                 }
-                {
-                    (data?.text && data?.messageType !== "audio") ? <p>{data?.text}</p> : null
-                }
+                {data?.text && data?.messageType !== "audio" ? (
+                    <p dangerouslySetInnerHTML={{ __html: data?.text }} />
+                ) : null}
                 <TimeAndRead chat="left" status={data?.status} time={data?.createdOn} />
             </div>
         </>

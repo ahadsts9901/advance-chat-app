@@ -14,18 +14,6 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
 
         const socket = io(baseUrl);
 
-        const getMessages = async () => {
-
-            try {
-                setMessages([])
-                const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
-                setMessages(resp?.data?.data)
-            } catch (error) {
-                console.error(error)
-            }
-
-        };
-
         const listenSocketChannel = () => {
             socket.on('connect', () => console.log("socket connected"))
             socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
@@ -107,6 +95,18 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
 
     }, [user])
 
+    const getMessages = async () => {
+
+        try {
+            setMessages([])
+            const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
+            setMessages(resp?.data?.data)
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
+
     const markDelivered = async () => {
 
         if (currentUser?.isActive) {
@@ -145,12 +145,36 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
         searchMessages(searchText)
     }, [searchText])
 
-    const searchMessages = (text: string) => {
+    const getHighlightedText = (text: string, highlight: string) => {
 
-        if (!text) return
+        if (!highlight.trim()) return text;
 
-        console.log(text)
+        const escapedHighlight = highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+        const regex = new RegExp(`(${escapedHighlight})`, 'gi');
+
+        const parts = text.split(regex);
+
+        return parts.map((part, i: number) =>
+            regex.test(part) ? `<span style="background-color: #fcf003ab; color: #151515" key={${i}}>${part}</span>` : part
+        ).join('');
+
+    };
+
+    const searchMessages = async (text: string) => {
+
+        if (!text || text?.trim() === "") {
+            await getMessages()
+            return
+        }
+
+        await getMessages()
+        setMessages((oldMessages: any) =>
+            oldMessages.map((message: any) => ({
+                ...message,
+                text: getHighlightedText(message.text, text)
+            }))
+        );
     }
 
     return (
@@ -159,7 +183,9 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
                 <div className="background"></div>
                 <div className="body">
                     {
-                        messages?.map((message: any, i: number) => <MessageBubble key={i} data={message} user={user} />)
+                        messages?.map((message: any, i: number) => <MessageBubble
+                            key={i} data={message} user={user}
+                        />)
                     }
                 </div>
             </div>
