@@ -1,5 +1,4 @@
 delete
-delete for me
 delete for everyone
 clear chat
 edit messages
