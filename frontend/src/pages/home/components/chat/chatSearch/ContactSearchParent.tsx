@@ -5,6 +5,17 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { baseUrl } from "../../../../../core"
 import { groupUsersByLetter } from "../../../../../utils/functions"
+import React from "react"
+
+export const Letter = ({ letter }: any) => {
+
+  return (
+    <>
+      <h2 className="letter">{letter?.toUpperCase()}</h2>
+    </>
+  )
+
+}
 
 const ContactSearchParent = ({ setShowChatSearch }: any) => {
 
@@ -34,18 +45,26 @@ const ContactSearchParent = ({ setShowChatSearch }: any) => {
 
   }
 
-  console.log("groupedUsers", groupedUsers)
-
   return (
     <>
       <div className="ContactSearchParent">
         <ContactSearchBar setShowChatSearch={setShowChatSearch} users={users} setUsers={setUsers} />
         <div className="contactSearchContacts">
           {
-            users?.map((user: any, i: number) => <ContactSearchContact key={i} data={user} />)
+            groupedUsers &&
+            Object.keys(groupedUsers).map((letter: string, i: number) => (
+              <React.Fragment key={i}>
+                <Letter letter={letter} />
+                {
+                  groupedUsers[letter].map((user: any, i: number) => (
+                    <ContactSearchContact key={i} data={user} />
+                  ))
+                }
+              </React.Fragment>
+            ))
           }
         </div>
-      </div>
+      </div >
     </>
   )
 }

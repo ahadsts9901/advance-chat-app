@@ -79,4 +79,63 @@ $icon-ack: #53bdeb;
 
     }
 
+    .contactSearchContacts {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        background-color: $search-input-container-background;
+
+        .letter {
+            width: 100%;
+            padding: 0.5em;
+            color: $panel-header-icon;
+            font-weight: normal;
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        .chatSearchContact {
+
+            width: 100%;
+            height: fit-content;
+            padding: 0.5em;
+            background-color: $search-input-container-background;
+            cursor: pointer;
+            border-top: 1px solid $conversation-border;
+            border-bottom: 1px solid $conversation-border;
+            transition: background-color 0.1s ease;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0.8em;
+
+            &:hover {
+                background-color: $input-background;
+            }
+
+            img {
+                width: 2.3em;
+                height: 2.3em;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 100%;
+                background-color: $outgoing-background;
+                cursor: pointer;
+            }
+
+            h4 {
+                font-size: 0.9em;
+                color: $panel-header-icon;
+                width: 100%;
+                text-align: left;
+                font-weight: bold;
+            }
+
+        }
+
+    }
+
 }
