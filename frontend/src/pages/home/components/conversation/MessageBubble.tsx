@@ -9,6 +9,7 @@ import { FaChevronDown } from "react-icons/fa";
 import axios from "axios"
 import { baseUrl } from "../../../../core"
 import moment from "moment"
+import FormDialogue from "../../../../components/mui/FormDialogue"
 
 export const Media = ({ messageType, content, image }: any) => {
 
@@ -170,6 +171,13 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
                 title={alertData?.title}
                 description={alertData?.description}
                 fun={alertData?.fun}
+                isLoading={isLoading}
+            />
+            <FormDialogue
+                open={showEditDialogue}
+                setOpen={setShowEditDialogue}
+                text={editText}
+                fun={editMessage}
                 isLoading={isLoading}
             />
             <div className="drop-message-button">
