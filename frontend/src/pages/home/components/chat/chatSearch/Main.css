@@ -62,6 +62,25 @@
   justify-content: flex-start;
   align-items: flex-start;
   background-color: #111b21;
+  overflow-y: auto;
+}
+.ContactSearchParent .contactSearchContacts::-webkit-scrollbar {
+  width: 10px;
+}
+.ContactSearchParent .contactSearchContacts::-webkit-scrollbar-track {
+  background-color: #111b21;
+}
+.ContactSearchParent .contactSearchContacts::-webkit-scrollbar-thumb {
+  background-color: #2a3942;
+}
+.ContactSearchParent .contactSearchContacts::-moz-scrollbar {
+  width: 10px;
+}
+.ContactSearchParent .contactSearchContacts::-moz-scrollbar-track {
+  background-color: #111b21;
+}
+.ContactSearchParent .contactSearchContacts::-moz-scrollbar-thumb {
+  background-color: #2a3942;
 }
 .ContactSearchParent .contactSearchContacts .letter {
   width: 100%;
