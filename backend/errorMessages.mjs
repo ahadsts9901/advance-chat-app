@@ -30,5 +30,7 @@ export const errorMessages = {
     usersFetched: "users fetched successfully",
     messageNotFound: "message not found",
     messageDeletedForMe: "message deleted for me",
-    messageDeletedForEveryone: "message deleted for everyone"
+    messageDeletedForEveryone: "message deleted for everyone",
+    textMissing: "text is missing",
+    messageUpdated: "message updated successfully",
 }

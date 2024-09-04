@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel, messageSeenChannel, unsendMessageChannel } from "../core.mjs"
+import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel, messageSeenChannel, unsendMessageChannel, updateMessageChannel } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
@@ -444,6 +444,7 @@ export const updateMessageController = async (req, res, next) => {
 
         const currentUserId = req?.currentUser?._id
         const messageId = req?.params?.messageId
+        const text = req?.body?.text
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
             return res.status(401).send({
@@ -463,6 +464,12 @@ export const updateMessageController = async (req, res, next) => {
             });
         }
 
+        if (!text || text?.trim() === "") {
+            return res.status(400).send({
+                message: errorMessages?.textMissing,
+            });
+        }
+
         const message = await chatModel.findById(messageId).exec()
 
         if (!message) {
@@ -479,18 +486,18 @@ export const updateMessageController = async (req, res, next) => {
 
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
-            { isUnsend: true }
+            { text: text }
         );
 
         if (globalIoObject?.io) {
 
-            console.log(`emitting unsend message to ${currentUserId}`)
-            globalIoObject?.io?.emit(`${unsendMessageChannel}-${currentUserId}`, { messageId: messageId })
+            console.log(`emitting edit message to ${currentUserId}`)
+            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { messageId: messageId, text: text })
 
         }
 
         res.send({
-            message: errorMessages?.messageDeletedForEveryone,
+            message: errorMessages?.messageUpdated,
         })
 
     } catch (error) {
