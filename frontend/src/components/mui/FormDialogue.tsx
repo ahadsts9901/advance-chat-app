@@ -73,7 +73,7 @@ export default function FormDialogue({ open, setOpen, text, setText, fun, isLoad
                         multiline
                         value={text}
                         onChange={(e: any) => setText(e?.target?.value)}
-                        sx={{ width: "60vw", padding: "1em" }}
+                        sx={{ width: "500px", padding: "1em" }}
                         placeholder='Enter message'
                     />
                     <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} sx={{ marginLeft: "1em" }}>
