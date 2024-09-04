@@ -529,8 +529,8 @@ export const clearChatController = async (req, res, next) => {
 
     try {
 
-        const currentUserId = req?.currentUser?._id
-        const opponentId = req?.params?.userId
+        const currentUserId = req?.currentUser?._id;
+        const opponentId = req?.params?.userId;
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
             return res.status(401).send({
@@ -550,21 +550,7 @@ export const clearChatController = async (req, res, next) => {
             });
         }
 
-        const message = await chatModel.findById(messageId).exec()
-
-        if (!message) {
-            return res.status(404).send({
-                message: errorMessages?.messageNotFound,
-            });
-        }
-
-        if (message?.from_id?.toString() !== currentUserId?.toString()) {
-            return res.status(401).send({
-                message: errorMessages?.unAuthError,
-            });
-        }
-
-        const resp = await userModel.updateMany(
+        const resp = await chatModel.updateMany(
             {
                 $or: [
                     {
@@ -572,27 +558,25 @@ export const clearChatController = async (req, res, next) => {
                         to_id: opponentId
                     },
                     {
-                        from_id: currentUserId,
-                        to_id: opponentId
+                        from_id: opponentId,
+                        to_id: currentUserId
                     }
                 ]
             },
             {
                 $addToSet: { deletedFrom: currentUserId }
-            },
-            { new: true }
-        )
+            }
+        );
 
         res.send({
             message: errorMessages?.chatCleared,
-        })
+        });
 
     } catch (error) {
-        console.error(error)
+        console.error(error);
         res.status(500).send({
             message: errorMessages?.serverError,
             error: error?.message
-        })
+        });
     }
-
-}
+};
