@@ -1,5 +1,3 @@
-delete
-delete for everyone
 clear chat
 edit messages
 edit in 1 minute
