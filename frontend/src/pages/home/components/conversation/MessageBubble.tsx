@@ -86,7 +86,25 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     }
 
     const deleteForEveryone = async () => {
-        console.log("delete for everyone")
+
+        if (!data?._id || data?._id?.trim() === "") return
+
+        try {
+
+            setIsLoading(true)
+            await axios.put(`${baseUrl}/api/v1/delete-message-for-everyone/${data?._id}`, {}, {
+                withCredentials: true
+            })
+            setMessages((oldMessages: any) => oldMessages?.map((message: any) => (message?._id?.toString() !== data?._id?.toString()) ? message.isUnsend = true : message?.isUnsend))
+            setIsLoading(false)
+            setIsAlertOpen(false)
+            await getContacts()
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
+
     }
 
     const copyMessage = () => copyText(data?.text, handleClose)
