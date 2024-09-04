@@ -398,6 +398,68 @@
   width: 100px;
   height: 30px;
 }
+.conversationBody .body .unSendLeft {
+  min-width: 6em;
+  max-width: 80%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #202c33;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 4px;
+  position: relative;
+}
+.conversationBody .body .unSendLeft .drop-message-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.conversationBody .body .unSendLeft .drop-message-button svg {
+  color: #aebac1;
+}
+.conversationBody .body .unSendLeft p {
+  color: #aebac1;
+  font-size: 0.8em;
+  width: 100%;
+  text-align: left;
+  padding: 1em 0.6em;
+}
+.conversationBody .body .unSendRight {
+  min-width: 6em;
+  max-width: 80%;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #005c4b;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-end;
+  gap: 4px;
+  position: relative;
+}
+.conversationBody .body .unSendRight .drop-message-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.conversationBody .body .unSendRight .drop-message-button svg {
+  color: #aebac1;
+}
+.conversationBody .body .unSendRight p {
+  color: #aebac1;
+  font-size: 0.8em;
+  width: 100%;
+  text-align: left;
+  padding: 1em 0.6em;
+}
 
 .fileCont {
   width: 100%;

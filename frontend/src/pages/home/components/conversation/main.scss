@@ -40,12 +40,20 @@ $red: rgb(229, 71, 71);
         top: 0;
         right: 0;
 
-        svg{
+        svg {
             color: $panel-header-icon;
         }
 
     }
 
+}
+
+@mixin unsendMessageParagraph() {
+    color: $panel-header-icon;
+    font-size: 0.8em;
+    width: 100%;
+    text-align: left;
+    padding: 1em 0.6em;
 }
 
 @mixin photoMessage() {
@@ -414,6 +422,26 @@ $red: rgb(229, 71, 71);
 
             .audioMessage {
                 @include audioMessage()
+            }
+
+        }
+
+        .unSendLeft {
+
+            @include chatBubble($incoming-background, flex-start);
+
+            p {
+                @include unsendMessageParagraph();
+            }
+
+        }
+
+        .unSendRight {
+
+            @include chatBubble($outgoing-background, flex-end);
+
+            p {
+                @include unsendMessageParagraph();
             }
 
         }
