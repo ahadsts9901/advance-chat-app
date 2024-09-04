@@ -14,6 +14,7 @@ const Conversation = ({ userId, getContacts, setFilteredContacts }: any) => {
 
     const [user, setUser] = useState<any>(null)
     const [messages, setMessages] = useState<any[]>([])
+    const [originalMessages, setOriginalMessages] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [searchText, setSearchText] = useState<string>("")
 
@@ -63,8 +64,8 @@ const Conversation = ({ userId, getContacts, setFilteredContacts }: any) => {
                     (!userId || !user || isLoading) ? <ConversationSplash /> :
                         <>
                             <ConversationHeader user={user} setUser={setUser} setSearchText={setSearchText} searchText={searchText} />
-                            <ConversationBody user={user} messages={messages} setMessages={setMessages} searchText={searchText} getContacts={getContacts} />
-                            <ConversationForm user={user} setMessages={setMessages} setFilteredContacts={setFilteredContacts} setSearchText={setSearchText} searchText={searchText} />
+                            <ConversationBody user={user} messages={messages} setMessages={setMessages} searchText={searchText} getContacts={getContacts} originalMessages={originalMessages} setOriginalMessages={setOriginalMessages} />
+                            <ConversationForm user={user} setMessages={setMessages} setFilteredContacts={setFilteredContacts} setSearchText={setSearchText} searchText={searchText} setOriginalMessages={setOriginalMessages} />
                         </>
                 }
             </div>

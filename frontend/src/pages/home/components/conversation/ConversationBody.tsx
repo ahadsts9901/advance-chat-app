@@ -1,12 +1,12 @@
 import "./main.css"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
 import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
-const ConversationBody = ({ user, messages, setMessages, getContacts, searchText }: any) => {
+const ConversationBody = ({ user, messages, setMessages, originalMessages, setOriginalMessages, getContacts, searchText }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
@@ -101,6 +101,7 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
             setMessages([])
             const resp = await axios.get(`${baseUrl}/api/v1/chats/${user?._id}`, { withCredentials: true })
             setMessages(resp?.data?.data)
+            setOriginalMessages(resp?.data?.data)
         } catch (error) {
             console.error(error)
         }
@@ -164,11 +165,11 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
     const searchMessages = async (text: string) => {
 
         if (!text || text?.trim() === "") {
-            await getMessages()
+            await setMessages(originalMessages)
             return
         }
 
-        await getMessages()
+        setMessages(originalMessages)
         setMessages((oldMessages: any) =>
             oldMessages.map((message: any) => ({
                 ...message,

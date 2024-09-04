@@ -1,3 +1,0 @@
-see all chats with alphabets
-search messages in contacts
-search messages of a single contact
