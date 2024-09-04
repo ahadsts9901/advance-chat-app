@@ -497,24 +497,21 @@ export const updateMessageController = async (req, res, next) => {
 
         const status = opponentUser?.isActive ? "delievered" : "sent"
 
-        console.log(status)
-
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
             { text: text, status: status }
         );
 
-        console.log(resp)
-
         if (globalIoObject?.io) {
 
             console.log(`emitting edit message to ${currentUserId}`)
-            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { messageId: messageId, text: resp?.text })
+            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { ...resp, text: text?.trim() })
 
         }
 
         res.send({
             message: errorMessages?.messageUpdated,
+            data: { ...resp, text: text?.trim() }
         })
 
     } catch (error) {

@@ -72,7 +72,6 @@ export default function FormDialogue({ open, setOpen, text, setText, fun, isLoad
                         variant="standard"
                         multiline
                         value={text}
-                        defaultValue={text}
                         onChange={(e: any) => setText(e?.target?.value)}
                         sx={{ width: "60vw", padding: "1em" }}
                         placeholder='Enter message'

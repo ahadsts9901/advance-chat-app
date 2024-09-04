@@ -139,7 +139,12 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
                 text: editText
             }, { withCredentials: true })
 
-            console.log(resp)
+            setMessages((oldMessages: any) =>
+                oldMessages?.map((message: any) =>
+                    message?._id?.toString() === data?._id?.toString() ?
+                        { ...resp?.data?.data, text: editText?.trim() } : message
+                )
+            );
 
             setIsLoading(false)
             setShowEditDialogue(false)
