@@ -95,7 +95,13 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
             await axios.put(`${baseUrl}/api/v1/delete-message-for-everyone/${data?._id}`, {}, {
                 withCredentials: true
             })
-            setMessages((oldMessages: any) => oldMessages?.map((message: any) => (message?._id?.toString() !== data?._id?.toString()) ? message.isUnsend = true : message?.isUnsend))
+            setMessages((oldMessages: any) =>
+                oldMessages.map((message: any) =>
+                    message?._id?.toString() === data?._id?.toString()
+                        ? { ...message, isUnsend: true }
+                        : message
+                )
+            );
             setIsLoading(false)
             setIsAlertOpen(false)
             await getContacts()
@@ -216,7 +222,7 @@ export const TimeAndRead = ({ chat, status, time }: any) => {
     )
 }
 
-const UnsendRight = ({ messageId, setMessages, getContacts }: any) => {
+export const UnsendRight = ({ messageId, setMessages, getContacts }: any) => {
     return (
         <>
             <div className="unSendRight">
@@ -227,7 +233,7 @@ const UnsendRight = ({ messageId, setMessages, getContacts }: any) => {
     )
 }
 
-const UnsendLeft = ({ messageId, setMessages, getContacts }: any) => {
+export const UnsendLeft = ({ messageId, setMessages, getContacts }: any) => {
     return (
         <>
             <div className="unSendLeft">
@@ -238,7 +244,7 @@ const UnsendLeft = ({ messageId, setMessages, getContacts }: any) => {
     )
 }
 
-const UnsendMessage = ({ messageId, senderId, setMessages, getContacts }: any) => {
+export const UnsendMessage = ({ messageId, senderId, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
