@@ -524,3 +524,89 @@ export const updateMessageController = async (req, res, next) => {
     }
 
 }
+
+export const clearChatController = async (req, res, next) => {
+
+    try {
+
+        const currentUserId = req?.currentUser?._id
+        const messageId = req?.params?.messageId
+        const text = req?.body?.text
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        if (!messageId) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing,
+            });
+        }
+
+        if (!isValidObjectId(messageId)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId,
+            });
+        }
+
+        if (!text || text?.trim() === "") {
+            return res.status(400).send({
+                message: errorMessages?.textMissing,
+            });
+        }
+
+        const message = await chatModel.findById(messageId).exec()
+
+        if (!message) {
+            return res.status(404).send({
+                message: errorMessages?.messageNotFound,
+            });
+        }
+
+        if (message?.from_id?.toString() !== currentUserId?.toString()) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        const isEditTimeExpired = moment().diff(moment(message?.createdOn), 'minutes') > 5;
+
+        if (isEditTimeExpired) {
+            return res.status(401).send({
+                message: errorMessages?.editTimeExpired,
+            });
+        }
+
+        const opponentUser = await userModel.findById(message?.to_id).exec()
+
+        const status = opponentUser?.isActive ? "delievered" : "sent"
+
+        const resp = await chatModel.findByIdAndUpdate(
+            messageId,
+            { text: text, status: status },
+            { new: true }
+        );
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting edit message to ${currentUserId}`)
+            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, resp)
+
+        }
+
+        res.send({
+            message: errorMessages?.messageUpdated,
+            data: resp
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}

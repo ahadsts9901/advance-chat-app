@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMessageController, deleteMessageForEveryoneController, deleteMessageForMeController, delivereMessagesController, getMessagesController, getNewMessagesCountController, readMessagesController, updateMessageController } from "../controllers/chatControllers.mjs";
+import { clearChatController, createMessageController, deleteMessageForEveryoneController, deleteMessageForMeController, delivereMessagesController, getMessagesController, getNewMessagesCountController, readMessagesController, updateMessageController } from "../controllers/chatControllers.mjs";
 import { upload } from "../utils/multer.mjs"
 
 const router = Router()
@@ -19,5 +19,7 @@ router.put("/delete-message-for-me/:messageId", deleteMessageForMeController)
 router.put("/delete-message-for-everyone/:messageId", deleteMessageForEveryoneController)
 
 router.put("/chats/:messageId", updateMessageController)
+
+router.put("/clear-chat/:userId", clearChatController)
 
 export default router
