@@ -81,6 +81,9 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
                             : message
                     )
                 );
+                if (e?.from_id === user?._id) {
+                    await markRead(user?._id)
+                }
             });
 
         }
