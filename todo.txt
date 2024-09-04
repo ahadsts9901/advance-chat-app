@@ -1,2 +1,2 @@
-clear chat
-edit messages
+delete for everyone
+drag and drop files
