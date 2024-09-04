@@ -1,3 +1,2 @@
 clear chat
 edit messages
-edit in 1 minute
