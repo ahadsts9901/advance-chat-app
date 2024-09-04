@@ -70,9 +70,23 @@ export const DropMenu = ({ setMessages, user, getContacts }: any) => {
 
     }
 
+    const confirmCloseChat = () => {
+
+        setIsAlertOpen(true)
+        setAlertdata({
+            title: "Close chat?",
+            description: "Are you sure you want to close this chat?",
+            fun: closeChat,
+        })
+        handleClose()
+
+    }
+
+    const closeChat = () => navigate("/")
+
     const options = [
         { label: "Clear Chat", fun: confirmClearChat },
-        { label: "Close Chat", fun: () => console.log("close chat") },
+        { label: "Close Chat", fun: confirmCloseChat },
     ]
 
     return (
