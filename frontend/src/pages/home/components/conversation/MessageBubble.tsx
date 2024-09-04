@@ -118,8 +118,11 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
     const opponentOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },
-        { label: "Copy", fun: copyMessage },
     ]
+
+    if (!data?.isUnsend) {
+        opponentOptions?.push({ label: "Copy", fun: copyMessage },)
+    }
 
     const options = currentUser?._id?.toString() === data?.from_id?.toString() ? myOptions : opponentOptions
 
@@ -213,34 +216,38 @@ export const TimeAndRead = ({ chat, status, time }: any) => {
     )
 }
 
-const UnsendRight = ({ messageId }: any) => {
+const UnsendRight = ({ messageId, setMessages, getContacts }: any) => {
     return (
         <>
             <div className="unSendRight">
-
+                <DropMenu data={{ _id: messageId, isUnsend: true }} setMessages={setMessages} getContacts={getContacts} />
+                <p>{`⦸ You deleted this message`}</p>
             </div>
         </>
     )
 }
 
-const UnsendLeft = ({ messageId }: any) => {
+const UnsendLeft = ({ messageId, setMessages, getContacts }: any) => {
     return (
         <>
             <div className="unSendLeft">
-
+                <DropMenu data={{ _id: messageId, isUnsend: true }} setMessages={setMessages} getContacts={getContacts} />
+                <p>{`⦸ This message was deleted`}</p>
             </div>
         </>
     )
 }
 
-const UnsendMessage = ({ messageId, senderId }: any) => {
+const UnsendMessage = ({ messageId, senderId, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
     return (
         <>
             {
-                senderId?.toString() === currentUser?._id?.toString() ? <UnsendRight messageId={messageId} /> : <UnsendLeft messageId={messageId} />
+                senderId?.toString() === currentUser?._id?.toString() ?
+                    <UnsendRight messageId={messageId} setMessages={setMessages} getContacts={getContacts} /> :
+                    <UnsendLeft messageId={messageId} setMessages={setMessages} getContacts={getContacts} />
             }
         </>
     )
@@ -253,7 +260,7 @@ const MessageBubble = ({ data, user, setMessages, getContacts }: any) => {
     return (
         <>
             {
-                data?.isUnsend ? <UnsendMessage messageId={data?._id} senderId={data?.from_id} /> :
+                data?.isUnsend ? <UnsendMessage messageId={data?._id} senderId={data?.from_id} setMessages={setMessages} getContacts={getContacts} /> :
                     data?.from_id === currentUser?._id ? <RightChat data={data} image={currentUser?.profilePhoto} setMessages={setMessages} getContacts={getContacts} /> : <LeftChat data={data} image={user?.profilePhoto} setMessages={setMessages} getContacts={getContacts} />
             }
         </>
