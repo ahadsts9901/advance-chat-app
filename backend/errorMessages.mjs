@@ -27,5 +27,7 @@ export const errorMessages = {
     noAccountFound: "account not found",
     messagesDelievered: "messages marked as delievered",
     messagesRead: "messages marked as read",
-    usersFetched: "users fetched successfully"
+    usersFetched: "users fetched successfully",
+    messageNotFound: "message not found",
+    messageDeletedForMe: "message deleted for me"
 }

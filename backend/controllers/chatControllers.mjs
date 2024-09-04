@@ -323,7 +323,7 @@ export const deleteMessageForMeController = async (req, res, next) => {
     try {
 
         const currentUserId = req?.currentUser?._id
-        const opponentId = req?.params?.userId
+        const messageId = req?.params?.messageId
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
             return res.status(401).send({
@@ -331,38 +331,36 @@ export const deleteMessageForMeController = async (req, res, next) => {
             });
         }
 
-        if (!opponentId) {
+        if (!messageId) {
             return res.status(400).send({
                 message: errorMessages?.idIsMissing,
             });
         }
 
-        if (!isValidObjectId(opponentId)) {
+        if (!isValidObjectId(messageId)) {
             return res.status(400).send({
                 message: errorMessages?.invalidId,
             });
         }
 
-        const resp = await chatModel.updateMany(
-            {
-                to_id: currentUserId,
-                from_id: opponentId,
-                $or: [{ status: "delievered" }, { status: "sent" }]
-            },
-            {
-                $set: { status: "seen" }
-            }
-        )
+        const message = await chatModel.findById(messageId).exec()
 
-        if (globalIoObject?.io) {
-
-            console.log(`emitting seen message mark ${opponentId}`)
-            globalIoObject?.io?.emit(`${messageSeenChannel}-${opponentId}`, { opponentId: opponentId })
-
+        if (!message) {
+            return res.status(404).send({
+                message: errorMessages?.messageNotFound,
+            });
         }
 
+        const resp = await chatModel.findByIdAndUpdate(
+            messageId,
+            {
+                $addToSet: { deletedFrom: currentUserId }
+            },
+            { new: true }
+        );
+
         res.send({
-            message: errorMessages?.messagesRead,
+            message: errorMessages?.messageDeletedForMe,
         })
 
     } catch (error) {
