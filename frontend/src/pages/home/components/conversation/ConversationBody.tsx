@@ -2,7 +2,7 @@ import "./main.css"
 import { useEffect } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
-import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../core"
+import { baseUrl, chatMessageChannel, messageSeenChannel, unsendMessageChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
@@ -63,6 +63,16 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
                     );
                 }
             })
+            socket.on(`${unsendMessageChannel}-${user?._id}`, async (e: any) => {
+                setMessages((oldMessages: any) =>
+                    oldMessages.map((message: any) =>
+                        message?._id?.toString() === e?.messageId?.toString()
+                            ? { ...message, isUnsend: true }
+                            : message
+                    )
+                );
+            });
+
         }
 
         getMessages()
@@ -94,6 +104,10 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
         }
 
     }, [user])
+
+    useEffect(() => {
+        searchMessages(searchText)
+    }, [searchText])
 
     const getMessages = async () => {
 
@@ -141,10 +155,6 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
         }
 
     }
-
-    useEffect(() => {
-        searchMessages(searchText)
-    }, [searchText])
 
     const getHighlightedText = (text: string, highlight: string) => {
 
