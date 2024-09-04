@@ -6,7 +6,7 @@ import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../cor
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
-const ConversationBody = ({ user, messages, setMessages, getContacts, searchText, setSearchText }: any) => {
+const ConversationBody = ({ user, messages, setMessages, getContacts, searchText }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
@@ -138,6 +138,18 @@ const ConversationBody = ({ user, messages, setMessages, getContacts, searchText
         } catch (error) {
             console.error(error)
         }
+
+    }
+
+    useEffect(() => {
+        searchMessages(searchText)
+    }, [searchText])
+
+    const searchMessages = (text: string) => {
+
+        if (!text) return
+
+        console.log(text)
 
     }
 
