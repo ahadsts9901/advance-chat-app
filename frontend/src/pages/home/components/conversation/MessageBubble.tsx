@@ -8,6 +8,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material"
 import { FaChevronDown } from "react-icons/fa";
 import axios from "axios"
 import { baseUrl } from "../../../../core"
+import moment from "moment"
 
 export const Media = ({ messageType, content, image }: any) => {
 
@@ -27,6 +28,8 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     const [alertData, setAlertdata] = useState<any>(null)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [showEditDialogue, setShowEditDialogue] = useState<boolean>(false)
+    const [editText, setEditText] = useState<null | string>(null)
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -113,12 +116,18 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
     }
 
+    const editMessageConfirmation = () => {
+
+    }
+
     const copyMessage = () => copyText(data?.text, handleClose)
+
+    const isEditTimeExpired = moment().diff(moment(data?.createdOn), 'minutes') > 1;
 
     const myOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },
         { label: "Delete for everyone", fun: deleteForEveryoneConfirmation },
-        { label: "Edit", fun: () => console.log("edit") },
+        ...(!isEditTimeExpired ? [{ label: "Edit", fun: editMessageConfirmation }] : []),
         { label: "Copy", fun: copyMessage },
     ]
 
