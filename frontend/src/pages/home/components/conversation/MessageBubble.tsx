@@ -1,3 +1,4 @@
+import "./main.css"
 import { useSelector } from "react-redux"
 import { Status } from "../chat/SingleContact"
 import { copyText, timeAgo } from "../../../../utils/functions"
@@ -121,6 +122,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
         setEditText(data?.text)
         setShowEditDialogue(true)
+        handleClose()
 
     }
 

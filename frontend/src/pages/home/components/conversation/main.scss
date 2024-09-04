@@ -645,3 +645,48 @@ $red: rgb(229, 71, 71);
     }
 
 }
+
+// mui textarea
+
+.css-1szqa5p-MuiInputBase-root-MuiInput-root {
+
+    background-color: #3d464b !important;
+
+    * {
+        background-color: #3d464b !important;
+    }
+
+    textarea {
+
+        padding: 0.5em;
+
+    }
+}
+
+.css-ypiqx9-MuiDialogContent-root {
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #00000000 !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $input-background !important;
+    }
+
+    &::-moz-scrollbar {
+        width: 10px;
+    }
+
+    &::-moz-scrollbar-track {
+        background-color: #00000000 !important;
+    }
+
+    &::-moz-scrollbar-thumb {
+        background-color: $input-background !important;
+    }
+
+}

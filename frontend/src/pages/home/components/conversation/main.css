@@ -613,4 +613,33 @@
 }
 .epr-body::-moz-scrollbar-thumb {
   background-color: #111b21;
+}
+
+.css-1szqa5p-MuiInputBase-root-MuiInput-root {
+  background-color: #3d464b !important;
+}
+.css-1szqa5p-MuiInputBase-root-MuiInput-root * {
+  background-color: #3d464b !important;
+}
+.css-1szqa5p-MuiInputBase-root-MuiInput-root textarea {
+  padding: 0.5em;
+}
+
+.css-ypiqx9-MuiDialogContent-root::-webkit-scrollbar {
+  width: 10px;
+}
+.css-ypiqx9-MuiDialogContent-root::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+.css-ypiqx9-MuiDialogContent-root::-webkit-scrollbar-thumb {
+  background-color: #2a3942 !important;
+}
+.css-ypiqx9-MuiDialogContent-root::-moz-scrollbar {
+  width: 10px;
+}
+.css-ypiqx9-MuiDialogContent-root::-moz-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+.css-ypiqx9-MuiDialogContent-root::-moz-scrollbar-thumb {
+  background-color: #2a3942 !important;
 }/*# sourceMappingURL=main.css.map */
