@@ -3,6 +3,7 @@ import { IoSearch } from "react-icons/io5"
 import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
 import { useState } from "react"
+import { IconButton } from "@mui/material"
 
 const ContactSearchBar = ({ setShowChatSearch, users, setUsers }: any) => {
 
@@ -18,7 +19,9 @@ const ContactSearchBar = ({ setShowChatSearch, users, setUsers }: any) => {
     return (
         <>
             <div className="chatSearchBar">
-                <IoArrowBackSharp style={{ cursor: "pointer" }} onClick={() => setShowChatSearch(false)} />
+                <IconButton onClick={() => setShowChatSearch(false)} size="small">
+                    <IoArrowBackSharp />
+                </IconButton>
                 <div className="searchBar">
                     <IoSearch />
                     <input
@@ -29,7 +32,9 @@ const ContactSearchBar = ({ setShowChatSearch, users, setUsers }: any) => {
                     />
                     {
                         text ?
-                            <RxCross2 onClick={() => setText("")} style={{ cursor: "pointer" }} />
+                            <IconButton onClick={() => setText("")} size="small">
+                                <RxCross2 style={{ fontSize: "0.4em" }} />
+                            </IconButton>
                             : null
                     }
                 </div>
