@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
-import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel, messageSeenChannel } from "../core.mjs"
+import { chatMessageChannel, cloudinaryChatFilesFolder, imageMessageSize, videoMessageSize, globalIoObject, messageCountChannel, messageSeenChannel, unsendMessageChannel } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 import { chatModel } from "../models/chatModel.mjs"
 import { userModel } from "../models/userModel.mjs"
@@ -416,6 +416,13 @@ export const deleteMessageForEveryoneController = async (req, res, next) => {
             messageId,
             { isUnsend: true }
         );
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting unsend message to ${currentUserId}`)
+            globalIoObject?.io?.emit(`${unsendMessageChannel}-${currentUserId}`, { messageId: messageId })
+
+        }
 
         res.send({
             message: errorMessages?.messageDeletedForEveryone,
