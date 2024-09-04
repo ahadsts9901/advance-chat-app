@@ -213,6 +213,39 @@ export const TimeAndRead = ({ chat, status, time }: any) => {
     )
 }
 
+const UnsendRight = ({ messageId }: any) => {
+    return (
+        <>
+            <div className="unSendRight">
+
+            </div>
+        </>
+    )
+}
+
+const UnsendLeft = ({ messageId }: any) => {
+    return (
+        <>
+            <div className="unSendLeft">
+
+            </div>
+        </>
+    )
+}
+
+const UnsendMessage = ({ messageId, senderId }: any) => {
+
+    const currentUser = useSelector((state: any) => state?.user)
+
+    return (
+        <>
+            {
+                senderId?.toString() === currentUser?._id?.toString() ? <UnsendRight messageId={messageId} /> : <UnsendLeft messageId={messageId} />
+            }
+        </>
+    )
+}
+
 const MessageBubble = ({ data, user, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
@@ -220,7 +253,8 @@ const MessageBubble = ({ data, user, setMessages, getContacts }: any) => {
     return (
         <>
             {
-                data?.from_id === currentUser?._id ? <RightChat data={data} image={currentUser?.profilePhoto} setMessages={setMessages} getContacts={getContacts} /> : <LeftChat data={data} image={user?.profilePhoto} setMessages={setMessages} getContacts={getContacts} />
+                data?.isUnsend ? <UnsendMessage messageId={data?._id} senderId={data?.from_id} /> :
+                    data?.from_id === currentUser?._id ? <RightChat data={data} image={currentUser?.profilePhoto} setMessages={setMessages} getContacts={getContacts} /> : <LeftChat data={data} image={user?.profilePhoto} setMessages={setMessages} getContacts={getContacts} />
             }
         </>
     )
