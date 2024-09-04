@@ -69,18 +69,18 @@ export const DropMenu = ({ data }: any) => {
 
     }
 
-
+    const copyMessage = () => copyText(data?.text, handleClose)
 
     const myOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },
         { label: "Delete for everyone", fun: () => deleteForEveryoneConfirmation },
         { label: "Edit", fun: () => console.log("edit") },
-        { label: "Copy", fun: () => () => copyText(data?.text) },
+        { label: "Copy", fun: copyMessage },
     ]
 
     const opponentOptions = [
         { label: "Delete for me", fun: () => deleteForMEConfirmation },
-        { label: "Copy", fun: () => copyText(data?.text) },
+        { label: "Copy", fun: copyMessage },
     ]
 
     const options = currentUser?._id?.toString() === data?.from_id?.toString() ? myOptions : opponentOptions
