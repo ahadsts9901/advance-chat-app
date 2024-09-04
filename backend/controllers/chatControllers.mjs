@@ -437,3 +437,68 @@ export const deleteMessageForEveryoneController = async (req, res, next) => {
     }
 
 }
+
+export const updateMessageController = async (req, res, next) => {
+
+    try {
+
+        const currentUserId = req?.currentUser?._id
+        const messageId = req?.params?.messageId
+
+        if (!currentUserId || !isValidObjectId(currentUserId)) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        if (!messageId) {
+            return res.status(400).send({
+                message: errorMessages?.idIsMissing,
+            });
+        }
+
+        if (!isValidObjectId(messageId)) {
+            return res.status(400).send({
+                message: errorMessages?.invalidId,
+            });
+        }
+
+        const message = await chatModel.findById(messageId).exec()
+
+        if (!message) {
+            return res.status(404).send({
+                message: errorMessages?.messageNotFound,
+            });
+        }
+
+        if (message?.from_id?.toString() !== currentUserId?.toString()) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError,
+            });
+        }
+
+        const resp = await chatModel.findByIdAndUpdate(
+            messageId,
+            { isUnsend: true }
+        );
+
+        if (globalIoObject?.io) {
+
+            console.log(`emitting unsend message to ${currentUserId}`)
+            globalIoObject?.io?.emit(`${unsendMessageChannel}-${currentUserId}`, { messageId: messageId })
+
+        }
+
+        res.send({
+            message: errorMessages?.messageDeletedForEveryone,
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
