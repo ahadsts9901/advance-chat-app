@@ -158,6 +158,7 @@ export const SearchBarMessage = ({ searchText, setSearchText, setSearchMessage }
 
 const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessages, getContacts }: any) => {
 
+    const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state?.user)
 
     const [searchMessage, setSearchMessage] = useState<boolean>(false)
@@ -186,7 +187,9 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
                         /> :
                         <>
                             <>
-                                <div className="userData">
+                                <div className="userData"
+                                onClick={()=>navigate(`/profile/${user?._id}`)}
+                                >
                                     <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
                                         e.target.src = fallBackProfileImage
                                         e.target.style.padding = "0.4em"

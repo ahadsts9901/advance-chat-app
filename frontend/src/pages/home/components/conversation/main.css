@@ -22,6 +22,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 0.8em;
+  cursor: pointer;
 }
 .conversationHeader .userData img {
   width: 2em;

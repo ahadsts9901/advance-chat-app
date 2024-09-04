@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
 import "./main.css"
+import { useDispatch, useSelector } from "react-redux"
 import { IconButton } from "@mui/material"
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -114,13 +114,16 @@ const DropLogout = () => {
 const ChatHeader = () => {
 
     const currentUser = useSelector((state: any) => state?.user)
+    const navigate = useNavigate()
 
     return (
         <div className="chatHeader">
             <img src={currentUser?.profilePhoto} alt="profile picture" onError={(e: any) => {
                 e.target.src = fallBackProfileImage
                 e.target.style.padding = "0.4em"
-            }} />
+            }}
+                onClick={() => navigate(`/profile/${currentUser?._id}`)}
+            />
             <div className="iconsCont">
                 <DropLogout />
             </div>
