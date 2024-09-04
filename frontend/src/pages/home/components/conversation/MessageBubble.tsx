@@ -117,7 +117,28 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     }
 
     const editMessageConfirmation = () => {
+
         setEditText(data?.text)
+        setShowEditDialogue(true)
+
+    }
+
+    const editMessage = async () => {
+
+        if (!data?._id || data?._id?.trim() === "") return
+
+        try {
+
+            setIsLoading(true)
+            setIsLoading(false)
+            setIsAlertOpen(false)
+            await getContacts()
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
+
     }
 
     const copyMessage = () => copyText(data?.text, handleClose)
