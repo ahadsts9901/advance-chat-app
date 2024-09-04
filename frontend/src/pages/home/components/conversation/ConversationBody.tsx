@@ -1,5 +1,5 @@
 import "./main.css"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
 import { baseUrl, chatMessageChannel, messageSeenChannel } from "../../../../core"

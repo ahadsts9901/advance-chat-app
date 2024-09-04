@@ -20,6 +20,7 @@ $icon-ack: #53bdeb;
 $red: rgb(229, 71, 71);
 
 @mixin chatBubble($background, $alignSelf) {
+
     min-width: 6em;
     max-width: 80%;
     height: fit-content;
@@ -32,6 +33,19 @@ $red: rgb(229, 71, 71);
     align-items: flex-start;
     align-self: $alignSelf;
     gap: 4px;
+    position: relative;
+
+    .drop-message-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        svg{
+            color: $panel-header-icon;
+        }
+
+    }
+
 }
 
 @mixin photoMessage() {

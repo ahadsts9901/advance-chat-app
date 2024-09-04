@@ -208,6 +208,15 @@
   align-items: flex-start;
   align-self: flex-start;
   gap: 4px;
+  position: relative;
+}
+.conversationBody .body .leftChatBubble .drop-message-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.conversationBody .body .leftChatBubble .drop-message-button svg {
+  color: #aebac1;
 }
 .conversationBody .body .leftChatBubble .photo-message {
   width: 100%;
@@ -301,6 +310,15 @@
   align-items: flex-start;
   align-self: flex-end;
   gap: 4px;
+  position: relative;
+}
+.conversationBody .body .rightChatBubble .drop-message-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.conversationBody .body .rightChatBubble .drop-message-button svg {
+  color: #aebac1;
 }
 .conversationBody .body .rightChatBubble .photo-message {
   width: 100%;
