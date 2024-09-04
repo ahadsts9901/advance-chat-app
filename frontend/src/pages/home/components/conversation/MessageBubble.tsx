@@ -142,7 +142,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
             setMessages((oldMessages: any) =>
                 oldMessages?.map((message: any) =>
                     message?._id?.toString() === data?._id?.toString() ?
-                        { ...resp?.data?.data, text: editText?.trim() } : message
+                        resp?.data?.data : message
                 )
             );
 

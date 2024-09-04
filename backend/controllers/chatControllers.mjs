@@ -499,19 +499,20 @@ export const updateMessageController = async (req, res, next) => {
 
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
-            { text: text, status: status }
+            { text: text, status: status },
+            { new: true }
         );
 
         if (globalIoObject?.io) {
 
             console.log(`emitting edit message to ${currentUserId}`)
-            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { ...resp, text: text?.trim() })
+            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, resp)
 
         }
 
         res.send({
             message: errorMessages?.messageUpdated,
-            data: { ...resp, text: text?.trim() }
+            data: resp
         })
 
     } catch (error) {
