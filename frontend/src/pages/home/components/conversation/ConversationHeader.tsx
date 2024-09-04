@@ -13,8 +13,9 @@ import { baseUrl, userActiveChannel } from "../../../../core";
 import { useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
+import axios from "axios";
 
-export const DropMenu = () => {
+export const DropMenu = ({ setMessages, user, getContacts }: any) => {
 
     const navigate = useNavigate()
 
@@ -33,10 +34,45 @@ export const DropMenu = () => {
         setAnchorEl(null);
     };
 
+    const confirmClearChat = () => {
+
+        setIsAlertOpen(true)
+        setAlertdata({
+            title: "Clear chat?",
+            description: "Are you sure you want to clear this chat?. The action cannot be undone",
+            fun: clearChat,
+        })
+        handleClose()
+
+    }
+
+    const clearChat = async () => {
+
+        if (!user?._id || user?._id?.trim() === "") return
+
+        try {
+
+            setIsLoading(true)
+
+            await axios.put(`${baseUrl}/api/v1/clear-chat/${user?._id}`, {}, {
+                withCredentials: true
+            })
+
+            setMessages([])
+            setIsLoading(false)
+            setIsAlertOpen(false)
+            await getContacts()
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
+
+    }
+
     const options = [
-        { label: "Clear Chat", fun: () => console.log("clear chat") },
+        { label: "Clear Chat", fun: confirmClearChat },
         { label: "Close Chat", fun: () => console.log("close chat") },
-        { label: "Delete Chat", fun: () => console.log("delete chat") },
     ]
 
     return (
@@ -106,7 +142,7 @@ export const SearchBarMessage = ({ searchText, setSearchText, setSearchMessage }
     )
 }
 
-const ConversationHeader = ({ user, setUser, searchText, setSearchText }: any) => {
+const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessages, getContacts }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
 
@@ -155,7 +191,7 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText }: any) =
                                     <IconButton><MdLocalPhone /></IconButton>
                                     <IconButton><IoIosVideocam /></IconButton>
                                     <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
-                                    <DropMenu />
+                                    <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
                                 </div>
                             </>
                         </>

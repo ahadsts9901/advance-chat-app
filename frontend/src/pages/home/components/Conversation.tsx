@@ -63,7 +63,7 @@ const Conversation = ({ userId, getContacts, setFilteredContacts }: any) => {
                 {
                     (!userId || !user || isLoading) ? <ConversationSplash /> :
                         <>
-                            <ConversationHeader user={user} setUser={setUser} setSearchText={setSearchText} searchText={searchText} />
+                            <ConversationHeader user={user} setMessages={setMessages} getContacts={getContacts} setUser={setUser} setSearchText={setSearchText} searchText={searchText} />
                             <ConversationBody user={user} messages={messages} setMessages={setMessages} searchText={searchText} getContacts={getContacts} originalMessages={originalMessages} setOriginalMessages={setOriginalMessages} />
                             <ConversationForm user={user} setMessages={setMessages} setFilteredContacts={setFilteredContacts} setSearchText={setSearchText} searchText={searchText} setOriginalMessages={setOriginalMessages} />
                         </>
