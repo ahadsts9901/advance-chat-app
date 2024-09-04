@@ -21,6 +21,8 @@ export const Media = ({ messageType, content, image }: any) => {
 
 export const DropMenu = ({ data }: any) => {
 
+    const currentUser = useSelector((state: any) => state?.user)
+
     const [alertData, setAlertdata] = useState<any>(null)
     const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -36,11 +38,19 @@ export const DropMenu = ({ data }: any) => {
         setAnchorEl(null);
     };
 
-    const options = [
+    const myOptions = [
         { label: "Delete for me", fun: () => console.log("delete for me") },
         { label: "Delete for everyone", fun: () => console.log("delete for everyone") },
-        { label: "Edit", fun: () => console.log("Edit") },
+        { label: "Edit", fun: () => console.log("edit") },
+        { label: "Copy", fun: () => console.log("copy") },
     ]
+
+    const opponentOptions = [
+        { label: "Delete for me", fun: () => console.log("delete for me") },
+        { label: "Copy", fun: () => console.log("copy") },
+    ]
+
+    const options = currentUser?._id?.toString() === data?.from_id?.toString() ? myOptions : opponentOptions
 
     return (
         <>
