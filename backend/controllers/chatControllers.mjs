@@ -1,3 +1,4 @@
+import moment from "moment"
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { getMessageType } from "../functions.mjs"
@@ -486,21 +487,29 @@ export const updateMessageController = async (req, res, next) => {
 
         const isEditTimeExpired = moment().diff(moment(message?.createdOn), 'minutes') > 5;
 
-        if(isEditTimeExpired){
+        if (isEditTimeExpired) {
             return res.status(401).send({
                 message: errorMessages?.editTimeExpired,
             });
         }
 
+        const opponentUser = await userModel.findById(message?.to_id).exec()
+
+        const status = opponentUser?.isActive ? "delievered" : "sent"
+
+        console.log(status)
+
         const resp = await chatModel.findByIdAndUpdate(
             messageId,
-            { text: text }
+            { text: text, status: status }
         );
+
+        console.log(resp)
 
         if (globalIoObject?.io) {
 
             console.log(`emitting edit message to ${currentUserId}`)
-            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { messageId: messageId, text: text })
+            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, { messageId: messageId, text: resp?.text })
 
         }
 

@@ -134,8 +134,15 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
         try {
 
             setIsLoading(true)
+
+            const resp = await axios.put(`${baseUrl}/api/v1/chats/${data?._id}`, {
+                text: editText
+            }, { withCredentials: true })
+
+            console.log(resp)
+
             setIsLoading(false)
-            setIsAlertOpen(false)
+            setShowEditDialogue(false)
             await getContacts()
 
         } catch (error) {
