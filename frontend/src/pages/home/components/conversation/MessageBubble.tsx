@@ -129,8 +129,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     const editMessage = async () => {
 
         if (!data?._id || data?._id?.trim() === "") return
-
-        console.log("edit", data?._id, editText)
+        if (!editText || editText?.trim() === "") return
 
         try {
 
@@ -148,7 +147,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
     const copyMessage = () => copyText(data?.text, handleClose)
 
-    const isEditTimeExpired = moment().diff(moment(data?.createdOn), 'minutes') > 1;
+    const isEditTimeExpired = moment().diff(moment(data?.createdOn), 'minutes') > 5;
 
     const myOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },

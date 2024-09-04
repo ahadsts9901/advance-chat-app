@@ -59,7 +59,7 @@ const ConversationForm = ({ user, setMessages, setFilteredContacts, setOriginalM
 
     }, [emojiPickerRef]);
 
-    const handleEmojiClick = (emojiData: EmojiClickData) => setChatInput((prevInput) => prevInput + emojiData.emoji);
+    const handleEmojiClick = (emojiData: EmojiClickData) => setChatInput((prevInput) => prevInput + emojiData?.emoji);
 
     const sendMessage = async (e: any) => {
 

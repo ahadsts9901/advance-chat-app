@@ -26,3 +26,23 @@ $icon-ack: #53bdeb;
     padding: 0.2em;
     margin-right: 0.5em;
 }
+
+.dialogContent-sts {
+
+    svg {
+        font-size: 0.8em;
+        color: $panel-header-icon;
+    }
+
+}
+
+.dialog-sts{
+    z-index: 800!important;
+}
+
+.emojiPickerCont-sts {
+    position: fixed !important;
+    left: 1em !important;
+    bottom: 1em !important;
+    z-index: 1000!important;
+}
