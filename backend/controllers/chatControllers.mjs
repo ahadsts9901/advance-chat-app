@@ -530,8 +530,7 @@ export const clearChatController = async (req, res, next) => {
     try {
 
         const currentUserId = req?.currentUser?._id
-        const messageId = req?.params?.messageId
-        const text = req?.body?.text
+        const opponentId = req?.params?.userId
 
         if (!currentUserId || !isValidObjectId(currentUserId)) {
             return res.status(401).send({
@@ -539,21 +538,15 @@ export const clearChatController = async (req, res, next) => {
             });
         }
 
-        if (!messageId) {
+        if (!opponentId) {
             return res.status(400).send({
                 message: errorMessages?.idIsMissing,
             });
         }
 
-        if (!isValidObjectId(messageId)) {
+        if (!isValidObjectId(opponentId)) {
             return res.status(400).send({
                 message: errorMessages?.invalidId,
-            });
-        }
-
-        if (!text || text?.trim() === "") {
-            return res.status(400).send({
-                message: errorMessages?.textMissing,
             });
         }
 
@@ -571,34 +564,27 @@ export const clearChatController = async (req, res, next) => {
             });
         }
 
-        const isEditTimeExpired = moment().diff(moment(message?.createdOn), 'minutes') > 5;
-
-        if (isEditTimeExpired) {
-            return res.status(401).send({
-                message: errorMessages?.editTimeExpired,
-            });
-        }
-
-        const opponentUser = await userModel.findById(message?.to_id).exec()
-
-        const status = opponentUser?.isActive ? "delievered" : "sent"
-
-        const resp = await chatModel.findByIdAndUpdate(
-            messageId,
-            { text: text, status: status },
+        const resp = await userModel.updateMany(
+            {
+                $or: [
+                    {
+                        from_id: currentUserId,
+                        to_id: opponentId
+                    },
+                    {
+                        from_id: currentUserId,
+                        to_id: opponentId
+                    }
+                ]
+            },
+            {
+                $addToSet: { deletedFrom: currentUserId }
+            },
             { new: true }
-        );
-
-        if (globalIoObject?.io) {
-
-            console.log(`emitting edit message to ${currentUserId}`)
-            globalIoObject?.io?.emit(`${updateMessageChannel}-${currentUserId}`, resp)
-
-        }
+        )
 
         res.send({
-            message: errorMessages?.messageUpdated,
-            data: resp
+            message: errorMessages?.chatCleared,
         })
 
     } catch (error) {
