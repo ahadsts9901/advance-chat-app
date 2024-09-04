@@ -117,7 +117,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     }
 
     const editMessageConfirmation = () => {
-
+        setEditText(data?.text)
     }
 
     const copyMessage = () => copyText(data?.text, handleClose)
@@ -127,8 +127,8 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
     const myOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },
         { label: "Delete for everyone", fun: deleteForEveryoneConfirmation },
-        ...(!isEditTimeExpired ? [{ label: "Edit", fun: editMessageConfirmation }] : []),
-        { label: "Copy", fun: copyMessage },
+        ...((!isEditTimeExpired && data?.text && data?.text?.length) ? [{ label: "Edit", fun: editMessageConfirmation }] : []),
+        ...((data?.text && data?.text?.length) ? [{ label: "Copy", fun: copyMessage }] : []),
     ]
 
     const opponentOptions = [
