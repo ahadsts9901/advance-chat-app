@@ -2,7 +2,7 @@ import "./main.css"
 import { useEffect } from "react"
 import MessageBubble from "./MessageBubble"
 import axios from "axios"
-import { baseUrl, chatMessageChannel, messageSeenChannel, unsendMessageChannel } from "../../../../core"
+import { baseUrl, chatMessageChannel, messageSeenChannel, unsendMessageChannel, updateMessageChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
 
@@ -15,6 +15,7 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
         const socket = io(baseUrl);
 
         const listenSocketChannel = () => {
+
             socket.on('connect', () => console.log("socket connected"))
             socket.on('disconnect', (message) => console.log("socket disconnected: ", message))
             socket.on(`${chatMessageChannel}-${currentUser?._id}`, async (e: any) => {
@@ -68,6 +69,15 @@ const ConversationBody = ({ user, messages, setMessages, originalMessages, setOr
                     oldMessages.map((message: any) =>
                         message?._id?.toString() === e?.messageId?.toString()
                             ? { ...message, isUnsend: true }
+                            : message
+                    )
+                );
+            });
+            socket.on(`${updateMessageChannel}-${user?._id}`, async (e: any) => {
+                setMessages((oldMessages: any) =>
+                    oldMessages.map((message: any) =>
+                        message?._id?.toString() === e?._id?.toString()
+                            ? e
                             : message
                     )
                 );
