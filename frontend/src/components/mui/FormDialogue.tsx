@@ -6,7 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialogue({ open, setOpen, text }: any) {
+export default function FormDialogue({ open, setOpen, text, setText, fun, isLoading }: any) {
 
     const handleClose = () => {
         setOpen(false);
@@ -19,13 +19,9 @@ export default function FormDialogue({ open, setOpen, text }: any) {
                 onClose={handleClose}
                 PaperProps={{
                     component: 'form',
-                    onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+                    onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
                         event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries((formData as any).entries());
-                        const email = formJson.email;
-                        console.log(email);
-                        handleClose();
+                        await fun()
                     },
                 }}
             >
@@ -38,12 +34,14 @@ export default function FormDialogue({ open, setOpen, text }: any) {
                         fullWidth
                         variant="standard"
                         multiline
-                        value={text}
+                        defaultValue={text}
+                        onChange={(e: any) => setText(e?.target?.value)}
+                        sx={{ width: "60vw",padding: "1em"}}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Edit</Button>
+                    <Button disabled={isLoading} onClick={handleClose}>Cancel</Button>
+                    <Button disabled={isLoading} type="submit">Edit</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

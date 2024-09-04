@@ -128,6 +128,8 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
 
         if (!data?._id || data?._id?.trim() === "") return
 
+        console.log("edit", data?._id, editText)
+
         try {
 
             setIsLoading(true)
@@ -177,6 +179,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
                 open={showEditDialogue}
                 setOpen={setShowEditDialogue}
                 text={editText}
+                setText={setEditText}
                 fun={editMessage}
                 isLoading={isLoading}
             />
