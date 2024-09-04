@@ -50,7 +50,7 @@ export const DropMenu = ({ data }: any) => {
     }
 
     const deleteForMe = async () => {
-
+        console.log("delete for me")
     }
 
     const deleteForEveryoneConfirmation = () => {
@@ -66,14 +66,14 @@ export const DropMenu = ({ data }: any) => {
     }
 
     const deleteForEveryone = async () => {
-
+        console.log("delete for everyone")
     }
 
     const copyMessage = () => copyText(data?.text, handleClose)
 
     const myOptions = [
         { label: "Delete for me", fun: deleteForMEConfirmation },
-        { label: "Delete for everyone", fun: () => deleteForEveryoneConfirmation },
+        { label: "Delete for everyone", fun: deleteForEveryoneConfirmation },
         { label: "Edit", fun: () => console.log("edit") },
         { label: "Copy", fun: copyMessage },
     ]
