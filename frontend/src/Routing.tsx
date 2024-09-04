@@ -14,6 +14,7 @@ import SplashScreen from "./pages/splashScreen/SplashScreen";
 import Login from "./pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
+import Profile from "./pages/profile/Profile";
 
 const UnAuthRouting = () => {
 
@@ -32,6 +33,7 @@ const AuthRouting = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/chat/:userId" element={<Home />} />
+            <Route path="/profile/:userId" element={<Profile />} />
             <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Routes>
     )
