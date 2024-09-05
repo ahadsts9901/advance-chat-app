@@ -4,6 +4,7 @@ export const _1mbSize = 10000000 // 1_mb
 export const imageMessageSize = _1mbSize * 5
 export const videoMessageSize = _1mbSize * 25
 export const cloudinaryChatFilesFolder = "advance-chat-app/chat-files"
+export const fallBackProfileImage = "https://res.cloudinary.com/do6sd9nyx/image/upload/v1725535697/default_avatar_avhpw8.png"
 
 // socket.io channels
 export const chatMessageChannel = "chat-message"
