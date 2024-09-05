@@ -60,6 +60,21 @@
   color: #aebac1;
   font-size: 1.5em;
   font-weight: normal;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+.profileSection .dataSection h4 .edit-name-button {
+  position: absolute;
+  top: 0.5em;
+  right: -1em;
+  background-color: #005c4b;
+}
+.profileSection .dataSection h4 .edit-name-button:hover {
+  background-color: #202c33;
+}
+.profileSection .dataSection h4 .edit-name-button svg {
+  font-size: 0.8em;
 }
 .profileSection .dataSection p {
   width: 100%;

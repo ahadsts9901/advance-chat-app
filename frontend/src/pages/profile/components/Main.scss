@@ -83,11 +83,11 @@ $yellow: #e4a912;
                 right: 0;
                 background-color: $outgoing-background;
 
-                &:hover{
+                &:hover {
                     background-color: $incoming-background;
                 }
-                
-                svg{
+
+                svg {
                     font-size: 0.8em;
                 }
 
@@ -97,6 +97,26 @@ $yellow: #e4a912;
 
         h4 {
             @include centerProfileText(1.5em);
+            width: fit-content;
+            position: relative;
+
+            .edit-name-button {
+
+                position: absolute;
+                top: 0.5em;
+                right: -1em;
+                background-color: $outgoing-background;
+
+                &:hover {
+                    background-color: $incoming-background;
+                }
+
+                svg{
+                    font-size: 0.8em;
+                }
+
+            }
+
         }
 
         p {

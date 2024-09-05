@@ -31,7 +31,16 @@ const DataSection = ({ user }: any) => {
               : null}
           </>
         </div>
-        <h4>{user?.userName} {currentUser?._id == user?._id ? "(You)" : ""}</h4>
+        <h4>
+          {user?.userName} {currentUser?._id == user?._id ? "(You)" : ""}
+          <>
+            {currentUser?._id == user?._id ?
+              <IconButton
+                className="edit-name-button" size="small"
+              ><MdModeEditOutline /></IconButton>
+              : null}
+          </>
+        </h4>
         <p>{user?.email?.toLowerCase()}</p>
       </div>
     </>
