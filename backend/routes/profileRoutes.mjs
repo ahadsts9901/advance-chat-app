@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCurrentUserProfileController, getUserProfileController, logoutController, updateProfilePictureController, updateUserNameController, userOfflineController } from "../controllers/profileControllers.mjs"
+import { getCurrentUserProfileController, getProfileMediaController, getUserProfileController, logoutController, updateProfilePictureController, updateUserNameController, userOfflineController } from "../controllers/profileControllers.mjs"
 import { upload } from "../utils/multer.mjs"
 
 const router = Router()
@@ -9,6 +9,8 @@ router.post('/logout', logoutController)
 router.get("/profile", getCurrentUserProfileController)
 
 router.get("/profile/:userId", getUserProfileController)
+
+router.get("/media/:userId", getProfileMediaController)
 
 router.put('/username', updateUserNameController)
 

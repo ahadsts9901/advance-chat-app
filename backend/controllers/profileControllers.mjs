@@ -110,6 +110,49 @@ export const getUserProfileController = async (req, res, next) => {
 
 }
 
+export const getProfileMediaController = async (req, res, next) => {
+
+    const { userId } = req?.params
+
+    if (!userId || userId?.trim() === "") {
+        return res.status(401).send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    if (!isValidObjectId(userId)) {
+        return res.status(401).send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    try {
+
+        const user = await userModel.findById(userId).exec()
+
+        if (!user) {
+            return res.status(401).send({
+                message: errorMessages?.unAuthError
+            })
+        }
+
+        const { _id, userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive } = user
+
+        res.send({
+            message: "user profile fetched",
+            data: { _id, userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive }
+        })
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            message: errorMessages?.serverError,
+            error: error?.message
+        })
+    }
+
+}
+
 export const updateUserNameController = async (req, res, next) => {
 
     const { _id } = req?.currentUser
