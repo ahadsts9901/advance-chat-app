@@ -17,7 +17,7 @@ export const MediaDetails = ({ mediaCount, user }: any) => {
       <div className="mediaCount">
         <p>Images, videos and audios</p>
         <div>
-          <p>{mediaCount}</p>
+          <p>{mediaCount ? mediaCount : ""}</p>
           <IconButton size="small" onClick={() => navigate(`/chat/${user?._id}`)}><IoIosArrowForward /></IconButton>
         </div>
       </div>
