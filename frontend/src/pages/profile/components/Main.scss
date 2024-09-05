@@ -186,4 +186,26 @@ $yellow: #e4a912;
 
     }
 
+    .profile-option {
+        width: 100%;
+        height: fit-content;
+        background-color: $search-input-container-background;
+        padding: 1.5em;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1em;
+        cursor: pointer;
+        transition: background-color 0.1s ease;
+
+        svg, p{
+            color: $panel-header-icon;
+        }
+
+        &:hover {
+            background-color: $dropdown-background;
+        }
+
+    }
+
 }

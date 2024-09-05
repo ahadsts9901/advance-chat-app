@@ -159,4 +159,23 @@
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+}
+.profileSection .profile-option {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #111b21;
+  padding: 1.5em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+.profileSection .profile-option svg, .profileSection .profile-option p {
+  color: #aebac1;
+}
+.profileSection .profile-option:hover {
+  background-color: #233138;
 }/*# sourceMappingURL=Main.css.map */
