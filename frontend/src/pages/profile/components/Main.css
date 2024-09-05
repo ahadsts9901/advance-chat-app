@@ -6,7 +6,6 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0.5em;
-  gap: 0;
   background-color: #0b141a;
 }
 .profileSection .dataSection {
@@ -55,4 +54,49 @@
   color: #aebac1;
   font-size: 1em;
   font-weight: normal;
+}
+.profileSection .mediaSection {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #111b21;
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1em;
+}
+.profileSection .mediaSection .mediaCount {
+  width: 100%;
+  height: fit;
+  background-color: #111b21;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profileSection .mediaSection .mediaCount p {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  text-align: center;
+  color: #aebac1;
+  font-size: 0.8em;
+  font-weight: normal;
+  width: -moz-fit-content;
+  width: fit-content;
+  text-align: left;
+}
+.profileSection .mediaSection .mediaCount div {
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.2em;
+  cursor: pointer;
+}
+.profileSection .mediaSection .mediaCount div svg {
+  color: #aebac1;
+  font-size: 0.8em;
 }/*# sourceMappingURL=Main.css.map */

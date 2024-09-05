@@ -36,7 +36,6 @@ $red: rgb(229, 71, 71);
     justify-content: flex-start;
     align-items: flex-start;
     gap: 0.5em;
-    gap: 0;
     background-color: $conversation-panel-background;
 
     .dataSection {
@@ -73,6 +72,52 @@ $red: rgb(229, 71, 71);
 
         p {
             @include centerProfileText(1em);
+        }
+
+    }
+
+    .mediaSection {
+
+        width: 100%;
+        height: fit-content;
+        background-color: $search-input-container-background;
+        padding: 1.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1em;
+
+        .mediaCount {
+            width: 100%;
+            height: fit;
+            background-color: $search-input-container-background;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                @include centerProfileText(0.8em);
+                width: fit-content;
+                text-align: left;
+            }
+
+            div {
+
+                width: fit-content;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 0.2em;
+                cursor: pointer;
+
+                svg {
+                    color: $panel-header-icon;
+                    font-size: 0.8em;
+                }
+
+            }
+
         }
 
     }

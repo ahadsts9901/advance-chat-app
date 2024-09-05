@@ -6,8 +6,8 @@ const ProfileSection = ({ user }: any) => {
     return (
         <>
             <div className="profileSection">
-                <DataSection  user={user}/>
-                <MediaSection />
+                <DataSection user={user} />
+                <MediaSection user={user} />
             </div>
         </>
     )
