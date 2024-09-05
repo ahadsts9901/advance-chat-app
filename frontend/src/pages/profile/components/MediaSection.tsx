@@ -7,6 +7,7 @@ import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
+import { Image } from "antd"
 
 export const MediaDetails = ({ mediaCount, user }: any) => {
 
@@ -55,7 +56,7 @@ export const ImageMedia = ({ media }: any) => {
   return (
     <>
       <div className="imageMediaBox">
-        <img src={media?.contentUrl} alt="image" />
+        <Image src={media?.contentUrl} alt="image" />
       </div>
     </>
   )
