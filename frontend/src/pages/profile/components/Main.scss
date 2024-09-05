@@ -77,6 +77,22 @@ $yellow: #e4a912;
                 background-color: $outgoing-background;
             }
 
+            .edit-button {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                background-color: $outgoing-background;
+
+                &:hover{
+                    background-color: $incoming-background;
+                }
+                
+                svg{
+                    font-size: 0.8em;
+                }
+
+            }
+
         }
 
         h4 {

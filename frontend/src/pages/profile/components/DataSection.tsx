@@ -25,7 +25,9 @@ const DataSection = ({ user }: any) => {
           />
           <>
             {currentUser?._id == user?._id ?
-              <IconButton><MdModeEditOutline /></IconButton>
+              <IconButton
+                className="edit-button" size="small"
+              ><MdModeEditOutline /></IconButton>
               : null}
           </>
         </div>

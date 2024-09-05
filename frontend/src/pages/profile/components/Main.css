@@ -40,6 +40,18 @@
   border-radius: 400px;
   background-color: #005c4b;
 }
+.profileSection .dataSection .image-sts .edit-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #005c4b;
+}
+.profileSection .dataSection .image-sts .edit-button:hover {
+  background-color: #202c33;
+}
+.profileSection .dataSection .image-sts .edit-button svg {
+  font-size: 0.8em;
+}
 .profileSection .dataSection h4 {
   width: 100%;
   height: -moz-fit-content;
