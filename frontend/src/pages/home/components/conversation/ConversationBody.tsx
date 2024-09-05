@@ -5,10 +5,25 @@ import axios from "axios"
 import { baseUrl, chatMessageChannel, messageSeenChannel, unsendMessageChannel, updateMessageChannel } from "../../../../core"
 import io from 'socket.io-client';
 import { useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 
 const ConversationBody = ({ user, messages, setMessages, originalMessages, setOriginalMessages, getContacts, searchText }: any) => {
 
     const currentUser = useSelector((state: any) => state?.user)
+    const location = useLocation()
+
+    const messageId = location?.state?.messageId
+
+    useEffect(() => {
+
+        if (messageId && messages.length > 0) {
+            const messageElement = document.getElementById(`message-${messageId}`);
+            if (messageElement) {
+                messageElement.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+
+    }, [messageId, messages])
 
     useEffect(() => {
 

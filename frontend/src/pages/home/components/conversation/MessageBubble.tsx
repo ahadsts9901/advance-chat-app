@@ -18,7 +18,7 @@ export const Media = ({ messageType, content, image }: any) => {
     return (
         <>
             {messageType === "image" &&
-                <Image src={content} alt="photo-message" className="photo-message"/>}
+                <Image src={content} alt="photo-message" className="photo-message" />}
             {messageType === "video" && <video src={content} className="video-message" controls />}
             {messageType === "audio" && <AudioMessage audioUrl={content} image={image} />}
         </>
@@ -235,7 +235,7 @@ export const RightChat = ({ data, image, setMessages, getContacts }: any) => {
 
     return (
         <>
-            <div className="rightChatBubble">
+            <div className="rightChatBubble" id={`message-${data?._id}`}>
                 <DropMenu data={data} setMessages={setMessages} getContacts={getContacts} />
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />
@@ -253,7 +253,7 @@ export const LeftChat = ({ data, image, setMessages, getContacts }: any) => {
 
     return (
         <>
-            <div className="leftChatBubble">
+            <div className="leftChatBubble" id={`message-${data?._id}`}>
                 <DropMenu data={data} setMessages={setMessages} getContacts={getContacts} />
                 {
                     data?.messageType !== "text" && <Media image={image} messageType={data?.messageType} content={data?.contentUrl} />

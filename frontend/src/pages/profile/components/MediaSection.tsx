@@ -4,10 +4,9 @@ import axios from "axios"
 import { baseUrl } from "../../../core"
 import { IoIosArrowForward } from "react-icons/io";
 import { IconButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaMicrophone } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
-import { AntdImage as Image } from "../../../components/antd/Image"
 
 export const MediaDetails = ({ mediaCount, user }: any) => {
 
@@ -53,10 +52,13 @@ export const MediaBox = ({ media }: any) => {
 
 export const ImageMedia = ({ media }: any) => {
 
+  const { userId } = useParams()
+  const navigate = useNavigate()
+
   return (
     <>
-      <div className="imageMediaBox">
-        <Image src={media?.contentUrl} alt="image" />
+      <div className="imageMediaBox" onClick={() => navigate(`/chat/${userId}`, { state: { messageId: media?._id } })}>
+        <img src={media?.contentUrl} alt="image" />
       </div>
     </>
   )
@@ -65,9 +67,12 @@ export const ImageMedia = ({ media }: any) => {
 
 export const AudioVideoMedia = ({ media }: any) => {
 
+  const navigate = useNavigate()
+  const { userId } = useParams()
+
   return (
     <>
-      <div className="audioMediaBox">
+      <div className="audioMediaBox" onClick={() => navigate(`/chat/${userId}`, { state: { messageId: media?._id } })}>
         {media?.messageType === "audio" && <FaMicrophone />}
         {media?.messageType === "video" && <FaVideo />}
         <p>{media?.messageType}</p>
