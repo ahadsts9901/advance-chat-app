@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import Chats from "../home/components/Chats"
 import axios from "axios"
 import ProfileSection from "./components/ProfileSection"
+import ConversationSplash from "../home/components/conversation/ConversationSplash"
 
 const Profile = () => {
 
@@ -40,6 +41,7 @@ const Profile = () => {
 
         try {
 
+            setUser(null)
             const resp = await axios.get(`${baseUrl}/api/v1/profile/${userId}`, { withCredentials: true })
             setUser(resp?.data?.data)
 
@@ -53,7 +55,7 @@ const Profile = () => {
         <>
             <div className="profilePage">
                 <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} />
-                <ProfileSection user={user} />
+                {!user ? <ConversationSplash /> : <ProfileSection user={user} />}
             </div>
         </>
     )

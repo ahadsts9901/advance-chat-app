@@ -64,13 +64,19 @@ $yellow: #e4a912;
             left: 1em;
         }
 
-        img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 400px;
-            background-color: $outgoing-background;
+        .image-sts {
+
+            position: relative;
+
+            img {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 400px;
+                background-color: $outgoing-background;
+            }
+
         }
 
         h4 {
@@ -198,7 +204,8 @@ $yellow: #e4a912;
         cursor: pointer;
         transition: background-color 0.1s ease;
 
-        svg, p{
+        svg,
+        p {
             color: $panel-header-icon;
         }
 
