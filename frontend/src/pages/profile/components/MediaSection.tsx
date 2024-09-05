@@ -5,6 +5,8 @@ import { baseUrl } from "../../../core"
 import { IoIosArrowForward } from "react-icons/io";
 import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { FaMicrophone } from "react-icons/fa";
+import { FaVideo } from "react-icons/fa";
 
 export const MediaDetails = ({ mediaCount, user }: any) => {
 
@@ -27,9 +29,51 @@ export const MediaDetails = ({ mediaCount, user }: any) => {
 export const Media = ({ media }: any) => {
   return (
     <>
-      <div className="media-sect">media-sect</div>
+      <div className="media-sect">
+        {
+          media?.map((media: any, i: number) => <MediaBox key={i} media={media} />)
+        }
+      </div>
     </>
   )
+}
+
+export const MediaBox = ({ media }: any) => {
+
+  return (
+    <>
+      {
+        media?.messageType === "image" ? <ImageMedia media={media} /> : <AudioVideoMedia media={media} />
+      }
+    </>
+  )
+
+}
+
+export const ImageMedia = ({ media }: any) => {
+
+  return (
+    <>
+      <div className="imageMediaBox">
+        <img src={media?.contentUrl} alt="image" />
+      </div>
+    </>
+  )
+
+}
+
+export const AudioVideoMedia = ({ media }: any) => {
+
+  return (
+    <>
+      <div className="audioMediaBox">
+        {media?.messageType === "audio" && <FaMicrophone />}
+        {media?.messageType === "video" && <FaVideo />}
+        <p>{media?.messageType}</p>
+      </div>
+    </>
+  )
+
 }
 
 const MediaSection = ({ user }: any) => {
@@ -38,7 +82,7 @@ const MediaSection = ({ user }: any) => {
 
   useEffect(() => {
     getMedia()
-  }, [])
+  }, [user?._id])
 
   const getMedia = async () => {
 

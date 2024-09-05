@@ -18,6 +18,7 @@ $outgoing-background: #005c4b;
 $bubble-meta: hsla(0, 0%, 100%, 0.6);
 $icon-ack: #53bdeb;
 $red: rgb(229, 71, 71);
+$yellow: #e4a912;
 
 @mixin centerProfileText($fontSize) {
     width: 100%;
@@ -26,6 +27,12 @@ $red: rgb(229, 71, 71);
     color: $panel-header-icon;
     font-size: $fontSize;
     font-weight: normal;
+}
+
+@mixin mediaBox() {
+    width: 100px;
+    height: 100px;
+    border-radius: 6px;
 }
 
 .profileSection {
@@ -114,6 +121,62 @@ $red: rgb(229, 71, 71);
                 svg {
                     color: $panel-header-icon;
                     font-size: 0.8em;
+                }
+
+            }
+
+        }
+
+        .media-sect {
+
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 0.5em;
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            &::-moz-scrollbar {
+                display: none;
+            }
+
+            .audioMediaBox {
+                @include mediaBox();
+                background-color: $yellow;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1em;
+
+                svg {
+                    color: $primary-strong;
+                    font-size: 1.8em;
+                }
+
+                p {
+                    @include centerProfileText(0.9em);
+                    color: $primary-strong;
+                    text-transform: capitalize;
+                    width: 100px;
+                }
+
+            }
+
+            .imageMediaBox {
+                @include mediaBox();
+                cursor: pointer;
+
+                img {
+                    @include mediaBox();
+                    object-fit: cover;
+                    object-position: center;
                 }
 
             }

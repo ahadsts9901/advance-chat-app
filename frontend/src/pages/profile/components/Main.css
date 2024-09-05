@@ -99,4 +99,63 @@
 .profileSection .mediaSection .mediaCount div svg {
   color: #aebac1;
   font-size: 0.8em;
+}
+.profileSection .mediaSection .media-sect {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5em;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.profileSection .mediaSection .media-sect::-webkit-scrollbar {
+  display: none;
+}
+.profileSection .mediaSection .media-sect::-moz-scrollbar {
+  display: none;
+}
+.profileSection .mediaSection .media-sect .audioMediaBox {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  background-color: #e4a912;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+.profileSection .mediaSection .media-sect .audioMediaBox svg {
+  color: #e9edef;
+  font-size: 1.8em;
+}
+.profileSection .mediaSection .media-sect .audioMediaBox p {
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
+  text-align: center;
+  color: #aebac1;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #e9edef;
+  text-transform: capitalize;
+  width: 100px;
+}
+.profileSection .mediaSection .media-sect .imageMediaBox {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.profileSection .mediaSection .media-sect .imageMediaBox img {
+  width: 100px;
+  height: 100px;
+  border-radius: 6px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }/*# sourceMappingURL=Main.css.map */
