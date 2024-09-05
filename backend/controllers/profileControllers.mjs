@@ -1,6 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { userModel } from "../models/userModel.mjs"
+import { chatModel } from "../models/chatModel.mjs"
 import { _1mbSize, profilePictureUploadFolder, userActiveChannel, userNamePattern, globalIoObject } from "../core.mjs"
 import { uploadOnCloudinary } from "../utils/cloudinary.mjs"
 
@@ -113,16 +114,23 @@ export const getUserProfileController = async (req, res, next) => {
 export const getProfileMediaController = async (req, res, next) => {
 
     const { userId } = req?.params
+    const currentUserId = req?.currentUser?._id
 
-    if (!userId || userId?.trim() === "") {
+    if (!currentUserId || currentUserId?.trim() === "") {
         return res.status(401).send({
             message: errorMessages?.unAuthError
         })
     }
 
+    if (!userId || userId?.trim() === "") {
+        return res.status(400).send({
+            message: errorMessages?.idIsMissing
+        })
+    }
+
     if (!isValidObjectId(userId)) {
-        return res.status(401).send({
-            message: errorMessages?.unAuthError
+        return res.status(400).send({
+            message: errorMessages?.invalidId
         })
     }
 
@@ -131,16 +139,32 @@ export const getProfileMediaController = async (req, res, next) => {
         const user = await userModel.findById(userId).exec()
 
         if (!user) {
-            return res.status(401).send({
-                message: errorMessages?.unAuthError
+            return res.status(404).send({
+                message: errorMessages?.noAccountFound
             })
         }
 
-        const { _id, userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive } = user
+        const query = {
+            $or: [
+                { from_id: currentUserId, to_id: userId },
+                { from_id: userId, to_id: currentUserId },
+            ],
+            messageType: { $ne: "text" },
+            isUnsend: false,
+            deletedFrom: { $nin: [currentUserId] },
+        }
+
+        const selection = {
+            _id: 1,
+            messageType: 1,
+            contentUrl: 1
+        }
+
+        const media = await chatModel.find(query).sort({ _id: -1 }).select(selection).exec()
 
         res.send({
-            message: "user profile fetched",
-            data: { _id, userName, profilePhoto, email, createdOn, isEmailVerified, isAdmin, isActive }
+            message: errorMessages?.mediaFetched,
+            data: media
         })
 
     } catch (error) {

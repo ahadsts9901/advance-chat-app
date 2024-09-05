@@ -34,5 +34,6 @@ export const errorMessages = {
     textMissing: "text is missing",
     messageUpdated: "message updated successfully",
     editTimeExpired: "edit message time limit 5 minutes has expired",
-    chatCleared: "chat has cleared successfully"
+    chatCleared: "chat has cleared successfully",
+    mediaFetched: "media fetched"
 }
