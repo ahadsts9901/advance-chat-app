@@ -11,12 +11,14 @@ import axios from "axios"
 import { baseUrl } from "../../../../core"
 import moment from "moment"
 import FormDialogue from "../../../../components/mui/FormDialogue"
+import { AntdImage as Image } from "../../../../components/antd/Image"
 
 export const Media = ({ messageType, content, image }: any) => {
 
     return (
         <>
-            {messageType === "image" && <img src={content} alt="photo-message" className="photo-message" />}
+            {messageType === "image" &&
+                <Image src={content} alt="photo-message" className="photo-message"/>}
             {messageType === "video" && <video src={content} className="video-message" controls />}
             {messageType === "audio" && <AudioMessage audioUrl={content} image={image} />}
         </>

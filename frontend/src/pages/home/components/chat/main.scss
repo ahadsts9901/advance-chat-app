@@ -155,7 +155,7 @@ $icon-ack: #53bdeb;
         background-color: $input-background;
     }
 
-    div {
+    .contact-sts-cont {
 
         width: 100%;
         display: flex;
@@ -163,14 +163,21 @@ $icon-ack: #53bdeb;
         align-items: center;
         gap: 0.7em;
 
-        img {
-            width: 2.3em;
-            height: 2.3em;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 100%;
-            background-color: $outgoing-background;
-            cursor: pointer;
+        .ant-image {
+
+            width: 3em !important;
+            height: 3em !important;
+
+            img {
+                width: 3em !important;
+                height: 3em !important;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 100%;
+                background-color: $outgoing-background;
+                cursor: pointer;
+            }
+
         }
 
         div {
@@ -233,7 +240,7 @@ $icon-ack: #53bdeb;
         }
 
         .messageTime {
-            
+
             color: $panel-header-icon;
             font-size: 0.6em;
             width: 100%;

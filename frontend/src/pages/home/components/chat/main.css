@@ -118,16 +118,20 @@
 .singleContact:hover {
   background-color: #2a3942;
 }
-.singleContact div {
+.singleContact .contact-sts-cont {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 0.7em;
 }
-.singleContact div img {
-  width: 2.3em;
-  height: 2.3em;
+.singleContact .contact-sts-cont .ant-image {
+  width: 3em !important;
+  height: 3em !important;
+}
+.singleContact .contact-sts-cont .ant-image img {
+  width: 3em !important;
+  height: 3em !important;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -136,7 +140,7 @@
   background-color: #005c4b;
   cursor: pointer;
 }
-.singleContact div div {
+.singleContact .contact-sts-cont div {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -144,14 +148,14 @@
   align-items: center;
   gap: 0.4em;
 }
-.singleContact div div h4 {
+.singleContact .contact-sts-cont div h4 {
   font-size: 0.7em;
   color: #aebac1;
   width: 100%;
   text-align: left;
   font-weight: bold;
 }
-.singleContact div div div {
+.singleContact .contact-sts-cont div div {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -159,27 +163,27 @@
   align-items: center;
   gap: 0.3em;
 }
-.singleContact div div div .readReciepts {
+.singleContact .contact-sts-cont div div .readReciepts {
   width: -moz-fit-content;
   width: fit-content;
 }
-.singleContact div div div .readReciepts svg {
+.singleContact .contact-sts-cont div div .readReciepts svg {
   color: #aebac1;
   font-size: 0.8em;
 }
-.singleContact div div div .readReciepts .read {
+.singleContact .contact-sts-cont div div .readReciepts .read {
   color: #53bdeb;
 }
-.singleContact div div div .messageType svg {
+.singleContact .contact-sts-cont div div .messageType svg {
   color: #aebac1;
   font-size: 0.6em;
 }
-.singleContact div div div .messageType p {
+.singleContact .contact-sts-cont div div .messageType p {
   color: #aebac1;
   font-size: 0.6em;
   padding-top: 3px;
 }
-.singleContact div .messageTime {
+.singleContact .contact-sts-cont .messageTime {
   color: #aebac1;
   font-size: 0.6em;
   width: 100%;

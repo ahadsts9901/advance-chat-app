@@ -6,6 +6,7 @@ import { FaPause } from "react-icons/fa"
 import { FaPlay } from "react-icons/fa6"
 import { formatTime } from "../../../../utils/functions"
 import fallBackProfileImage from "/default_avatar.png"
+import { AntdImage as Image } from "../../../../components/antd/Image"
 
 const AudioMessage = ({ audioUrl, image }: any) => {
 
@@ -97,7 +98,7 @@ const AudioMessage = ({ audioUrl, image }: any) => {
     return (
         <>
             <div className="audioMessage">
-                <img src={image} alt=""
+                <Image src={image} alt=""
                     onError={(e: any) => {
                         e.target.src = fallBackProfileImage
                         e.target.style.padding = "0.4em"

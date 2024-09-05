@@ -1,6 +1,7 @@
 import "./Main.css"
 import { useNavigate } from "react-router-dom"
 import fallBackProfileImage from "/default_avatar.png"
+import { AntdImage as Image } from "../../../../../components/antd/Image"
 
 const ContactSearchContact = ({ data }: any) => {
 
@@ -9,7 +10,7 @@ const ContactSearchContact = ({ data }: any) => {
     return (
         <>
             <div className="chatSearchContact" onClick={() => navigate(`/chat/${data?._id}`)}>
-                <img src={data?.profilePhoto} alt="user image"
+                <Image src={data?.profilePhoto} alt="user image"
                     onError={(e: any) => {
                         e.target.src = fallBackProfileImage
                         e.target.style.padding = "0.4em"

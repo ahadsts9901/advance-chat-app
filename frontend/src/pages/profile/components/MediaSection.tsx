@@ -7,7 +7,7 @@ import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
-import { Image } from "antd"
+import { AntdImage as Image } from "../../../components/antd/Image"
 
 export const MediaDetails = ({ mediaCount, user }: any) => {
 

@@ -158,7 +158,7 @@
 .conversationBody .background {
   width: 100%;
   height: 100%;
-  background-image: url("../../../../../public/chat-bg.png");
+  background-image: url("/chat-bg.png");
   background-repeat: repeat;
   background-size: 50%;
   filter: opacity(50%);
