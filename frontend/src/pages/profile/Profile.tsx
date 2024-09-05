@@ -1,15 +1,18 @@
 import "./Main.css"
-import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import axios from "axios"
 import { baseUrl } from "../../core"
+import { useParams } from "react-router-dom"
+import Chats from "../home/components/Chats"
+import axios from "axios"
+import ProfileSection from "./components/ProfileSection"
 
 const Profile = () => {
 
     const { userId } = useParams()
 
     const [user, setUser] = useState<any>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [contacts, setContacts] = useState<any[]>([])
+    const [filteredContacts, setFilteredContacts] = useState([]);
 
     useEffect(() => {
 
@@ -17,32 +20,40 @@ const Profile = () => {
 
     }, [userId])
 
+    const getContacts = async () => {
+
+        try {
+
+            const resp = await axios.get(`${baseUrl}/api/v1/contacts`, { withCredentials: true })
+            setContacts(resp?.data?.data)
+            setFilteredContacts(resp?.data?.data)
+
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
+
     const getProfile = async () => {
 
         if (!userId || userId?.trim() === "") return
 
         try {
 
-            setIsLoading(true)
-
             const resp = await axios.get(`${baseUrl}/api/v1/profile/${userId}`, { withCredentials: true })
-
-            setIsLoading(false)
             setUser(resp?.data?.data)
 
         } catch (error) {
             console.error(error)
-            setIsLoading(false)
         }
 
     }
 
     return (
         <>
-            <div>
-                Profile : {userId}
-                <br />
-                {isLoading ? "loading..." : JSON.stringify(user)}
+            <div className="profilePage">
+                <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} />
+                <ProfileSection user={user} />
             </div>
         </>
     )
