@@ -1,6 +1,4 @@
-got user data will work on render user profile (profile ui)
-
-profile
 edit profile
+revamp edit profile apis
 voice call
 video call
