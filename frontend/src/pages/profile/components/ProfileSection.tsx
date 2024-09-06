@@ -9,6 +9,8 @@ import { MdOutlineDownloadDone } from "react-icons/md";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../core";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/user";
 
 const OptProfile = ({ data }: any) => {
     return (
@@ -19,9 +21,11 @@ const OptProfile = ({ data }: any) => {
     );
 };
 
-const ProfileSection = ({ user }: any) => {
+const ProfileSection = ({ user, setUser, setContacts }: any) => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const currentUser = useSelector((state: any) => state?.user)
 
     const fileRef: any = useRef()
 
@@ -66,10 +70,13 @@ const ProfileSection = ({ user }: any) => {
                 headers: { "Content-Type": "multipart/form-data" },
             })
 
-            console.log(resp)
-
+            dispatch(login({ ...currentUser, profilePhoto: resp?.data?.data }))
+            setUser({ ...user, profilePhoto: resp?.data?.data })
             setBase64Url(null)
             setIsLoading(false)
+            setContacts((contacts: any) => contacts?.map((contact: any) =>
+                contact?._id?.toString() === currentUser?._id?.toString() ? { ...contact, profilePhoto: resp?.data?.data } : contact
+            ))
             if (fileRef?.current) fileRef.current.value = ''
 
         } catch (error) {

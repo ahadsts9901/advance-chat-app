@@ -55,7 +55,7 @@ const Profile = () => {
         <>
             <div className="profilePage">
                 <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} />
-                {!user ? <ConversationSplash /> : <ProfileSection user={user} />}
+                {!user ? <ConversationSplash /> : <ProfileSection setUser={setUser} user={user} setContacts={setContacts} />}
             </div>
         </>
     )
