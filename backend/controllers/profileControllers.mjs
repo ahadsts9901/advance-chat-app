@@ -182,7 +182,6 @@ export const updateUserNameController = async (req, res, next) => {
     const { _id } = req?.currentUser
     const { userName } = req?.body
 
-
     if (!_id || _id?.trim() === "") {
         return res.status(401).send({
             message: errorMessages?.unAuthError
@@ -218,11 +217,11 @@ export const updateUserNameController = async (req, res, next) => {
         }
 
         user.userName = userName?.trim()
-
         await user?.save()
 
         res.send({
-            message: "username updated successfully"
+            message: errorMessages?.userNameUpdated,
+            data: userName?.trim()
         })
 
     } catch (error) {

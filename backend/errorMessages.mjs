@@ -36,5 +36,6 @@ export const errorMessages = {
     editTimeExpired: "edit message time limit 5 minutes has expired",
     chatCleared: "chat has cleared successfully",
     mediaFetched: "media fetched",
-    profilePhotoUpdated: "profile picture updated successfully"
+    profilePhotoUpdated: "profile picture updated successfully",
+    userNameUpdated: "username updated successfully",
 }
