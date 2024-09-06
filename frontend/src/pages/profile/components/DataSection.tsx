@@ -6,7 +6,7 @@ import { AntdImage as Image } from "../../../components/antd/Image"
 import { useSelector } from "react-redux";
 import { MdModeEditOutline } from "react-icons/md";
 
-const DataSection = ({ user }: any) => {
+const DataSection = ({ user, fileRef, base64Url }: any) => {
 
   const currentUser = useSelector((state: any) => state?.user)
 
@@ -17,7 +17,7 @@ const DataSection = ({ user }: any) => {
           <IconButton onClick={() => window.history.back()} className="profile-back-button"><IoArrowBackOutline /></IconButton>
         </>
         <div className="image-sts">
-          <Image src={user?.profilePhoto} alt="profile photo"
+          <Image src={base64Url ? base64Url : user?.profilePhoto} alt="profile photo"
             onError={(e: any) => {
               e.target.src = fallBackProfileImage
               e.target.style.padding = "0.4em"
@@ -25,9 +25,11 @@ const DataSection = ({ user }: any) => {
           />
           <>
             {currentUser?._id == user?._id ?
-              <IconButton
-                className="edit-button" size="small"
-              ><MdModeEditOutline /></IconButton>
+              <IconButton className="edit-button" size="small"
+                onClick={() => fileRef?.current?.click()}
+              >
+                <MdModeEditOutline />
+              </IconButton>
               : null}
           </>
         </div>

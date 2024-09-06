@@ -4,8 +4,11 @@ import MediaSection from "./MediaSection";
 import { IoMdShare } from "react-icons/io";
 import { MdChat } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MdOutlineDownloadDone } from "react-icons/md";
+import { Button } from "@mui/material";
+import axios from "axios";
+import { baseUrl } from "../../../core";
 
 const OptProfile = ({ data }: any) => {
     return (
@@ -20,8 +23,12 @@ const ProfileSection = ({ user }: any) => {
 
     const navigate = useNavigate();
 
+    const fileRef: any = useRef()
+
     const [copyLabel, setCopyLabel] = useState("Share Profile");
     const [copyIcon, setCopyIcon] = useState(<IoMdShare />)
+    const [base64Url, setBase64Url] = useState<null | string>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const chatFunction = () => navigate(`/chat/${user?._id}`);
 
@@ -40,13 +47,58 @@ const ProfileSection = ({ user }: any) => {
         { label: "Chat", path: "chat", icon: <MdChat />, fun: chatFunction },
     ];
 
+    const updateProfilePhoto = async () => {
+
+        if (!fileRef) return
+        if (!fileRef?.current) return
+        if (!fileRef?.current?.files) return
+        if (!fileRef?.current?.files?.length) return
+        if (!fileRef?.current?.files[0]) return
+
+        try {
+
+            setIsLoading(true)
+            const formData = new FormData()
+            formData.append('file', fileRef?.current?.files[0])
+
+            const resp = await axios.put(`${baseUrl}/api/v1/profile-picture`, formData, {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+
+            console.log(resp)
+
+            setBase64Url(null)
+            setIsLoading(false)
+            if (fileRef?.current) fileRef.current.value = ''
+
+        } catch (error) {
+            console.error(error)
+            setIsLoading(false)
+        }
+
+    }
+
     return (
         <div className="profileSection">
-            <DataSection user={user} />
+            <input type="file" ref={fileRef} hidden accept="image/*" onChange={(e: any) => setBase64Url(URL.createObjectURL(e?.target?.files[0]))} />
+            <DataSection user={user} fileRef={fileRef} base64Url={base64Url} setBase64Url={setBase64Url} />
             <MediaSection user={user} />
             {options?.map((option: any, i: number) => (
                 <OptProfile key={i} data={option} />
             ))}
+            {
+                base64Url?.length ?
+                    <>
+                        <Button
+                            onClick={updateProfilePhoto}
+                            variant="outlined" color="primary"
+                            sx={{ marginX: "auto", paddingX: "6em", marginTop: "2em" }}
+                            disabled={isLoading}
+                        >Save Changes</Button>
+                    </>
+                    : null
+            }
         </div>
     );
 };
