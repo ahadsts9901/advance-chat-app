@@ -174,7 +174,7 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
         { label: "Delete for me", fun: deleteForMEConfirmation },
     ]
 
-    if (!data?.isUnsend) {
+    if (!data?.isUnsend && data?.text) {
         opponentOptions?.push({ label: "Copy", fun: copyMessage },)
     }
 

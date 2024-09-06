@@ -20,10 +20,10 @@ export const Status = ({ status }: any) => {
 
     return (
         <>
-            <div className="readReciepts">
-                {status === "sent" && <DoneIcon className="sent" />}
-                {status === "delievered" && <DoneAllIcon className="delievered" />}
-                {status === "seen" && <DoneAllIcon className="read" />}
+            <div className="readReciepts click">
+                {status === "sent" && <DoneIcon className="sent click" />}
+                {status === "delievered" && <DoneAllIcon className="delievered click" />}
+                {status === "seen" && <DoneAllIcon className="read click" />}
             </div>
         </>
     )
@@ -34,11 +34,11 @@ export const MessageType = ({ lastMessage, messageType }: any) => {
 
     return (
         <>
-            <div className="messageType">
-                {messageType === "text" && lastMessage && <p>{lastMessage?.length > 15 ? `${lastMessage?.substr(0, 20)}...` : lastMessage}</p>}
-                {messageType === "image" && <><FaCamera style={{ marginRight: "2px" }} /><p>Photo</p></>}
-                {messageType === "video" && <><FaVideo style={{ marginRight: "2px" }} /><p>Video</p></>}
-                {messageType === "audio" && <><FaMicrophone style={{ marginRight: "2px" }} /><p>Audio</p></>}
+            <div className="messageType click">
+                {messageType === "text" && lastMessage && <p className="click">{lastMessage?.length > 15 ? `${lastMessage?.substr(0, 20)}...` : lastMessage}</p>}
+                {messageType === "image" && <><FaCamera className="click" style={{ marginRight: "2px" }} /><p className="click">Photo</p></>}
+                {messageType === "video" && <><FaVideo className="click" style={{ marginRight: "2px" }} /><p className="click">Video</p></>}
+                {messageType === "audio" && <><FaMicrophone className="click" style={{ marginRight: "2px" }} /><p className="click">Audio</p></>}
             </div>
         </>
     )
@@ -80,27 +80,33 @@ const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
         }
     };
 
+    const handleClick = (e: any) => {
+        if(e?.target?.className?.includes("click")) navigate(`/chat/${data?._id}`)
+    }
+
     return (
         <>
-            <div className={`singleContact ${data?._id === userId ? "special-singleContact" : ""}`}>
-                <div className="contact-sts-cont">
+            <div className={`singleContact click ${data?._id === userId ? "special-singleContact" : ""}`}
+                onClick={handleClick}
+            >
+                <div className="contact-sts-cont click">
                     <Image src={data?.profilePhoto} alt="profile-photo"
                         onError={(e: any) => {
                             e.target.src = fallBackProfileImage
                             e.target.style.padding = "0.4em"
                         }}
                     />
-                    <div onClick={() => navigate(`/chat/${data?._id}`)}>
-                        <h4>{data?.userName} {data?._id == currentUser?._id ? "(You)" : ""}</h4>
-                        <div>
+                    <div className="click">
+                        <h4 className="click">{data?.userName} {data?._id == currentUser?._id ? "(You)" : ""}</h4>
+                        <div className="click">
                             {data?.isReceived ? null : <Status status={data?.status} />}
                             <MessageType lastMessage={data?.lastMessage} messageType={data?.messageType} />
                         </div>
                     </div>
-                    <span className="messageTime" onClick={() => navigate(`/chat/${data?._id}`)}>
-                        {data?.time ? <p style={{ marginRight: data?._id?.toString() === currentUser?._id?.toString() ? '-2em' : '0em' }}>{timeAgo(data?.time)}</p> : null}
-                        {data?._id == currentUser?._id ? <GiPin style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
-                        {(unReadMessages && data?._id?.toString() !== currentUser?._id?.toString()) ? <Badge badgeContent={unReadMessages} color="primary" /> : null}
+                    <span className="messageTime click">
+                        {data?.time ? <p className="click" style={{ marginRight: data?._id?.toString() === currentUser?._id?.toString() ? '-2em' : '0em' }}>{timeAgo(data?.time)}</p> : null}
+                        {data?._id == currentUser?._id ? <GiPin className="click" style={{ fontSize: "1.2em", marginLeft: "0.5em" }} /> : null}
+                        {(unReadMessages && data?._id?.toString() !== currentUser?._id?.toString()) ? <Badge className="click" badgeContent={unReadMessages} color="primary" /> : null}
                     </span>
                 </div>
             </div>
