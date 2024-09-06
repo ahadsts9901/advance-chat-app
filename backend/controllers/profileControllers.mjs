@@ -288,7 +288,8 @@ export const updateProfilePictureController = async (req, res, next) => {
         await user?.save()
 
         res.send({
-            message: "profile picture updated successfully"
+            message: errorMessages?.profilePhotoUpdated,
+            data: imageUploadResp?.url
         })
 
     } catch (error) {
