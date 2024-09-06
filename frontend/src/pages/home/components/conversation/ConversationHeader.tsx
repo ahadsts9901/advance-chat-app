@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
 import axios from "axios";
+import VoiceCall from "./call/VoiceCall";
+import VideoCall from "./call/VideoCall";
 
 export const DropMenu = ({ setMessages, user, getContacts }: any) => {
 
@@ -179,43 +181,47 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
 
     return (
         <>
-            <div className="conversationHeader">
-                {
-                    searchMessage ?
-                        <SearchBarMessage
-                            searchText={searchText}
-                            setSearchText={setSearchText}
-                            setSearchMessage={setSearchMessage}
-                        /> :
-                        <>
+            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall />}
+            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall />}
+            <>
+                <div className="conversationHeader">
+                    {
+                        searchMessage ?
+                            <SearchBarMessage
+                                searchText={searchText}
+                                setSearchText={setSearchText}
+                                setSearchMessage={setSearchMessage}
+                            /> :
                             <>
-                                <div className="userData"
-                                    onClick={() => navigate(`/profile/${user?._id}`)}
-                                >
-                                    <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
-                                        e.target.src = fallBackProfileImage
-                                        e.target.style.padding = "0.4em"
-                                    }} />
-                                    <div>
-                                        <h4>{user?.userName}</h4>
-                                        {
-                                            user?._id == currentUser?._id ? <p>You</p> :
-                                                <p>{user?.isActive ? "Online" : "Offline"}</p>
-                                        }
+                                <>
+                                    <div className="userData"
+                                        onClick={() => navigate(`/profile/${user?._id}`)}
+                                    >
+                                        <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
+                                            e.target.src = fallBackProfileImage
+                                            e.target.style.padding = "0.4em"
+                                        }} />
+                                        <div>
+                                            <h4>{user?.userName}</h4>
+                                            {
+                                                user?._id == currentUser?._id ? <p>You</p> :
+                                                    <p>{user?.isActive ? "Online" : "Offline"}</p>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
+                                </>
+                                <>
+                                    <div className="icons">
+                                        <IconButton onClick={() => setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
+                                        <IconButton onClick={() => setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
+                                        <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
+                                        <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
+                                    </div>
+                                </>
                             </>
-                            <>
-                                <div className="icons">
-                                    <IconButton onClick={() => setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
-                                    <IconButton onClick={() => setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
-                                    <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
-                                    <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
-                                </div>
-                            </>
-                        </>
-                }
-            </div>
+                    }
+                </div>
+            </>
         </>
     )
 
