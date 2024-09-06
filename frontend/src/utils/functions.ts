@@ -1,6 +1,7 @@
 import moment from "moment"
 
 export const timeAgo = (date: string) => {
+    
     const now = moment();
     const momentDate = moment(date);
     const diffInHours = now.diff(momentDate, 'hours');
