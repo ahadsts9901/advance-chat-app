@@ -162,6 +162,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
     const currentUser = useSelector((state: any) => state?.user)
 
     const [searchMessage, setSearchMessage] = useState<boolean>(false)
+    const [isVoiceCallOpen, setIsVoiceCallOpen] = useState<boolean>(false)
+    const [isVideoCallOpen, setIsVideoCallOpen] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -188,7 +190,7 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
                         <>
                             <>
                                 <div className="userData"
-                                onClick={()=>navigate(`/profile/${user?._id}`)}
+                                    onClick={() => navigate(`/profile/${user?._id}`)}
                                 >
                                     <img src={user?.profilePhoto} alt="profilePhoto" onError={(e: any) => {
                                         e.target.src = fallBackProfileImage
@@ -205,8 +207,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
                             </>
                             <>
                                 <div className="icons">
-                                    <IconButton><MdLocalPhone /></IconButton>
-                                    <IconButton><IoIosVideocam /></IconButton>
+                                    <IconButton onClick={() => setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
+                                    <IconButton onClick={() => setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
                                     <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
                                     <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
                                 </div>
