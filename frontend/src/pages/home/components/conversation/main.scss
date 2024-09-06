@@ -39,6 +39,7 @@ $red: rgb(229, 71, 71);
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 10;
 
         svg {
             color: $panel-header-icon;

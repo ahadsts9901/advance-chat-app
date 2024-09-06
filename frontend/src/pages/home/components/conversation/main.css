@@ -215,6 +215,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 .conversationBody .body .leftChatBubble .drop-message-button svg {
   color: #aebac1;
@@ -317,6 +318,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 .conversationBody .body .rightChatBubble .drop-message-button svg {
   color: #aebac1;
@@ -419,6 +421,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 .conversationBody .body .unSendLeft .drop-message-button svg {
   color: #aebac1;
@@ -450,6 +453,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 10;
 }
 .conversationBody .body .unSendRight .drop-message-button svg {
   color: #aebac1;
