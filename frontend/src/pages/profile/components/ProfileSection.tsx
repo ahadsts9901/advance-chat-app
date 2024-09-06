@@ -89,7 +89,7 @@ const ProfileSection = ({ user, setUser, setContacts }: any) => {
     return (
         <div className="profileSection">
             <input type="file" ref={fileRef} hidden accept="image/*" onChange={(e: any) => setBase64Url(URL.createObjectURL(e?.target?.files[0]))} />
-            <DataSection user={user} fileRef={fileRef} base64Url={base64Url} setBase64Url={setBase64Url} />
+            <DataSection user={user} setUser={setUser} fileRef={fileRef} base64Url={base64Url} setBase64Url={setBase64Url} setContacts={setContacts} />
             <MediaSection user={user} />
             {options?.map((option: any, i: number) => (
                 <OptProfile key={i} data={option} />

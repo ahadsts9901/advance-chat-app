@@ -1,4 +1,4 @@
-edit profile
-revamp edit profile apis
+edit userName
+edit userName form revamp
 voice call
 video call

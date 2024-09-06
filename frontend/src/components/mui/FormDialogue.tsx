@@ -10,7 +10,7 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { IconButton } from '@mui/material';
 import { BsEmojiSmile } from "react-icons/bs";
 
-export default function FormDialogue({ open, setOpen, text, setText, fun, isLoading }: any) {
+export default function FormDialogue({ open, setOpen, text, setText, fun, isLoading, message, button }: any) {
 
     const emojiPickerRef = React.useRef<HTMLDivElement>(null);
 
@@ -57,7 +57,7 @@ export default function FormDialogue({ open, setOpen, text, setText, fun, isLoad
                     }
                 }}
             >
-                <DialogTitle>Edit message</DialogTitle>
+                <DialogTitle>{message}</DialogTitle>
                 <DialogContent className='dialogContent-sts' sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -74,7 +74,7 @@ export default function FormDialogue({ open, setOpen, text, setText, fun, isLoad
                         value={text}
                         onChange={(e: any) => setText(e?.target?.value)}
                         sx={{ width: "500px", padding: "1em" }}
-                        placeholder='Enter message'
+                        placeholder={message}
                     />
                     <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)} sx={{ marginLeft: "1em" }}>
                         <BsEmojiSmile />
@@ -82,7 +82,7 @@ export default function FormDialogue({ open, setOpen, text, setText, fun, isLoad
                 </DialogContent>
                 <DialogActions>
                     <Button disabled={isLoading} onClick={handleClose}>Cancel</Button>
-                    <Button disabled={isLoading} type="submit">Edit</Button>
+                    <Button disabled={isLoading} type="submit">{button}</Button>
                 </DialogActions>
             </Dialog>
             {

@@ -197,6 +197,8 @@ export const DropMenu = ({ data, setMessages, getContacts }: any) => {
                 setText={setEditText}
                 fun={editMessage}
                 isLoading={isLoading}
+                message="Edit message"
+                button="Edit"
             />
             <div className="drop-message-button">
                 <IconButton

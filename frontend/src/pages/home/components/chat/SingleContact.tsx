@@ -81,7 +81,7 @@ const SingleContact = ({ data, userId, getContacts, contacts }: any) => {
     };
 
     const handleClick = (e: any) => {
-        if(e?.target?.className?.includes("click")) navigate(`/chat/${data?._id}`)
+        if (e?.target?.className?.includes("click")) navigate(`/chat/${data?._id}`)
     }
 
     return (
