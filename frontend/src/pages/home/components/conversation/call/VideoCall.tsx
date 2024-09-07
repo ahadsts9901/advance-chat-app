@@ -1,9 +1,12 @@
 import "./Main.css"
+import DraggableBox from "../../../../../components/mui/DraggableBox"
 
-const VideoCall = () => {
+const VideoCall = ({ open, setOpen }: any) => {
     return (
         <>
-            VideoCall
+            <DraggableBox
+                open={open} setOpen={setOpen}
+            />
         </>
     )
 }

@@ -1,9 +1,10 @@
 import "./Main.css"
+import DraggableBox from "../../../../../components/mui/DraggableBox"
 
-const VoiceCall = () => {
+const VoiceCall = ({ open, setOpen }: any) => {
     return (
         <>
-            VoiceCall
+            <DraggableBox open={open} setOpen={setOpen} />
         </>
     )
 }

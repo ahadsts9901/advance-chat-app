@@ -18,7 +18,7 @@ function PaperComponent(props: PaperProps) {
     );
 }
 
-export default function DraggableDialogBox({ open, setOpen }: any) {
+export default function DraggableBox({ open, setOpen }: any) {
 
     const handleClose = () => setOpen(false)
 

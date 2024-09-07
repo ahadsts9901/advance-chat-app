@@ -181,8 +181,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
 
     return (
         <>
-            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall />}
-            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall />}
+            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall open={isVoiceCallOpen} setOpen={setIsVoiceCallOpen} />}
+            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall open={isVideoCallOpen} setOpen={setIsVideoCallOpen} />}
             <>
                 <div className="conversationHeader">
                     {
@@ -212,8 +212,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
                                 </>
                                 <>
                                     <div className="icons">
-                                        <IconButton onClick={() => setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
-                                        <IconButton onClick={() => setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
+                                        <IconButton onClick={() => isVideoCallOpen ? setIsVoiceCallOpen(false) : setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
+                                        <IconButton onClick={() => isVoiceCallOpen ? setIsVideoCallOpen(false) : setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
                                         <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
                                         <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
                                     </div>
