@@ -181,8 +181,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
 
     return (
         <>
-            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall open={isVoiceCallOpen} setOpen={setIsVoiceCallOpen} />}
-            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall open={isVideoCallOpen} setOpen={setIsVideoCallOpen} />}
+            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall user={user} setUser={setUser} open={isVoiceCallOpen} setOpen={setIsVoiceCallOpen} />}
+            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall user={user} setUser={setUser} open={isVideoCallOpen} setOpen={setIsVideoCallOpen} />}
             <>
                 <div className="conversationHeader">
                     {
