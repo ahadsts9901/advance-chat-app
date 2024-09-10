@@ -1,0 +1,61 @@
+$secondary: #8696a0;
+$teal-light: #7ae3c3;
+$photopicker-overlay-background: rgba(30, 42, 49, 0.8);
+$dropdown-background: #233138;
+$dropdown-background-hover: #182229;
+$input-background: #2a3942;
+$primary-strong: #e9edef;
+$panel-header-background: #202c33;
+$panel-header-icon: #aebac1;
+$icon-lighter: #8696a0;
+$icon-green: #00a884;
+$search-input-container-background: #111b21;
+$conversation-border: rgba(134, 150, 160, 0.15);
+$conversation-panel-background: #0b141a;
+$background-default-hover: #202c33;
+$incoming-background: #202c33;
+$outgoing-background: #005c4b;
+$bubble-meta: hsla(0, 0%, 100%, 0.6);
+$icon-ack: #53bdeb;
+
+@mixin centerText($fontSize) {
+    width: 100%;
+    text-align: center;
+    color: $panel-header-icon;
+    font-size: $fontSize;
+}
+
+.callComponent {
+    width: fit-content;
+    height: fit-content;
+    background: $background-default-hover;
+    border: 2px solid $secondary;
+    position: fixed;
+    z-index: 20;
+    bottom: 2em;
+    left: 2em;
+    cursor: move;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    padding: 2em;
+
+    h2 {
+        @include centerText(1.2em);
+    }
+
+    p {
+        @include centerText(0.8em);
+    }
+
+    img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 200px;
+    }
+
+}

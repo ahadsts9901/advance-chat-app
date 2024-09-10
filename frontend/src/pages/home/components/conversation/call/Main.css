@@ -1,1 +1,40 @@
-/*# sourceMappingURL=Main.css.map */
+.callComponent {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background: #202c33;
+  border: 2px solid #8696a0;
+  position: fixed;
+  z-index: 20;
+  bottom: 2em;
+  left: 2em;
+  cursor: move;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+  padding: 2em;
+}
+.callComponent h2 {
+  width: 100%;
+  text-align: center;
+  color: #aebac1;
+  font-size: 1.2em;
+}
+.callComponent p {
+  width: 100%;
+  text-align: center;
+  color: #aebac1;
+  font-size: 0.8em;
+}
+.callComponent img {
+  width: 80px;
+  height: 80px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 200px;
+}/*# sourceMappingURL=Main.css.map */
