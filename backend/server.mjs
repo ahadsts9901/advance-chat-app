@@ -12,6 +12,7 @@ import authRoutes from "./routes/authRoutes.mjs"
 import profileRoutes from "./routes/profileRoutes.mjs"
 import userRoutes from "./routes/userRoutes.mjs"
 import chatRoutes from "./routes/chatRoutes.mjs"
+import callRoutes from "./routes/callRoutes.mjs"
 
 import { authenticationMiddleware } from "./middlewares/jwtMiddlewares.mjs"
 
@@ -22,7 +23,7 @@ app.use(json())
 app.use(cookieParser())
 app.use(morgan("dev"))
 
-app.use("/api/v1", authRoutes, authenticationMiddleware, userRoutes, profileRoutes, chatRoutes)
+app.use("/api/v1", authRoutes, authenticationMiddleware, userRoutes, profileRoutes, chatRoutes, callRoutes)
 
 // socket io
 
