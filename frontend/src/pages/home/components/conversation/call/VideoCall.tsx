@@ -22,6 +22,7 @@ const VideoCall = ({ setOpen, user }: any) => {
             const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${user?._id}`, {}, {
                 withCredentials: true
             })
+            console.log(resp)
         } catch (error) {
             console.error(error)
         }

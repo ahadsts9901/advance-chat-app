@@ -38,4 +38,5 @@ export const errorMessages = {
     mediaFetched: "media fetched",
     profilePhotoUpdated: "profile picture updated successfully",
     userNameUpdated: "username updated successfully",
+    videoCallRequested: "video call requisted"
 }

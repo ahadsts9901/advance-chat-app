@@ -9,12 +9,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "./redux/user";
 import axios from "axios";
-import { baseUrl } from "./core";
+import { baseUrl, requestVideoCallChannel } from "./core";
 import SplashScreen from "./pages/splashScreen/SplashScreen";
 import Login from "./pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
+import io from "socket.io-client"
 
 const UnAuthRouting = () => {
 
@@ -96,6 +97,15 @@ const Routing = () => {
         };
 
     }, []);
+
+    console.log(`${requestVideoCallChannel}-${currentUser?._id}`)
+
+    useEffect(() => {
+        const socket = io(baseUrl);
+        socket.on('connect', () => console.log("connected for video call"))
+        socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => console.log(e))
+        return () => { socket.close() }
+    }, [currentUser])
 
     return (
         <>

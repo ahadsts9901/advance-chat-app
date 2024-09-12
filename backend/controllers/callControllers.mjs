@@ -1,5 +1,6 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
+import { globalIoObject, requestVideoCallChannel } from "../core.mjs"
 
 export const requestVideoCallController = async (req, res) => {
 
@@ -24,10 +25,24 @@ export const requestVideoCallController = async (req, res) => {
         })
     }
 
+    const videoCallPayload = {
+        opponentId: opponentId,
+        currentUserId: currentUserId,
+        roomId: `${requestVideoCallChannel}-${opponentId}-${currentUserId}`
+    }
+
+    console.log(`${requestVideoCallChannel}-${opponentId}`)
+
+    if (globalIoObject?.io) {
+        console.log(`requesting video call to ${opponentId}`)
+        globalIoObject?.io?.emit(`${requestVideoCallChannel}-${opponentId}`, videoCallPayload)
+    }
+
     try {
 
-        res.send({
-            message: ""
+        return res.send({
+            message: errorMessages?.videoCallRequested,
+            data: videoCallPayload
         })
 
     } catch (error) {
