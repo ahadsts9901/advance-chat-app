@@ -16,7 +16,7 @@ const VideoCall = ({ setOpen, user }: any) => {
                 <div className="callComponent">
                     <h2>{user?.userName}</h2>
                     <p>Video Call</p>
-                    <p>calling/ringing</p>
+                    <p>{user?.isActive ? "Ringing" : "Calling"}</p>
                     <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
                         e.target.src = fallBackProfileImage
                         e.target.style.padding = "0.4em"
