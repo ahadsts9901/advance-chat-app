@@ -3,11 +3,28 @@ import DraggableBox from "../../../../../components/mui/DraggableBox"
 import fallBackProfileImage from "/default_avatar.png"
 import { Button } from '@mui/material';
 import { MdCallEnd } from "react-icons/md";
+import axios from "axios";
+import { baseUrl } from "../../../../../core";
+import { useEffect } from "react";
 
 const VideoCall = ({ setOpen, user }: any) => {
 
     const handleEndCall = () => {
         setOpen(false)
+    }
+
+    useEffect(() => {
+        requestVideoCall()
+    }, [])
+
+    const requestVideoCall = async () => {
+        try {
+            const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${user?._id}`, {}, {
+                withCredentials: true
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (

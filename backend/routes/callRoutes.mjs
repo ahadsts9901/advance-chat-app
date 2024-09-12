@@ -3,7 +3,7 @@ import { acceptVideoCallController, acceptVoiceCallController, declineVideoCallC
 
 const router = Router()
 
-router.post("/request-video-call", requestVideoCallController)
+router.post("/request-video-call/:opponentId", requestVideoCallController)
 
 router.post("/accept-video-call", acceptVideoCallController)
 
