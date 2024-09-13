@@ -55,16 +55,26 @@ const VideoCall = ({ setOpen }: any) => {
 
     }, [videoCallData, currentUser])
 
-    const handleEndCall = () => {
-        setOpen(false)
-    }
-
     const requestVideoCall = async () => {
         try {
             const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${userId}`, {}, {
                 withCredentials: true
             })
             dispatch(setVideoCallData(resp?.data?.data))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const endVideoCall = async () => {
+        try {
+            await axios.post(`${baseUrl}/api/v1/decline-video-call/${userId}`, {}, {
+                withCredentials: true
+            })
+            dispatch(setVideoCallData(null))
+            setOpen(false)
+            setUser(null)
+            setStatus("")
         } catch (error) {
             console.error(error)
         }
@@ -84,7 +94,7 @@ const VideoCall = ({ setOpen }: any) => {
                                 e.target.src = fallBackProfileImage
                                 e.target.style.padding = "0.4em"
                             }} />
-                            <Button color='error' variant='contained' onClick={handleEndCall}><MdCallEnd /></Button>
+                            <Button color='error' variant='contained' onClick={endVideoCall}><MdCallEnd /></Button>
                         </div>
                     </DraggableBox>
                 </>

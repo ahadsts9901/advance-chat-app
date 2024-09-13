@@ -19,10 +19,13 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
 
     const _setIsVideoCallOpen = (option: boolean) => {
         dispatch(setIsVideoCallOpen(option))
-        dispatch(setVideoCallData({
-            opponentUser: { _id: "", isActive: false },
-            currentUser: { _id: currentUser?._id }
-        }))
+        dispatch(setVideoCallData(
+            option == false ? null :
+                {
+                    opponentUser: { _id: "", isActive: false },
+                    currentUser: { _id: currentUser?._id }
+                }
+        ))
     }
 
     return (

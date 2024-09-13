@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, setIsVideoCallOpen, setVideoCallData } from "./redux/user";
 import axios from "axios";
-import { baseUrl, requestVideoCallChannel } from "./core";
+import { baseUrl, endVideoCallChannel, requestVideoCallChannel } from "./core";
 import SplashScreen from "./pages/splashScreen/SplashScreen";
 import Login from "./pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -38,6 +38,10 @@ const AuthRouting = () => {
         socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVideoCallOpen(true))
             dispatch(setVideoCallData(e))
+        })
+        socket.on(`${endVideoCallChannel}-${currentUser?._id}`, () => {
+            dispatch(setIsVideoCallOpen(false))
+            dispatch(setVideoCallData(null))
         })
         return () => { socket.close() }
     }, [currentUser])
