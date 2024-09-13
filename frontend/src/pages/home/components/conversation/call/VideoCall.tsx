@@ -19,29 +19,15 @@ const VideoCall = ({ setOpen }: any) => {
     const { userId } = useParams()
 
     const [status, setStatus] = useState("")
+    const [user, setUser] = useState<any>(null)
 
     const currentUserId = currentUser?._id?.toString();
     const opponentUserId = videoCallData?.opponentUser?._id?.toString();
     const isCurrentUser = currentUserId === videoCallData?.currentUser?._id?.toString();
 
-    const handleEndCall = () => {
-        setOpen(false)
-    }
-
     useEffect(() => {
         requestVideoCall()
     }, [])
-
-    const requestVideoCall = async () => {
-        try {
-            const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${userId}`, {}, {
-                withCredentials: true
-            })
-            dispatch(setVideoCallData(resp?.data?.data))
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     useEffect(() => {
         if (!videoCallData) return;
@@ -57,22 +43,52 @@ const VideoCall = ({ setOpen }: any) => {
                 setStatus("");
                 break;
         }
-    }, [videoCallData, currentUser]);
+    }, [videoCallData, currentUser])
+
+    useEffect(() => {
+
+        if (isCurrentUser) {
+            setUser(videoCallData?.opponentUser)
+        } else if (opponentUserId === currentUserId) {
+            setUser(videoCallData?.currentUser)
+        }
+
+    }, [videoCallData, currentUser])
+
+    const handleEndCall = () => {
+        setOpen(false)
+    }
+
+    const requestVideoCall = async () => {
+        try {
+            const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${userId}`, {}, {
+                withCredentials: true
+            })
+            dispatch(setVideoCallData(resp?.data?.data))
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <>
-            <DraggableBox>
-                <div className="callComponent">
-                    <h2>{"user?.userName"}</h2>
-                    <p>Video Call</p>
-                    <p>{status}</p>
-                    <img src={"user?.profilePhoto"} alt="profile-photo" onError={(e: any) => {
-                        e.target.src = fallBackProfileImage
-                        e.target.style.padding = "0.4em"
-                    }} />
-                    <Button color='error' variant='contained' onClick={handleEndCall}><MdCallEnd /></Button>
-                </div>
-            </DraggableBox>
+            {
+                videoCallData && currentUser && user &&
+                <>
+                    <DraggableBox>
+                        <div className="callComponent">
+                            <h2>{user?.userName}</h2>
+                            <p>Video Call</p>
+                            <p>{status}</p>
+                            <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
+                                e.target.src = fallBackProfileImage
+                                e.target.style.padding = "0.4em"
+                            }} />
+                            <Button color='error' variant='contained' onClick={handleEndCall}><MdCallEnd /></Button>
+                        </div>
+                    </DraggableBox>
+                </>
+            }
         </>
     )
 }
