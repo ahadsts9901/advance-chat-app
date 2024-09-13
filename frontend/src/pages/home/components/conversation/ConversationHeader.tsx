@@ -14,9 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
 import axios from "axios";
-import VoiceCall from "./call/VoiceCall";
-import VideoCall from "./call/VideoCall";
-import { setIsVideoCallOpen, setIsVoiceCallOpen, setVideoCallData } from "../../../../redux/user";
+import { setIsVideoCallOpen, setIsVoiceCallOpen } from "../../../../redux/user";
 
 export const DropMenu = ({ setMessages, user, getContacts }: any) => {
 
@@ -181,22 +179,12 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
 
     }, [])
 
-    const _setIsVoiceCallOpen = (option: boolean) => {
-        dispatch(setIsVoiceCallOpen(option))
-    }
+    const _setIsVoiceCallOpen = (option: boolean) => dispatch(setIsVoiceCallOpen(option))
 
-    const _setIsVideoCallOpen = (option: boolean) => {
-        dispatch(setIsVideoCallOpen(option))
-        dispatch(setVideoCallData({
-            opponentUser: { _id: currentUser?._id },
-            currentUser: { _id: "", isActive: false }
-        }))
-    }
+    const _setIsVideoCallOpen = (option: boolean) => dispatch(setIsVideoCallOpen(option))
 
     return (
         <>
-            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall user={user} setUser={setUser} open={isVoiceCallOpen} setOpen={_setIsVoiceCallOpen} />}
-            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall user={user} setUser={setUser} open={isVideoCallOpen} setOpen={_setIsVideoCallOpen} />}
             <>
                 <div className="conversationHeader">
                     {

@@ -30,13 +30,28 @@ const UnAuthRouting = () => {
 
 const AuthRouting = () => {
 
+    const dispatch = useDispatch()
+    const currentUser = useSelector((state: any) => state?.user)
+
+    useEffect(() => {
+        console.log("currentUser", currentUser)
+        const socket = io(baseUrl);
+        socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
+            dispatch(setIsVideoCallOpen(true))
+            dispatch(setVideoCallData(e))
+        })
+        return () => { socket.close() }
+    }, [currentUser])
+
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/chat/:userId" element={<Home />} />
-            <Route path="/profile/:userId" element={<Profile />} />
-            <Route path="*" element={<Navigate to="/" replace={true} />} />
-        </Routes>
+        <>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/chat/:userId" element={<Home />} />
+                <Route path="/profile/:userId" element={<Profile />} />
+                <Route path="*" element={<Navigate to="/" replace={true} />} />
+            </Routes>
+        </>
     )
 
 }
@@ -44,7 +59,6 @@ const AuthRouting = () => {
 const Routing = () => {
 
     const dispatch = useDispatch()
-
     const currentUser = useSelector((state: any) => state?.user)
 
     useEffect(() => {
@@ -97,19 +111,6 @@ const Routing = () => {
         };
 
     }, []);
-
-    console.log(`${requestVideoCallChannel}-${currentUser?._id}`)
-
-    useEffect(() => {
-        const socket = io(baseUrl);
-        socket.on('connect', () => console.log("connected for video call"))
-        socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
-            console.log(e)
-            dispatch(setIsVideoCallOpen(true))
-            dispatch(setVideoCallData(e))
-        })
-        return () => { socket.close() }
-    }, [currentUser])
 
     return (
         <>
