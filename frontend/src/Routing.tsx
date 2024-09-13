@@ -7,7 +7,7 @@ import '@fontsource/josefin-sans/700.css';
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "./redux/user";
+import { login, logout, setIsVideoCallOpen, setVideoCallData } from "./redux/user";
 import axios from "axios";
 import { baseUrl, requestVideoCallChannel } from "./core";
 import SplashScreen from "./pages/splashScreen/SplashScreen";
@@ -103,7 +103,11 @@ const Routing = () => {
     useEffect(() => {
         const socket = io(baseUrl);
         socket.on('connect', () => console.log("connected for video call"))
-        socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => console.log(e))
+        socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
+            console.log(e)
+            dispatch(setIsVideoCallOpen(true))
+            dispatch(setVideoCallData(e))
+        })
         return () => { socket.close() }
     }, [currentUser])
 

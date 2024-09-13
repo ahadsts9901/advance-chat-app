@@ -10,12 +10,13 @@ import ConfirmAlertMUI from "../../../../components/mui/ConfirmAlert";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import io from "socket.io-client"
 import { baseUrl, userActiveChannel } from "../../../../core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx"
 import { IoArrowBackSharp } from "react-icons/io5"
 import axios from "axios";
 import VoiceCall from "./call/VoiceCall";
 import VideoCall from "./call/VideoCall";
+import { setIsVideoCallOpen, setIsVoiceCallOpen, setVideoCallData } from "../../../../redux/user";
 
 export const DropMenu = ({ setMessages, user, getContacts }: any) => {
 
@@ -161,11 +162,12 @@ export const SearchBarMessage = ({ searchText, setSearchText, setSearchMessage }
 const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessages, getContacts }: any) => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const currentUser = useSelector((state: any) => state?.user)
+    const { isVoiceCallOpen, isVideoCallOpen } = currentUser
 
     const [searchMessage, setSearchMessage] = useState<boolean>(false)
-    const [isVoiceCallOpen, setIsVoiceCallOpen] = useState<boolean>(false)
-    const [isVideoCallOpen, setIsVideoCallOpen] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -179,10 +181,22 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
 
     }, [])
 
+    const _setIsVoiceCallOpen = (option: boolean) => {
+        dispatch(setIsVoiceCallOpen(option))
+    }
+
+    const _setIsVideoCallOpen = (option: boolean) => {
+        dispatch(setIsVideoCallOpen(option))
+        dispatch(setVideoCallData({
+            opponentUser: { _id: currentUser?._id },
+            currentUser: { _id: "", isActive: false }
+        }))
+    }
+
     return (
         <>
-            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall user={user} setUser={setUser} open={isVoiceCallOpen} setOpen={setIsVoiceCallOpen} />}
-            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall user={user} setUser={setUser} open={isVideoCallOpen} setOpen={setIsVideoCallOpen} />}
+            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall user={user} setUser={setUser} open={isVoiceCallOpen} setOpen={_setIsVoiceCallOpen} />}
+            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall user={user} setUser={setUser} open={isVideoCallOpen} setOpen={_setIsVideoCallOpen} />}
             <>
                 <div className="conversationHeader">
                     {
@@ -212,8 +226,8 @@ const ConversationHeader = ({ user, setUser, searchText, setSearchText, setMessa
                                 </>
                                 <>
                                     <div className="icons">
-                                        <IconButton onClick={() => isVideoCallOpen ? setIsVoiceCallOpen(false) : setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
-                                        <IconButton onClick={() => isVoiceCallOpen ? setIsVideoCallOpen(false) : setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
+                                        <IconButton onClick={() => isVideoCallOpen ? _setIsVoiceCallOpen(false) : _setIsVoiceCallOpen(true)}><MdLocalPhone /></IconButton>
+                                        <IconButton onClick={() => isVoiceCallOpen ? _setIsVideoCallOpen(false) : _setIsVideoCallOpen(true)}><IoIosVideocam /></IconButton>
                                         <IconButton onClick={() => setSearchMessage(true)}><IoSearch /></IconButton>
                                         <DropMenu setMessages={setMessages} user={user} getContacts={getContacts} />
                                     </div>

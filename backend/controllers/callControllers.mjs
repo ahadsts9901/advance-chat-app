@@ -1,6 +1,7 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
 import { globalIoObject, requestVideoCallChannel } from "../core.mjs"
+import { userModel } from "../models/userModel.mjs"
 
 export const requestVideoCallController = async (req, res) => {
 
@@ -25,13 +26,27 @@ export const requestVideoCallController = async (req, res) => {
         })
     }
 
-    const videoCallPayload = {
-        opponentId: opponentId,
-        currentUserId: currentUserId,
-        roomId: `${requestVideoCallChannel}-${opponentId}-${currentUserId}`
+    const opponentUser = await userModel.findById(opponentId, { password: 0 }).exec()
+
+    if (!opponentUser) {
+        return res.send({
+            message: errorMessages?.noAccountFound
+        })
     }
 
-    console.log(`${requestVideoCallChannel}-${opponentId}`)
+    const currentUser = await userModel.findById(currentUserId, { password: 0 }).exec()
+
+    if (!currentUser) {
+        return res.send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    const videoCallPayload = {
+        opponentUser: opponentUser,
+        currentUser: currentUser,
+        roomId: `${requestVideoCallChannel}-${opponentId}-${currentUserId}`
+    }
 
     if (globalIoObject?.io) {
         console.log(`requesting video call to ${opponentId}`)
