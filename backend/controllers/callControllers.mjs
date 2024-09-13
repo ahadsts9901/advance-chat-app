@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
-import { globalIoObject, requestVideoCallChannel } from "../core.mjs"
+import { endVideoCallChannel, globalIoObject, requestVideoCallChannel } from "../core.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const requestVideoCallController = async (req, res) => {
@@ -70,12 +70,57 @@ export const requestVideoCallController = async (req, res) => {
 
 }
 
-export const acceptVideoCallController = async (req, res) => {
+export const declineVideoCallController = async (req, res) => {
+
+    const currentUserId = req?.currentUser?._id
+    const { opponentId } = req?.params
+
+    if (!currentUserId || currentUserId?.trim() === "" || !isValidObjectId(currentUserId)) {
+        return res.status(401).send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    if (!opponentId || opponentId?.trim() === "") {
+        return res.status(400).send({
+            message: errorMessages?.idIsMissing
+        })
+    }
+
+    if (!isValidObjectId(opponentId)) {
+        return res.status(400).send({
+            message: errorMessages?.invalidId
+        })
+    }
+
+    const opponentUser = await userModel.findById(opponentId, { password: 0 }).exec()
+
+    if (!opponentUser) {
+        return res.send({
+            message: errorMessages?.noAccountFound
+        })
+    }
+
+    const currentUser = await userModel.findById(currentUserId, { password: 0 }).exec()
+
+    if (!currentUser) {
+        return res.send({
+            message: errorMessages?.unAuthError
+        })
+    }
+
+    const payload = { endVideoCall: true }
+
+    if (globalIoObject?.io) {
+        console.log(`ending video call to ${opponentId}`)
+        globalIoObject?.io?.emit(`${endVideoCallChannel}-${opponentId}`, payload)
+    }
 
     try {
 
-        res.send({
-            message: ""
+        return res.send({
+            message: errorMessages?.videoCallEnded,
+            data: payload
         })
 
     } catch (error) {
@@ -88,7 +133,7 @@ export const acceptVideoCallController = async (req, res) => {
 
 }
 
-export const declineVideoCallController = async (req, res) => {
+export const acceptVideoCallController = async (req, res) => {
 
     try {
 
@@ -124,7 +169,7 @@ export const requestVoiceCallController = async (req, res) => {
 
 }
 
-export const acceptVoiceCallController = async (req, res) => {
+export const declineVoiceCallController = async (req, res) => {
 
     try {
 
@@ -142,7 +187,7 @@ export const acceptVoiceCallController = async (req, res) => {
 
 }
 
-export const declineVoiceCallController = async (req, res) => {
+export const acceptVoiceCallController = async (req, res) => {
 
     try {
 

@@ -5,14 +5,14 @@ const router = Router()
 
 router.post("/request-video-call/:opponentId", requestVideoCallController)
 
-router.post("/accept-video-call", acceptVideoCallController)
+router.post("/decline-video-call/:opponentId", declineVideoCallController)
 
-router.post("/decline-video-call", declineVideoCallController)
+router.post("/accept-video-call", acceptVideoCallController)
 
 router.post("/request-voice-call", requestVoiceCallController)
 
-router.post("/accept-voice-call", acceptVoiceCallController)
-
 router.post("/decline-voice-call", declineVoiceCallController)
+
+router.post("/accept-voice-call", acceptVoiceCallController)
 
 export default router
