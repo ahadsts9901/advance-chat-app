@@ -31,19 +31,22 @@ const VideoCall = ({ setOpen }: any) => {
 
     useEffect(() => {
         if (!videoCallData) return;
+        if (!currentUser) return;
 
         switch (true) {
             case isCurrentUser:
-                setStatus(videoCallData?.opponentUser?.isActive ? "Ringing" : "Calling");
+                setStatus("Incoming Video Call")
                 break;
             case opponentUserId === currentUserId:
-                setStatus("Incoming Video Call")
+                setStatus(videoCallData?.opponentUser?.isActive ? "Ringing" : "Calling");
                 break;
             default:
                 setStatus("");
                 break;
         }
     }, [videoCallData, currentUser])
+
+    console.log(videoCallData?.currentUser?._id?.toString()) // this_problem
 
     useEffect(() => {
 
@@ -57,12 +60,14 @@ const VideoCall = ({ setOpen }: any) => {
 
     const requestVideoCall = async () => {
         try {
+            setStatus("")
             const resp = await axios.post(`${baseUrl}/api/v1/request-video-call/${userId}`, {}, {
                 withCredentials: true
             })
             dispatch(setVideoCallData(resp?.data?.data))
         } catch (error) {
             console.error(error)
+            setStatus("")
         }
     }
 
