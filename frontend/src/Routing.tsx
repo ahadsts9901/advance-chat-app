@@ -34,7 +34,6 @@ const AuthRouting = () => {
     const currentUser = useSelector((state: any) => state?.user)
 
     useEffect(() => {
-        console.log("currentUser", currentUser)
         const socket = io(baseUrl);
         socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVideoCallOpen(true))
