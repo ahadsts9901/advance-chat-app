@@ -18,7 +18,7 @@ const VideoCall = ({ setOpen }: any) => {
 
     const { userId } = useParams()
 
-    const [status, setStatus] = useState("")
+    const [status, setStatus] = useState("...")
     const [user, setUser] = useState<any>(null)
 
     const currentUserId = currentUser?._id?.toString();
@@ -30,23 +30,28 @@ const VideoCall = ({ setOpen }: any) => {
     }, [])
 
     useEffect(() => {
-        if (!videoCallData) return;
-        if (!currentUser) return;
+        if (!videoCallData || !currentUser) return;
+
+        let finalStatus = '';
 
         switch (true) {
             case isCurrentUser:
-                setStatus("Incoming Video Call")
+                finalStatus = "Incoming Video Call";
                 break;
             case opponentUserId === currentUserId:
-                setStatus(videoCallData?.opponentUser?.isActive ? "Ringing" : "Calling");
+                finalStatus = videoCallData?.opponentUser?.isActive ? "Ringing" : "Calling";
                 break;
             default:
-                setStatus("");
+                finalStatus = "...";
                 break;
         }
-    }, [videoCallData, currentUser])
 
-    console.log(videoCallData?.currentUser?._id?.toString()) // this_problem
+        const timer = setTimeout(() => {
+            setStatus(finalStatus);
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [videoCallData, currentUser, isCurrentUser, opponentUserId, currentUserId]);
 
     useEffect(() => {
 
@@ -94,7 +99,7 @@ const VideoCall = ({ setOpen }: any) => {
                         <div className="callComponent">
                             <h2>{user?.userName}</h2>
                             <p>Video Call</p>
-                            <p>{status}</p>
+                            <p>{status ? status : "..."}</p>
                             <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
                                 e.target.src = fallBackProfileImage
                                 e.target.style.padding = "0.4em"

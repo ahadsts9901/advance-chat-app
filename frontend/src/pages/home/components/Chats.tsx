@@ -18,7 +18,6 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
     }
 
     const _setIsVideoCallOpen = (option: boolean) => {
-        dispatch(setIsVideoCallOpen(option))
         dispatch(setVideoCallData(
             !option ? null :
                 {
@@ -26,6 +25,7 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
                     currentUser: { _id: currentUser?._id }
                 }
         ))
+        dispatch(setIsVideoCallOpen(option))
     }
 
     return (
