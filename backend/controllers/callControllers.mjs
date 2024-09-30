@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose"
 import { errorMessages } from "../errorMessages.mjs"
-import { endVideoCallChannel, globalIoObject, requestVideoCallChannel } from "../core.mjs"
+import { endVideoCallChannel, globalIoObject, requestVideoCallChannel, startVideoCallChannel } from "../core.mjs"
 import { userModel } from "../models/userModel.mjs"
 
 export const requestVideoCallController = async (req, res) => {
@@ -135,11 +135,31 @@ export const declineVideoCallController = async (req, res) => {
 
 export const acceptVideoCallController = async (req, res) => {
 
+    const { videoCallData } = req?.body
+
+    if (!videoCallData) {
+        return res.status(400).send({
+            message: errorMessages?.noVideoCallData
+        })
+    }
+
+    const payload = {
+        id_1: videoCallData?.currentUser?._id,
+        id_2: videoCallData?.opponentUser?._id,
+        room_id: `video-call-${videoCallData?.currentUser?._id}-${videoCallData?.opponentUser?._id}`
+    }
+
     try {
 
         res.send({
-            message: ""
+            message: errorMessages?.videoCallStarted,
+            data: payload
         })
+
+        if (globalIoObject?.io) {
+            console.log(`emitting video call`)
+            globalIoObject?.io?.emit(startVideoCallChannel, payload)
+        }
 
     } catch (error) {
         console.error(error)

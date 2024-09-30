@@ -39,5 +39,7 @@ export const errorMessages = {
     profilePhotoUpdated: "profile picture updated successfully",
     userNameUpdated: "username updated successfully",
     videoCallRequested: "video call requested",
-    videoCallEnded: "video call ended"
+    videoCallEnded: "video call ended",
+    noVideoCallData: "Video call data not provided",
+    videoCallStarted: "video call started"
 }
