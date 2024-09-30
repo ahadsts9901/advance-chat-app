@@ -59,4 +59,17 @@ $icon-ack: #53bdeb;
         background-color: $outgoing-background;
     }
 
+    .call-buttons-sts {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 1em;
+
+        button {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
 }

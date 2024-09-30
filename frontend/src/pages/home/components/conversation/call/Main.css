@@ -38,4 +38,15 @@
      object-position: center;
   border-radius: 200px;
   background-color: #005c4b;
+}
+.callComponent .call-buttons-sts {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1em;
+}
+.callComponent .call-buttons-sts button {
+  padding-left: 0;
+  padding-right: 0;
 }/*# sourceMappingURL=Main.css.map */

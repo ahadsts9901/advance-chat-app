@@ -2,7 +2,7 @@ import "./Main.css"
 import DraggableBox from "../../../../../components/mui/DraggableBox"
 import fallBackProfileImage from "/default_avatar.png"
 import { Button } from '@mui/material';
-import { MdCallEnd } from "react-icons/md";
+import { MdCallEnd, MdLocalPhone } from "react-icons/md";
 import axios from "axios";
 import { baseUrl } from "../../../../../core";
 import { useEffect, useState } from "react";
@@ -90,6 +90,14 @@ const VideoCall = ({ setOpen }: any) => {
         }
     }
 
+    const acceptVideoCall = async () => {
+        try {
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <>
             {
@@ -104,7 +112,12 @@ const VideoCall = ({ setOpen }: any) => {
                                 e.target.src = fallBackProfileImage
                                 e.target.style.padding = "0.4em"
                             }} />
-                            <Button color='error' variant='contained' onClick={endVideoCall}><MdCallEnd /></Button>
+                            <div className="call-buttons-sts">
+                                <Button color='error' variant='contained' onClick={endVideoCall}><MdCallEnd /></Button>
+                                {
+                                    status === "Incoming Video Call" ? <Button color='success' variant='contained' onClick={acceptVideoCall}><MdLocalPhone /></Button> : null
+                                }
+                            </div>
                         </div>
                     </DraggableBox>
                 </>
