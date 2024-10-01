@@ -6,7 +6,7 @@ import axios from "axios"
 import { baseUrl } from "../../core"
 import { useState } from "react"
 
-const Home = () => {
+const Home = ({ is_accepted_call, set_is_accepted_call, is_lobby_call, set_is_lobby_call }: any) => {
 
   const { userId } = useParams()
 
@@ -30,8 +30,8 @@ const Home = () => {
   return (
     <>
       <div className="homeCont">
-        <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} />
-        <Conversation userId={userId} getContacts={getContacts} setFilteredContacts={setFilteredContacts} />
+        <Chats userId={userId} contacts={contacts} getContacts={getContacts} setContacts={setContacts} filteredContacts={filteredContacts} setFilteredContacts={setFilteredContacts} is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} is_lobby_call={is_lobby_call} set_is_lobby_call={set_is_lobby_call} />
+        <Conversation userId={userId} getContacts={getContacts} setFilteredContacts={setFilteredContacts} is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} />
       </div>
     </>
   )

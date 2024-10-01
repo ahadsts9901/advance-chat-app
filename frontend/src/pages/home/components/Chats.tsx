@@ -7,7 +7,7 @@ import VoiceCall from "./conversation/call/VoiceCall"
 import VideoCall from "./conversation/call/VideoCall"
 import { setIsVoiceCallOpen, setIsVideoCallOpen, setVideoCallData } from "../../../redux/user"
 
-const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, setFilteredContacts }: any) => {
+const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, setFilteredContacts, is_accepted_call, set_is_accepted_call, is_lobby_call, set_is_lobby_call }: any) => {
 
     const dispatch = useDispatch()
     const currentUser = useSelector((state: any) => state?.user)
@@ -31,7 +31,7 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
     return (
         <>
             {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall open={isVoiceCallOpen} setOpen={_setIsVoiceCallOpen} />}
-            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall open={isVideoCallOpen} setOpen={_setIsVideoCallOpen} />}
+            {isVideoCallOpen && !isVoiceCallOpen && <VideoCall open={isVideoCallOpen} setOpen={_setIsVideoCallOpen} is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} is_lobby_call={is_lobby_call} set_is_lobby_call={set_is_lobby_call} />}
             <div className="chatSection">
                 <ChatHeader />
                 <ChatSearch contacts={contacts} setContacts={setContacts} setFilteredContacts={setFilteredContacts} />

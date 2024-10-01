@@ -5,7 +5,7 @@ import '@fontsource/josefin-sans/400.css';
 import '@fontsource/josefin-sans/500.css';
 import '@fontsource/josefin-sans/700.css';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, setIsVideoCallOpen, setVideoCallData } from "./redux/user";
 import axios from "axios";
@@ -33,6 +33,9 @@ const AuthRouting = () => {
     const dispatch = useDispatch()
     const currentUser = useSelector((state: any) => state?.user)
 
+    const [is_accepted_call, set_is_accepted_call] = useState(false)
+    const [is_lobby_call, set_is_lobby_call] = useState(false)
+
     useEffect(() => {
         const socket = io(baseUrl);
         socket.on(`${requestVideoCallChannel}-${currentUser?._id}`, (e: any) => {
@@ -42,15 +45,20 @@ const AuthRouting = () => {
         socket.on(`${endVideoCallChannel}-${currentUser?._id}`, () => {
             dispatch(setIsVideoCallOpen(false))
             dispatch(setVideoCallData(null))
+            if (is_accepted_call || is_lobby_call) {
+                window.location.reload()
+            }
         })
         return () => { socket.close() }
     }, [currentUser])
+
+    console.log(is_accepted_call, is_lobby_call)
 
     return (
         <>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/chat/:userId" element={<Home />} />
+                <Route path="/chat/:userId" element={<Home is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} is_lobby_call={is_lobby_call} set_is_lobby_call={set_is_lobby_call} />} />
                 <Route path="/profile/:userId" element={<Profile />} />
                 <Route path="*" element={<Navigate to="/" replace={true} />} />
             </Routes>

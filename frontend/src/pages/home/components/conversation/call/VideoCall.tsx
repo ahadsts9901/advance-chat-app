@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
 
-const VideoCall = ({ setOpen }: any) => {
+const VideoCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call }: any) => {
 
     const dispatch = useDispatch()
     const currentUser = useSelector((state: any) => state?.user)
@@ -24,6 +24,9 @@ const VideoCall = ({ setOpen }: any) => {
     const [status, setStatus] = useState("...")
     const [user, setUser] = useState<any>(null)
     const [video_call_data_params, seth_video_call_data_params] = useState<any>(null)
+    const [isJoinedRoom, setIsJoinedRoom] = useState(false)
+    const [isRoomCreated, setIsRoomCreated] = useState(false)
+    const [isLobby, setIsLobby] = useState(false)
 
     const currentUserId = currentUser?._id?.toString();
     const opponentUserId = videoCallData?.opponentUser?._id?.toString();
@@ -101,10 +104,14 @@ const VideoCall = ({ setOpen }: any) => {
             await axios.post(`${baseUrl}/api/v1/decline-video-call/${userId}`, {}, {
                 withCredentials: true
             })
+            setIsJoinedRoom(false)
             dispatch(setVideoCallData(null))
             setOpen(false)
             setUser(null)
             setStatus("")
+            if (isRoomCreated || isLobby) {
+                window.location.reload()
+            }
         } catch (error) {
             console.error(error)
         }
@@ -116,29 +123,41 @@ const VideoCall = ({ setOpen }: any) => {
                 videoCallData: videoCallData
             }, { withCredentials: true })
             seth_video_call_data_params(resp?.data?.data)
+            set_is_accepted_call(true)
+            setIsLobby(true)
+            set_is_lobby_call(true)
         } catch (error) {
             console.error(error)
         }
     }
 
     const myMeeting = async () => {
-        await requestMediaPermissions()
+        try {
+            await requestMediaPermissions()
 
-        const appID = zegoCloudAppId;
-        const serverSecret = zegoCloudSecretKey;
-        const kitToken = ZegoUIKitPrebuilt?.generateKitTokenForTest(
-            appID,
-            serverSecret,
-            video_call_data_params?.room_id,
-            `${video_call_data_params?.id_1}`,
-            `${video_call_data_params?.id_2}`,
-        )
-        const zc = ZegoUIKitPrebuilt.create(kitToken)
-        zc.joinRoom({
-            container: videoCallContainerRef?.current,
-            scenario: { mode: ZegoUIKitPrebuilt.OneONoneCall },
-            showScreenSharingButton: false,
-        })
+            const appID = zegoCloudAppId;
+            const serverSecret = zegoCloudSecretKey;
+            const kitToken = ZegoUIKitPrebuilt?.generateKitTokenForTest(
+                appID,
+                serverSecret,
+                video_call_data_params?.room_id,
+                `${video_call_data_params?.id_1}`,
+                `${video_call_data_params?.id_2}`,
+            )
+            const zc = ZegoUIKitPrebuilt.create(kitToken)
+            setIsRoomCreated(true)
+            zc.joinRoom({
+                container: videoCallContainerRef?.current,
+                scenario: { mode: ZegoUIKitPrebuilt.OneONoneCall },
+                showScreenSharingButton: false,
+                onLeaveRoom: () => endVideoCall(),
+                onJoinRoom: () => setIsJoinedRoom(true),
+            })
+            zc.autoLeaveRoomWhenOnlySelfInRoom = true
+        } catch (error) {
+            console.error(error)
+            window.location.reload()
+        }
     }
 
     const requestMediaPermissions = async () => {
@@ -148,7 +167,6 @@ const VideoCall = ({ setOpen }: any) => {
             console.error(error);
         }
     };
-
 
     useEffect(() => {
         if (video_call_data_params) myMeeting()
@@ -165,10 +183,7 @@ const VideoCall = ({ setOpen }: any) => {
                         <div className="callComponent">
                             <h2>{user?.userName}</h2>
                             {
-                                video_call_data_params ? <div ref={videoCallContainerRef} onLoad={() => {
-                                    const _text: any = document.querySelector('._M8cCug8H18ALQ05cNMt')
-                                    console.log("_text", _text)
-                                }} /> :
+                                video_call_data_params ? <div ref={videoCallContainerRef} /> :
                                     <>
                                         <p>Video Call</p>
                                         <p>{status ? status : "..."}</p>
@@ -179,7 +194,9 @@ const VideoCall = ({ setOpen }: any) => {
                                     </>
                             }
                             <div className="call-buttons-sts">
-                                <Button color='error' variant='contained' onClick={endVideoCall}><MdCallEnd /></Button>
+                                {
+                                    !isJoinedRoom ? <Button color='error' variant='contained' onClick={endVideoCall}><MdCallEnd /></Button> : null
+                                }
                                 {
                                     (status === "Incoming Video Call" && !video_call_data_params) ? <Button color='success' variant='contained' onClick={acceptVideoCall}><MdLocalPhone /></Button> : null
                                 }
