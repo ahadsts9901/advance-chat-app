@@ -16,6 +16,7 @@
 - Search messages
 - Voice call (realtime)
 - Video call (realtime)
+- Ringtone on calls (realtime)
 - Clear chat
 - Close chat
 - Update profile picture
@@ -32,6 +33,7 @@
 
 ## Frontend
 
+- Typescript
 - Reactjs (vite)
 - Zegocloud (for voice & video calls)
 - Wavesurfer (for voice messages waves)
@@ -51,6 +53,7 @@
 
 ## Backend
 
+- Javascript
 - Nodejs
 - Expressjs
 - Socket.io
