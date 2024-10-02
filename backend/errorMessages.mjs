@@ -41,5 +41,9 @@ export const errorMessages = {
     videoCallRequested: "video call requested",
     videoCallEnded: "video call ended",
     noVideoCallData: "Video call data not provided",
-    videoCallStarted: "video call started"
+    videoCallStarted: "video call started",
+    voiceCallRequested: "video call requested",
+    voiceCallEnded: "video call ended",
+    noVoiceCallData: "Video call data not provided",
+    voiceCallStarted: "video call started"
 }
