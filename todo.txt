@@ -1,5 +1,4 @@
 voice call
-video call
 time format warning
 audio warning
 remove console logs

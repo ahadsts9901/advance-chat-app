@@ -42,17 +42,15 @@ const AuthRouting = () => {
             dispatch(setIsVideoCallOpen(true))
             dispatch(setVideoCallData(e))
         })
-        socket.on(`${endVideoCallChannel}-${currentUser?._id}`, () => {
+        socket.on(`${endVideoCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVideoCallOpen(false))
             dispatch(setVideoCallData(null))
-            if (is_accepted_call || is_lobby_call) {
+            if (is_accepted_call || is_lobby_call || e?.isLobby || e?.isRoomCreated) {
                 window.location.reload()
             }
         })
         return () => { socket.close() }
     }, [currentUser])
-
-    console.log(is_accepted_call, is_lobby_call)
 
     return (
         <>

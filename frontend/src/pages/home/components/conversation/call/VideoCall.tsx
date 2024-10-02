@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
 
-const VideoCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call }: any) => {
+const VideoCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accepted_call, is_lobby_call }: any) => {
 
     const dispatch = useDispatch()
     const currentUser = useSelector((state: any) => state?.user)
@@ -101,7 +101,9 @@ const VideoCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call }: any) =>
 
     const endVideoCall = async () => {
         try {
-            await axios.post(`${baseUrl}/api/v1/decline-video-call/${userId}`, {}, {
+            await axios.post(`${baseUrl}/api/v1/decline-video-call/${userId}`, {
+                isRoomCreated, isLobby, is_accepted_call, is_lobby_call
+            }, {
                 withCredentials: true
             })
             setIsJoinedRoom(false)
@@ -109,7 +111,7 @@ const VideoCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call }: any) =>
             setOpen(false)
             setUser(null)
             setStatus("")
-            if (isRoomCreated || isLobby) {
+            if (isRoomCreated || isLobby || is_lobby_call || is_accepted_call) {
                 window.location.reload()
             }
         } catch (error) {

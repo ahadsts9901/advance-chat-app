@@ -74,6 +74,7 @@ export const declineVideoCallController = async (req, res) => {
 
     const currentUserId = req?.currentUser?._id
     const { opponentId } = req?.params
+    const { isRoomCreated, isLobby, is_accepted_call, is_lobby_call } = req?.body
 
     if (!currentUserId || currentUserId?.trim() === "" || !isValidObjectId(currentUserId)) {
         return res.status(401).send({
@@ -109,7 +110,10 @@ export const declineVideoCallController = async (req, res) => {
         })
     }
 
-    const payload = { endVideoCall: true }
+    const payload = {
+        endVideoCall: true,
+        isRoomCreated, isLobby, is_accepted_call, is_lobby_call
+    }
 
     if (globalIoObject?.io) {
         console.log(`ending video call to ${opponentId}`)
