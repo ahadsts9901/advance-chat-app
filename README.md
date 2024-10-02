@@ -71,3 +71,4 @@
 - Cors
 
 ## Show some ❤️ by giving a ⭐
+## Open a pull request or an issue if you address any bug
