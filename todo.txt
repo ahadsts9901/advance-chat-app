@@ -6,4 +6,4 @@ remove comments
 remove dummy data
 handle error-messages-on-frontend
 
-pages-assets-components-remaining-voice-call
+pages-remaining-voice-call

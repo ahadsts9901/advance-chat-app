@@ -5,7 +5,7 @@ import ChatSearch from "./chat/ChatSearch"
 import { useDispatch, useSelector } from "react-redux"
 import VoiceCall from "./conversation/call/VoiceCall"
 import VideoCall from "./conversation/call/VideoCall"
-import { setIsVoiceCallOpen, setIsVideoCallOpen, setVideoCallData } from "../../../redux/user"
+import { setIsVoiceCallOpen, setIsVideoCallOpen, setVideoCallData, setVoiceCallData } from "../../../redux/user"
 
 const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, setFilteredContacts, is_accepted_call, set_is_accepted_call, is_lobby_call, set_is_lobby_call }: any) => {
 
@@ -14,6 +14,13 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
     const { isVideoCallOpen, isVoiceCallOpen } = currentUser
 
     const _setIsVoiceCallOpen = (option: boolean) => {
+        dispatch(setVoiceCallData(
+            !option ? null :
+                {
+                    opponentUser: { _id: "", isActive: false },
+                    currentUser: { _id: currentUser?._id }
+                }
+        ))
         dispatch(setIsVoiceCallOpen(option))
     }
 
@@ -30,7 +37,7 @@ const Chats = ({ userId, getContacts, setContacts, contacts, filteredContacts, s
 
     return (
         <>
-            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall open={isVoiceCallOpen} setOpen={_setIsVoiceCallOpen} />}
+            {isVoiceCallOpen && !isVideoCallOpen && <VoiceCall open={isVoiceCallOpen} setOpen={_setIsVoiceCallOpen} is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} is_lobby_call={is_lobby_call} set_is_lobby_call={set_is_lobby_call} />}
             {isVideoCallOpen && !isVoiceCallOpen && <VideoCall open={isVideoCallOpen} setOpen={_setIsVideoCallOpen} is_accepted_call={is_accepted_call} set_is_accepted_call={set_is_accepted_call} is_lobby_call={is_lobby_call} set_is_lobby_call={set_is_lobby_call} />}
             <div className="chatSection">
                 <ChatHeader />
