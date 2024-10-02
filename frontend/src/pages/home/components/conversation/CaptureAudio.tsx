@@ -200,9 +200,9 @@ const CaptureAudio = ({ setShowAudioRecorder, setFile, sendMessage, isLoading }:
                                                 <>
                                                     {
                                                         isPlaying ?
-                                                            <IconButton><FaPause onClick={handlePauseRecording} /></IconButton>
+                                                            <IconButton onClick={handlePauseRecording}><FaPause /></IconButton>
                                                             :
-                                                            <IconButton><FaPlay onClick={handlePlayRecording} /></IconButton>
+                                                            <IconButton onClick={handlePlayRecording}><FaPlay /></IconButton>
                                                     }
                                                 </>
                                             }
