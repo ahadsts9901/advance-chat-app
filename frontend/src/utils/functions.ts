@@ -1,4 +1,5 @@
 import moment from "moment"
+const ringtone = new Audio("/call-sound.mp3");
 
 export const timeAgo = (date: string) => {
 
@@ -74,9 +75,11 @@ export const copyText = async (text: string, fun?: any) => {
 }
 
 export const playRingtone = () => {
-    console.log("play ringtone")
-}
+    ringtone.loop = true;
+    ringtone.play().catch((error) => { console.error(error) });
+};
 
 export const stopRingtone = () => {
-    console.log("stop ringtone")
-}
+    ringtone.pause();
+    ringtone.currentTime = 0;
+};
