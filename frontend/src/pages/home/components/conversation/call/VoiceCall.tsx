@@ -11,6 +11,7 @@ import { setVoiceCallData } from "../../../../../redux/user";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
+import { playRingtone, stopRingtone } from "../../../../../utils/functions";
 
 const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accepted_call, is_lobby_call }: any) => {
 
@@ -111,6 +112,7 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
             setOpen(false)
             setUser(null)
             setStatus("")
+            stopRingtone()
             if (isRoomCreated || isLobby || is_lobby_call || is_accepted_call) {
                 window.location.reload()
             }
@@ -128,6 +130,7 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
             set_is_accepted_call(true)
             setIsLobby(true)
             set_is_lobby_call(true)
+            stopRingtone()
         } catch (error) {
             console.error(error)
         }
@@ -176,7 +179,8 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
         if (voice_call_data_params) myMeeting()
         const _button: any = document.querySelector('.VsTVUAD89KWleD0YRVsD')
         if (_button) _button.innerText = "Start Voice Call"
-    }, [voice_call_data_params])
+        if (!voice_call_data_params && status === "Incoming Voice Call") playRingtone()
+    }, [voice_call_data_params, status])
 
     return (
         <>

@@ -1,7 +1,7 @@
 import moment from "moment"
 
 export const timeAgo = (date: string) => {
-    
+
     const now = moment();
     const momentDate = moment(date);
     const diffInHours = now.diff(momentDate, 'hours');
@@ -71,4 +71,12 @@ export const copyText = async (text: string, fun?: any) => {
         if (fun) fun()
     }).catch((err) => console.error(err))
 
+}
+
+export const playRingtone = () => {
+    console.log("play ringtone")
+}
+
+export const stopRingtone = () => {
+    console.log("stop ringtone")
 }

@@ -16,6 +16,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
 import io from "socket.io-client"
+import { stopRingtone } from "./utils/functions";
 
 const UnAuthRouting = () => {
 
@@ -45,6 +46,7 @@ const AuthRouting = () => {
         socket.on(`${endVideoCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVideoCallOpen(false))
             dispatch(setVideoCallData(null))
+            stopRingtone()
             if (is_accepted_call || is_lobby_call || e?.isLobby || e?.isRoomCreated) {
                 window.location.reload()
             }
@@ -56,6 +58,7 @@ const AuthRouting = () => {
         socket.on(`${endVoiceCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVoiceCallOpen(false))
             dispatch(setVoiceCallData(null))
+            stopRingtone()
             if (is_accepted_call || is_lobby_call || e?.isLobby || e?.isRoomCreated) {
                 window.location.reload()
             }
