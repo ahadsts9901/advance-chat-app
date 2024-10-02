@@ -7,7 +7,7 @@ import axios from "axios";
 import { baseUrl, startVoiceCallChannel, zegoCloudAppId, zegoCloudSecretKey } from "../../../../../core";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setVideoCallData, setVoiceCallData } from "../../../../../redux/user";
+import { setVoiceCallData } from "../../../../../redux/user";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt'
@@ -178,18 +178,35 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
 
     return (
         <>
-            <DraggableBox>
-                <div className="callComponent">
-                    <h2>{user?.userName}</h2>
-                    <p>Voice Call</p>
-                    <p>calling/ringing</p>
-                    <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
-                        e.target.src = fallBackProfileImage
-                        e.target.style.padding = "0.4em"
-                    }} />
-                    <Button color='error' variant='contained' onClick={endVoiceCall}><MdCallEnd /></Button>
-                </div>
-            </DraggableBox>
+            {
+                voiceCallData && currentUser && user &&
+                <>
+                    <DraggableBox>
+                        <div className="callComponent">
+                            <h2>{user?.userName}</h2>
+                            {
+                                voice_call_data_params ? <div ref={voiceCallContainerRef} /> :
+                                    <>
+                                        <p>Voice Call</p>
+                                        <p>{status ? status : "..."}</p>
+                                        <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
+                                            e.target.src = fallBackProfileImage
+                                            e.target.style.padding = "0.4em"
+                                        }} />
+                                    </>
+                            }
+                            <div className="call-buttons-sts">
+                                {
+                                    !isJoinedRoom ? <Button color='error' variant='contained' onClick={endVoiceCall}><MdCallEnd /></Button> : null
+                                }
+                                {
+                                    (status === "Incoming Voice Call" && !voice_call_data_params) ? <Button color='success' variant='contained' onClick={acceptVoiceCall}><MdLocalPhone /></Button> : null
+                                }
+                            </div>
+                        </div>
+                    </DraggableBox>
+                </>
+            }
         </>
     )
 }
