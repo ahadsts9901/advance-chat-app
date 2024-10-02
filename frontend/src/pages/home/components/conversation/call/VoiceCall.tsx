@@ -153,6 +153,7 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
                 scenario: { mode: ZegoUIKitPrebuilt.OneONoneCall },
                 showScreenSharingButton: false,
                 showAudioVideoSettingsButton: false,
+                turnOnCameraWhenJoining: false,
                 onLeaveRoom: () => endVoiceCall(),
                 onJoinRoom: () => setIsJoinedRoom(true),
             })
@@ -185,15 +186,17 @@ const VoiceCall = ({ setOpen, set_is_accepted_call, set_is_lobby_call, is_accept
                     <DraggableBox>
                         <div className="callComponent">
                             <h2>{user?.userName}</h2>
-                            <div ref={voiceCallContainerRef} hidden /> :
-                            <>
-                                <p>Voice Call</p>
-                                <p>{status ? status : "..."}</p>
-                                <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
-                                    e.target.src = fallBackProfileImage
-                                    e.target.style.padding = "0.4em"
-                                }} />
-                            </>
+                            {
+                                voice_call_data_params ? <div ref={voiceCallContainerRef} /> :
+                                    <>
+                                        <p>Voice Call</p>
+                                        <p>{status ? status : "..."}</p>
+                                        <img src={user?.profilePhoto} alt="profile-photo" onError={(e: any) => {
+                                            e.target.src = fallBackProfileImage
+                                            e.target.style.padding = "0.4em"
+                                        }} />
+                                    </>
+                            }
                             <div className="call-buttons-sts">
                                 {
                                     !isJoinedRoom ? <Button color='error' variant='contained' onClick={endVoiceCall}><MdCallEnd /></Button> : null
