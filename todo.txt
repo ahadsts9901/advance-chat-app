@@ -1,6 +1,4 @@
 time format warning
 audio warning
 remove console logs
-remove comments
-remove dummy data
 build

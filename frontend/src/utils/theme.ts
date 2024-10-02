@@ -7,28 +7,28 @@ import { createTheme } from '@mui/material/styles';
 
 export const themeSchema: any = {
     palette: {
-        mode: 'dark',  // Set the theme to dark mode
+        mode: 'dark',
         primary: {
-            light: '#7ae3c3', // teal-light
-            main: '#00a884',  // icon-green
-            dark: '#005c4b',  // outgoing-background
-            contrastText: '#e9edef',  // primary-strong
+            light: '#7ae3c3',
+            main: '#00a884',
+            dark: '#005c4b',
+            contrastText: '#e9edef',
         },
         secondary: {
-            main: '#8696a0',  // secondary & icon-lighter
-            contrastText: '#e9edef',  // primary-strong
+            main: '#8696a0',
+            contrastText: '#e9edef',
         },
         background: {
-            default: '#0b141a',  // conversation-panel-background
-            paper: '#202c33',    // incoming-background / panel-header-background
+            default: '#0b141a',
+            paper: '#202c33',
         },
         text: {
-            primary: '#e9edef',  // primary-strong
-            secondary: '#8696a0', // icon-lighter / secondary
+            primary: '#e9edef',
+            secondary: '#8696a0',
         },
-        divider: 'rgba(134,150,160,0.15)',  // conversation-border
+        divider: 'rgba(134,150,160,0.15)',
         action: {
-            hover: '#202c33', // background-default-hover / incoming-background
+            hover: '#202c33',
         },
     },
     typography: {
@@ -44,17 +44,17 @@ export const themeSchema: any = {
                     padding: "10px 20px",
                 },
                 containedPrimary: {
-                    backgroundColor: '#00a884',  // icon-green
+                    backgroundColor: '#00a884',
                     "&:hover": {
-                        backgroundColor: '#005c4b',  // outgoing-background
+                        backgroundColor: '#005c4b',
                     },
                 },
                 containedSecondary: {
-                    border: "1px solid #8696a0",  // secondary / icon-lighter
+                    border: "1px solid #8696a0",
                     boxShadow: "none",
                     "&:hover": {
                         boxShadow: "none",
-                        border: "2px solid #8696a0",  // secondary / icon-lighter
+                        border: "2px solid #8696a0",
                         padding: "8.75px 19px"
                     }
                 },
@@ -63,19 +63,19 @@ export const themeSchema: any = {
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#202c33', // panel-header-background
-                    color: '#aebac1', // panel-header-icon
+                    backgroundColor: '#202c33',
+                    color: '#aebac1',
                 }
             }
         },
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#182229', // dropdown-background
+                    backgroundColor: '#182229',
                 },
                 elevation1: {
                     '&:hover': {
-                        backgroundColor: '#182229', // dropdown-background-hover
+                        backgroundColor: '#182229',
                     }
                 }
             }
@@ -83,7 +83,7 @@ export const themeSchema: any = {
         MuiInputBase: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#2a3942', // input-background
+                    backgroundColor: '#2a3942',
                 }
             }
         }

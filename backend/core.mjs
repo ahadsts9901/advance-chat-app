@@ -20,6 +20,7 @@ export const profilePictureUploadFolder = "advance-chat-app/profile-pictures"
 export const allowedOrigins = "http://localhost:5173"
 export let globalIoObject = { io: null }
 
+// socket.io channels
 export const chatMessageChannel = "chat-message"
 export const userActiveChannel = "user-active"
 export const messageCountChannel = "message-count"

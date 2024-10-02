@@ -26,7 +26,6 @@ app.use(morgan("dev"))
 app.use("/api/v1", authRoutes, authenticationMiddleware, userRoutes, profileRoutes, chatRoutes, callRoutes)
 
 // socket io
-
 const server = createServer(app)
 const io = new socketIo(server, { cors: { origin: allowedOrigins, methods: "*" } })
 globalIoObject.io = io

@@ -355,7 +355,6 @@ $red: rgb(229, 71, 71);
         }
 
         &::-webkit-scrollbar-track {
-            // background-color: $search-input-container-background;
             background-color: #00000000;
         }
 
@@ -368,7 +367,6 @@ $red: rgb(229, 71, 71);
         }
 
         &::-moz-scrollbar-track {
-            // background-color: $search-input-container-background;
             background-color: #00000000;
         }
 
@@ -453,7 +451,6 @@ $red: rgb(229, 71, 71);
 }
 
 // file preview
-
 .fileCont {
 
     width: 100%;
@@ -502,7 +499,6 @@ $red: rgb(229, 71, 71);
 }
 
 // audio recorder
-
 .audioRecorder {
 
     width: 100%;
@@ -575,7 +571,6 @@ $red: rgb(229, 71, 71);
 }
 
 // emoji picker
-
 .emojiPickerCont * {
     font-family: "Josefin sans" !important;
 }
@@ -649,7 +644,6 @@ $red: rgb(229, 71, 71);
 }
 
 // mui textarea
-
 .css-1szqa5p-MuiInputBase-root-MuiInput-root {
 
     background-color: #3d464b !important;
