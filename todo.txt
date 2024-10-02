@@ -1,4 +1,0 @@
-time format warning
-audio warning
-remove console logs
-build
