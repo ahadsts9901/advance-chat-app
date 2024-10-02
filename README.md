@@ -37,6 +37,7 @@
 - Reactjs (vite)
 - Zegocloud (for voice & video calls)
 - Wavesurfer (for voice messages waves)
+- SCSS
 - socket.io client
 - Axios
 - Redux toolkit
