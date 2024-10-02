@@ -9,9 +9,9 @@ router.post("/decline-video-call/:opponentId", declineVideoCallController)
 
 router.post("/accept-video-call", acceptVideoCallController)
 
-router.post("/request-voice-call", requestVoiceCallController)
+router.post("/request-voice-call/:opponentId", requestVoiceCallController)
 
-router.post("/decline-voice-call", declineVoiceCallController)
+router.post("/decline-voice-call/:opponentId", declineVoiceCallController)
 
 router.post("/accept-voice-call", acceptVoiceCallController)
 

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, setIsVideoCallOpen, setIsVoiceCallOpen, setVideoCallData, setVoiceCallData } from "./redux/user";
 import axios from "axios";
-import { baseUrl, endVideoCallChannel, endVoiceCallChannel, requestVideoCallChannel } from "./core";
+import { baseUrl, endVideoCallChannel, endVoiceCallChannel, requestVideoCallChannel, requestVoiceCallChannel } from "./core";
 import SplashScreen from "./pages/splashScreen/SplashScreen";
 import Login from "./pages/login/Login";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -48,6 +48,10 @@ const AuthRouting = () => {
             if (is_accepted_call || is_lobby_call || e?.isLobby || e?.isRoomCreated) {
                 window.location.reload()
             }
+        })
+        socket.on(`${requestVoiceCallChannel}-${currentUser?._id}`, (e: any) => {
+            dispatch(setIsVoiceCallOpen(true))
+            dispatch(setVoiceCallData(e))
         })
         socket.on(`${endVoiceCallChannel}-${currentUser?._id}`, (e: any) => {
             dispatch(setIsVoiceCallOpen(false))
