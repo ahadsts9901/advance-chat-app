@@ -6,4 +6,4 @@ remove comments
 remove dummy data
 handle error-messages-on-frontend
 
-pages-remaining-voice-call
+video-call-coice-call-componets-remaining
