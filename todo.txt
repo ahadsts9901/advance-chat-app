@@ -1,9 +1,7 @@
-voice call
 time format warning
 audio warning
 remove console logs
 remove comments
 remove dummy data
 handle error-messages-on-frontend
-
-translated-video-to-voice-components
+build
