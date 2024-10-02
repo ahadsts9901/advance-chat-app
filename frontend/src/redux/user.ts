@@ -9,6 +9,7 @@ const initialState = {
         isVoiceCallOpen: false,
         isVideoCallOpen: false,
         videoCallData: {},
+        voiceCallData: {},
     },
 }
 
@@ -36,9 +37,12 @@ export const userSlice: any = createSlice({
         setVideoCallData: (state: any, action) => {
             state.user = { ...state?.user, videoCallData: action?.payload }
         },
+        setVoiceCallData: (state: any, action) => {
+            state.user = { ...state?.user, voiceCallData: action?.payload }
+        },
     }
 })
 
-export const { login, logout, setCurrentUserContacts, setIsVoiceCallOpen, setIsVideoCallOpen, setVideoCallData } = userSlice.actions
+export const { login, logout, setCurrentUserContacts, setIsVoiceCallOpen, setIsVideoCallOpen, setVideoCallData,setVoiceCallData } = userSlice.actions
 
 export default userSlice.reducer
