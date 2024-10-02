@@ -17,6 +17,7 @@ $incoming-background: #202c33;
 $outgoing-background: #005c4b;
 $bubble-meta: hsla(0, 0%, 100%, 0.6);
 $icon-ack: #53bdeb;
+$white: #ffffff;
 
 @mixin centerText($fontSize) {
     width: 100%;
@@ -153,8 +154,37 @@ $icon-ack: #53bdeb;
     }
 
     .lflaXazrPGAK9SbOcNoC {
-        display: none!important;
+        display: none !important;
     }
 
 
+}
+
+div.Yb8CIZ4sfRB7tGNIe5vW {
+    background-color: $panel-header-background !important;
+}
+
+._XRS2rWR1HN9YsjmOPmm {
+
+    border-radius: 0 !important;
+
+    button {
+        border: 0 !important;
+        outline: none !important;
+        padding: 0.6em 1.5em !important;
+        border-radius: 100px !important;
+    }
+
+    .nRumfFQWv_1Hnf9jP5qZ {
+        color: $icon-green !important;
+    }
+
+    .TTgLs8cpg66Z6CXgHGVA {
+        background-color: $icon-green !important;
+    }
+}
+
+.YVsLErvDz5lZnY9Ce4UB,
+._gK_8I1XIktCDlYp08Lg {
+    color: $white !important;
 }
