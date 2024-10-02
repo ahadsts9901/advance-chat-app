@@ -12,6 +12,7 @@
 - Voice messages
 - Delete messages for me
 - Delete messages for everyone
+- Edit messages (within 05 minutes after sending)
 - Copy messages
 - Search messages
 - Voice call (realtime)
