@@ -13,7 +13,7 @@ let userSchema = new Schema({
         type: String,
         required: true,
         minlength: 2,
-        maxlength: 15,
+        maxlength: 30,
         trim: true,
         match: userNamePattern
     },
